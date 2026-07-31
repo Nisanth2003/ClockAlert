@@ -855,8 +855,15 @@
     <string name="notif_trackable_empty">No trackable notifications right now. Start a navigation, download, or task and it will show up here.</string>
     <string name="notif_track_pick">Track</string>
     <string name="notif_manual_pick_app">Pick an app to watch</string>
-    <string name="notif_manual_keywords_title">Words that mean \"done\"</string>
-    <string name="notif_manual_keywords_hint">done, complete, finished</string>
+    <!-- "When should this ring?" — the picker that replaced asking the user to invent keywords. -->
+    <string name="track_cond_title_fmt">Ring me about %1$s…</string>
+    <string name="track_sample_fmt">Showing right now: %1$s</string>
+    <string name="track_cond_words">When it says something specific</string>
+    <string name="track_cond_gone">When it finishes — its ongoing notification disappears</string>
+    <string name="track_cond_any">On its very next notification, whatever it says</string>
+    <string name="track_words_caption">These are the words we\'ll watch for. Untick anything that doesn\'t fit — you don\'t have to know the exact wording, and any one of them is enough to ring.</string>
+    <string name="track_words_extra_hint">Other words (optional, comma separated)</string>
+    <string name="notif_track_selected">Tracking ✓</string>
     <string name="notif_preset_claude">Alarm when Claude finishes</string>
     <string name="notif_preset_claude_label">Claude</string>
 

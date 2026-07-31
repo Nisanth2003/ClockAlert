@@ -126,7 +126,20 @@ from a real app:
 
 - One-tap presets for **a task finishing**, **a delivery arriving** (the big couriers and quick-commerce
   apps, plus content matching so a regional app still works) and **a train or bus arriving**.
-- **"Track any app's notification"** — choose any installed app and the words that mean *done* for it.
+- **"Trackable right now"** lists whatever is on your notification shade at this moment. **Track** takes
+  the app's own best guess in one tap; tapping the row instead opens the choice, so you can see what it
+  will match on before committing. The armed row is outlined and reads **Tracking ✓**.
+- **"Track any app's notification"** — choose any installed app, then answer one question in plain
+  language:
+
+  | Choice | When it rings | Words needed |
+  |---|---|---|
+  | **When it says something specific** | On wording like "delivered", "is here", "has reached" | None — they come pre-ticked, untick what doesn't fit |
+  | **When it finishes** | The app's ongoing notification disappears (a download, a build, a trip) | None |
+  | **On its very next notification** | The next thing that app posts, whatever it says | None |
+
+  If that app is showing a notification *right now*, its real text appears in the dialog, so the choice
+  is made against actual wording rather than an imagined one.
 - It also refines: a navigation notification counting down "14 min" moves the alarm to match.
 - **"Ring anyway after 30 min"** — the backstop is a wait measured from now, not a time of day,
   because that's the shape of this kind of waiting. Adjustable from 5 minutes to 4 hours, or switch it
@@ -138,6 +151,15 @@ from a real app:
 
 Costs while it waits: **nothing**. There is no polling, no timer and no wakelock. Android pushes
 notifications to the app; the work per notification is a package check and a text comparison.
+
+> **A note on why the wording question moved out of the user's hands.** An earlier build asked you to
+> type "the words that mean done" before it would arm. That is an unanswerable question — nobody knows
+> what phrasing their courier app uses until the order turns up, and a wrong guess is an alarm that
+> silently never fires. It was tested against a real delivery: the only phrase that matched was
+> **"is here"**, because Indian quick-commerce apps say *"delivery partner has reached"* or *"rider is at
+> your gate"* rather than the *"delivered"* that most Western couriers use. Both halves of that were
+> fixed — those wordings are now in the built-in list, and the question you're asked is a choice between
+> three plain-language options rather than a blank text field.
 
 ### 5. "Ring me when my usage limit comes back"
 
@@ -396,6 +418,8 @@ After a phone update or a MIUI update, re-run steps 1 and 2 — updates routinel
 | Place search returns other cities | Search needs a reference point; with Location off there isn't one | Turn Location on. Results are ranked nearest-first and every row shows its distance |
 | Map is blank | No internet, or tiles still loading | The map now says "Offline" and offers to open the internet panel |
 | Notification alarm never fired | Access revoked, listener not started, or the watched app isn't installed | *Is this working?* in the editor will say which |
+| Notification alarm never fired, everything else looks fine | The app's wording didn't match. Couriers vary wildly — "has reached", "at your gate", "handed over" | Re-open the row and pick **On its very next notification**, which needs no wording at all |
+| Tapping **Track** looked like it did nothing | Fixed. The confirmation used to be a line of text below the fold of the sheet | The row now reads **Tracking ✓**, and a toast confirms it |
 | People alerts arrive late | Discovery is a 15-minute poll when no session is live | Open the People screen to sync at once; alerts inside a live session arrive in about a minute |
 | A person alert didn't wake you | That watch isn't marked alarm-grade | Tap the watch → **Ring like an alarm**. It's on by default only for a "someone I look after" contact |
 | Alarm leaked into a meeting | Meeting-aware ringing off, or no headset connected | It's on by default; with no private output it vibrates instead of playing |

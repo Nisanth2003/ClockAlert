@@ -82,6 +82,16 @@ data class NotificationMatchRule(
         /** Fire when a tracked ONGOING notification from the package is removed (task/download done). */
         const val CONDITION_REMOVED = "onOngoingRemoved"
 
+        /**
+         * Fire on the NEXT notification from the package, whatever it says.
+         *
+         * Exists because the keyword question is unanswerable in advance for a lot of apps — you cannot
+         * know what wording your courier will use, and a wrong guess is an alarm that never rings. This
+         * trades precision for certainty: chatty apps will fire early, which is the honest trade and is
+         * stated in the picker.
+         */
+        const val CONDITION_ANY = "anyNotification"
+
         /** Refine the ETA from parsed nav text; fire when the remaining time drops to the threshold. */
         const val CONDITION_ETA = "etaThreshold"
 

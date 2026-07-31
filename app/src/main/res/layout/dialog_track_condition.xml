@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  "When should this ring?" — replaces the old dialog that asked the user to type the words that mean
+  "done".
+
+  That question was unanswerable: nobody knows what wording their delivery app uses until it turns up,
+  and getting it wrong means an alarm that silently never fires. So this asks for the CHOICE in plain
+  language, offers the words as pre-ticked chips the app already knows for that kind of app, and — when
+  the app happens to be showing a notification right now — puts its real text on screen so there is
+  something concrete to judge against. Typing is optional and last.
+-->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="4dp">
+
+        <!-- What the app is saying at this moment, so the choice below isn't guesswork. -->
+        <TextView
+            android:id="@+id/track_sample"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurfaceContainerHighest"
+            android:padding="12dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:visibility="gone"
+            tools:text="Showing now: Order picked up · Arriving in 8 min"
+            tools:visibility="visible" />
+
+        <RadioGroup
+            android:id="@+id/track_condition_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/track_cond_words"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/track_cond_words" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/track_cond_gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/track_cond_gone" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/track_cond_any"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/track_cond_any" />
+        </RadioGroup>
+
+        <!-- Only relevant for the "when it says…" choice. -->
+        <LinearLayout
+            android:id="@+id/track_words_block"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/track_words_caption"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/track_words_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:chipSpacingVertical="4dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/track_words_extra_layout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="@string/track_words_extra_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/track_words_extra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

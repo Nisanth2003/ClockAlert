@@ -21,6 +21,7 @@ import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.core.content.IntentCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
@@ -32,6 +33,7 @@ import com.example.alarmtracker.data.Alarm
 import com.example.alarmtracker.data.AlarmRepository
 import com.example.alarmtracker.data.EventTrigger
 import com.example.alarmtracker.data.NotificationMatchRule
+import com.example.alarmtracker.databinding.DialogTrackConditionBinding
 import com.example.alarmtracker.databinding.ItemTrackableNotificationBinding
 import com.example.alarmtracker.databinding.SheetAlarmEditBinding
 import com.example.alarmtracker.notif.AlarmNotificationListener
@@ -60,9 +62,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.chip.Chip
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -1823,15 +1825,34 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
         val actives = if (granted) AlarmNotificationListener.activeNotifications(requireContext()) else emptyList()
         b.trackableEmpty.visibility = if (actives.isEmpty() && !connecting) View.VISIBLE else View.GONE
         val inflater = LayoutInflater.from(requireContext())
+        val selectedPackages = notificationRule?.packages.orEmpty()
         for (active in actives) {
             val item = ItemTrackableNotificationBinding.inflate(inflater, b.trackableContainer, false)
             item.trackableApp.text = active.appLabel
             item.trackableSnippet.text = active.snippet
-            val rule = TrackablePresets.forActive(active)
             item.trackableSuggestion.setText(TrackablePresets.suggestionRes(active))
-            val pick = { selectRule(rule) }
-            item.root.setOnClickListener { pick() }
-            item.trackablePick.setOnClickListener { pick() }
+            // Being able to SEE which row is armed matters more than it sounds: without it, tapping
+            // Track gave no sign it had done anything.
+            val chosen = selectedPackages.contains(active.packageName)
+            item.trackablePick.setText(if (chosen) R.string.notif_track_selected else R.string.notif_track_pick)
+            item.root.strokeColor = MaterialColors.getColor(
+                item.root,
+                // colorPrimary is defined by appcompat, colorOutlineVariant by Material — they live in
+                // different R classes.
+                if (chosen) {
+                    androidx.appcompat.R.attr.colorPrimary
+                } else {
+                    com.google.android.material.R.attr.colorOutlineVariant
+                }
+            )
+            // The button takes the app's own best guess in one tap; the row opens the choice, for when
+            // that guess is wrong or the user wants to see what it will match on.
+            item.trackablePick.setOnClickListener { selectRule(TrackablePresets.forActive(active)) }
+            item.root.setOnClickListener {
+                showTrackConditionDialog(
+                    active.packageName, active.appLabel, active.snippet, active.isOngoing
+                )
+            }
             b.trackableContainer.addView(item.root)
         }
     }
@@ -1902,10 +1923,14 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
             .show()
     }
 
-    /** Prominent "track anything" path: pick an installed app, then the keywords that mean "done". */
+    /** Prominent "track anything" path: pick an installed app, then when it should ring. */
     private fun showManualAppPicker() {
         pickInstalledApp(R.string.notif_manual_pick_app) { pkg, appLabel ->
-            showKeywordDialog(pkg, appLabel)
+            // If that app happens to be showing something right now, carry its text into the dialog so
+            // the choice can be made against real wording instead of an imagined one.
+            val live = AlarmNotificationListener.activeNotifications(requireContext())
+                .firstOrNull { it.packageName == pkg }
+            showTrackConditionDialog(pkg, appLabel, live?.snippet, live?.isOngoing == true)
         }
     }
 
@@ -1984,31 +2009,98 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun showKeywordDialog(pkg: String, appLabel: String) {
-        val dp = resources.displayMetrics.density
-        val inputLayout = TextInputLayout(requireContext()).apply {
-            setPadding((24 * dp).toInt(), (4 * dp).toInt(), (24 * dp).toInt(), 0)
-            hint = getString(R.string.notif_manual_keywords_hint)
+    /**
+     * "When should this ring?" for a chosen app.
+     *
+     * Replaces a dialog that asked the user to type the words that mean "done", which was the wrong
+     * question: you cannot know in advance what wording a courier or a build tool will use, and a wrong
+     * guess produces an alarm that silently never fires. Instead the CHOICE is in plain language, the
+     * words come pre-ticked from what the app already knows about that kind of app, and if the app is
+     * showing a notification right now its real text is on screen to judge against. Typing is optional.
+     */
+    private fun showTrackConditionDialog(pkg: String, appLabel: String, sample: String?, ongoing: Boolean) {
+        val view = DialogTrackConditionBinding.inflate(layoutInflater)
+        if (!sample.isNullOrBlank()) {
+            view.trackSample.visibility = View.VISIBLE
+            view.trackSample.text = getString(R.string.track_sample_fmt, sample)
         }
-        val input = TextInputEditText(inputLayout.context)
-        inputLayout.addView(input)
+        val suggestions = TrackablePresets.suggestedKeywords(pkg, "$appLabel ${sample.orEmpty()}")
+        for (word in suggestions.take(MAX_KEYWORD_CHIPS)) {
+            view.trackWordsChips.addView(
+                Chip(requireContext()).apply {
+                    text = word
+                    isCheckable = true
+                    isChecked = true
+                }
+            )
+        }
+        val preselect = TrackablePresets.suggestedCondition(pkg, ongoing, sample.orEmpty())
+        view.trackConditionGroup.check(
+            if (preselect == NotificationMatchRule.CONDITION_REMOVED) {
+                R.id.track_cond_gone
+            } else {
+                R.id.track_cond_words
+            }
+        )
+        fun syncWordsVisibility() {
+            view.trackWordsBlock.visibility =
+                if (view.trackConditionGroup.checkedRadioButtonId == R.id.track_cond_words) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+        }
+        syncWordsVisibility()
+        view.trackConditionGroup.setOnCheckedChangeListener { _, _ -> syncWordsVisibility() }
+
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.notif_manual_keywords_title)
-            .setView(inputLayout)
+            .setTitle(getString(R.string.track_cond_title_fmt, appLabel))
+            .setView(view.root)
             .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(R.string.event_continue) { _, _ ->
-                val keywords = input.text?.toString().orEmpty()
-                    .split(',', ';', '\n')
-                    .map { it.trim() }
-                    .filter { it.isNotEmpty() }
-                selectRule(TrackablePresets.keywordRule(pkg, appLabel, keywords))
+            .setPositiveButton(R.string.save) { _, _ ->
+                val rule = when (view.trackConditionGroup.checkedRadioButtonId) {
+                    R.id.track_cond_gone -> TrackablePresets.removedRule(pkg, appLabel)
+                    R.id.track_cond_any -> TrackablePresets.anyRule(pkg, appLabel)
+                    else -> {
+                        val chosen = view.trackWordsChips.children
+                            .filterIsInstance<Chip>()
+                            .filter { it.isChecked }
+                            .map { it.text.toString() }
+                            .toMutableList()
+                        // Anything they typed is added, not substituted — the suggestions are usually
+                        // right and the extra is for the one phrasing we didn't know.
+                        view.trackWordsExtra.text?.toString().orEmpty()
+                            .split(',', ';', '\n')
+                            .map { it.trim() }
+                            .filter { it.isNotEmpty() }
+                            .forEach { chosen += it }
+                        // Empty means "I unticked everything" — fall back to the suggestions rather than
+                        // saving a rule that can never match.
+                        TrackablePresets.keywordRule(pkg, appLabel, chosen)
+                    }
+                }
+                selectRule(rule)
             }
             .show()
     }
 
+    /**
+     * Commits a chosen rule AND says so.
+     *
+     * The confirmation is the fix for a reported bug, not decoration: the status line lives at the bottom
+     * of a long section inside a bottom sheet, so tapping "Track" updated something the user could not
+     * see and the whole feature read as broken. Now it toasts, scrolls the status into view, and the
+     * chosen row re-renders as selected.
+     */
     private fun selectRule(rule: NotificationMatchRule) {
         notificationRule = rule
         updateRuleStatus()
+        refreshNotificationSection()
+        val b = _binding ?: return
+        Toast.makeText(requireContext(), b.notificationRuleStatus.text, Toast.LENGTH_LONG).show()
+        b.notificationRuleStatus.post {
+            _binding?.let { it.editorScroll.smoothScrollTo(0, it.notificationRuleStatus.top) }
+        }
     }
 
     private fun updateRuleStatus() {
@@ -2109,6 +2201,9 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
 
         /** Offered wait windows. Beyond four hours a clock time says it better; that's the last item. */
         private val WAIT_CHOICES = listOf(5, 10, 15, 30, 45, 60, 120, 240)
+
+        /** Enough chips to cover the wordings that matter without turning the dialog into a wall. */
+        private const val MAX_KEYWORD_CHIPS = 12
 
         // Track-an-event dropdown positions (must match R.array.tracking_modes order).
         private const val TRACK_OFF = 0

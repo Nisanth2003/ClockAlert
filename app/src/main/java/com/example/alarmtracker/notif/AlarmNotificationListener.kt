@@ -146,6 +146,17 @@ class AlarmNotificationListener : NotificationListenerService() {
                 continue
             }
 
+            // "Whatever it says" — the user explicitly chose not to guess at wording.
+            if (rule.condition == NotificationMatchRule.CONDITION_ANY) {
+                Dbg.d(TAG) { "any-notification fire alarm=${trigger.alarmId} pkg=$pkg" }
+                trackedOngoing.remove(key)
+                cachedRulesAt = 0L // this trigger is spent; re-read before matching anything else
+                EventAlarmCoordinator.fireNow(
+                    applicationContext, trigger.alarmId, EventTrigger.SIGNAL_NOTIFICATION
+                )
+                continue
+            }
+
             // Watch this ongoing notification so its later removal can fire the alarm.
             if (rule.condition == NotificationMatchRule.CONDITION_REMOVED && ongoing) {
                 trackedOngoing[key] = trigger.alarmId
