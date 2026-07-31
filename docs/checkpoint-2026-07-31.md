@@ -40,7 +40,7 @@ exist. Putting it under git would give much better checkpoints than this and is 
   only 9→10 has actually executed there since; the 1→9 chain was verified on earlier populated DBs.
 - **Build: GREEN.** `:app:assembleDebug` and `:app:lintDebug` both pass. Lint reports warnings only
   (mostly `UseKtx` style plus one Overdraw on the map layout) — no errors.
-- **Installed and running on the test device** (Redmi Note 11 Pro, `b25856e9bbfc`, Android 13 / MIUI),
+- **Installed and running on the test device** (Redmi Note 11 Pro, Android 13 / MIUI),
   launched clean with no FATAL.
 - Zero API keys, zero accounts, zero backend. Every external service used is keyless:
   Carto basemap tiles, Photon place search, OSRM routing, ntfy relay (friends).
@@ -69,7 +69,8 @@ All of it is in the snapshot. Four user-reported problem areas, all fixed and ve
   `0.5·text + 0.4·exp(−distance/25 km) + 0.1·provider rank`, deduped at 120 m with an agreement bonus.
   Text matching is fuzzy (bounded Levenshtein, 0 edits under 4 chars, 1 up to 7, 2 at 8+).
   Nothing is dropped for being far; the distance is displayed instead.
-- **Measured results** (user at Gurugram): `subash chowk` → *Subhash Chowk, Gurgaon, 0.9 km* #1;
+- **Measured results** (bias point in the Delhi NCR region): `subash chowk` → *Subhash Chowk, Gurgaon* #1
+  despite the misspelling;
   `cyber hub` → *DLF Cyber Hub* #1; `connaught place` → *Delhi CP* #1; `eiffel tower` → local replica
   #1 with **Paris still #2**. Reproduce any query with `scratchpad/rank2.py "<query>"`.
 - **Do not "turn up" the Photon bias.** `location_bias_scale=0.6` at `zoom=12` was chosen by

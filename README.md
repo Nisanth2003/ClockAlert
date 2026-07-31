@@ -276,7 +276,7 @@ Alarms themselves never need a connection. Only the map, place search, routing, 
 All taken on the phone this is developed against — a Redmi Note 11 Pro on Android 13, MIUI.
 
 <p align="center">
-  <img src="docs/images/shot_icon_drawer.png" width="560" alt="AlarmTracker in the app drawer">
+  <img src="docs/images/shot_icon_drawer.png" width="180" alt="The app icon on a real device's home screen">
 </p>
 
 | Alarms | Track an event |
