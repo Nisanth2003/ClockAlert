@@ -44,3 +44,13 @@ snapshots/
 *.log
 *.hprof
 .kotlin/
+
+# ---- Stray debugging artefacts ----
+# A database pulled off a device for inspection is junk (WAL mode makes the copy truncated anyway) and
+# could carry real user rows on someone else's machine. Never commit one.
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.trace
+*.hprof
