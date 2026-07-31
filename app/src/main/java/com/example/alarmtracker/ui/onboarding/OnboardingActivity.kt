@@ -82,7 +82,10 @@ class OnboardingActivity : AppCompatActivity() {
         )
         binding.onbOverlayGrant.visibility = if (overlayOk) View.GONE else View.VISIBLE
 
-        val oem = Reliability.oemGuidance(this)
+        // Only ask about auto-start when this device actually HAS such a screen. Demanding an
+        // acknowledgement about a setting a phone doesn't have (a Pixel, an AOSP build) is pure friction
+        // and teaches people to tick boxes they haven't read.
+        val oem = Reliability.oemGuidance(this).takeIf { Reliability.hasVendorRestrictions(this) }
         if (oem == null) {
             binding.onbAutostartBlock.visibility = View.GONE
         } else {
@@ -95,7 +98,7 @@ class OnboardingActivity : AppCompatActivity() {
     /** Continue is enabled only once the required items are satisfied. */
     private fun updateGate() {
         val overlayOk = Settings.canDrawOverlays(this)
-        val autostartOk = Reliability.oemGuidance(this) == null || binding.onbAutostartAck.isChecked
+        val autostartOk = !Reliability.hasVendorRestrictions(this) || binding.onbAutostartAck.isChecked
         binding.btnContinue.isEnabled = overlayOk && autostartOk
     }
 

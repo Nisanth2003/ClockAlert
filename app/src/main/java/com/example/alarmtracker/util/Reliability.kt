@@ -196,62 +196,140 @@ object Reliability {
     )
 
     /**
-     * Manufacturer-specific auto-start / background guidance for OEMs known to kill
-     * background alarms aggressively. Returns null on stock-like devices. The intent
-     * is best-effort — callers must catch ActivityNotFoundException and fall back.
+     * Every vendor "auto-start / background start / protected apps" screen we know of, as candidate
+     * intents. Order within a vendor is most-specific-first.
+     *
+     * This exists so the app is not limited to the phones its author happened to own. Which screen a
+     * device has is discovered by ASKING THE DEVICE ([firstResolvable]) rather than by matching a brand
+     * name: a rebadged ROM, a sub-brand, a regional variant or a manufacturer nobody has heard of still
+     * gets sent to the right place if it ships any of these, and nothing is offered that would throw
+     * ActivityNotFoundException when tapped. A button that does nothing is worse than no button.
+     */
+    private val AUTOSTART_CANDIDATES: List<Pair<String, String>> = listOf(
+        // Xiaomi / Redmi / POCO — MIUI, HyperOS
+        "com.miui.securitycenter" to "com.miui.permcenter.autostart.AutoStartManagementActivity",
+        // Huawei / Honor — EMUI, MagicOS
+        "com.huawei.systemmanager" to "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity",
+        "com.huawei.systemmanager" to "com.huawei.systemmanager.appcontrol.activity.StartupAppControlActivity",
+        "com.huawei.systemmanager" to "com.huawei.systemmanager.optimize.process.ProtectActivity",
+        // Oppo / realme / OnePlus (post-merge) — ColorOS
+        "com.coloros.safecenter" to "com.coloros.safecenter.permission.startup.StartupAppListActivity",
+        "com.coloros.safecenter" to "com.coloros.safecenter.startupapp.StartupAppListActivity",
+        "com.oppo.safe" to "com.oppo.safe.permission.startup.StartupAppListActivity",
+        // vivo / iQOO — Funtouch, OriginOS
+        "com.vivo.permissionmanager" to "com.vivo.permissionmanager.activity.BgStartUpManagerActivity",
+        "com.iqoo.secure" to "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager",
+        "com.iqoo.secure" to "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity",
+        // OnePlus — OxygenOS
+        "com.oneplus.security" to "com.oneplus.security.chainlaunch.view.ChainLaunchAppListActivity",
+        // Samsung — no auto-start screen; its device care battery page is the equivalent
+        "com.samsung.android.lool" to "com.samsung.android.sm.ui.battery.BatteryActivity",
+        "com.samsung.android.lool" to "com.samsung.android.sm.battery.ui.BatteryActivity",
+        // Asus — ZenUI
+        "com.asus.mobilemanager" to "com.asus.mobilemanager.autostart.AutoStartActivity",
+        "com.asus.mobilemanager" to "com.asus.mobilemanager.MainActivity",
+        // Transsion — Tecno, Infinix, itel
+        "com.transsion.phonemanager" to "com.itel.autobootmanager.activity.AutoBootMgrActivity",
+        // Meizu — Flyme
+        "com.meizu.safe" to "com.meizu.safe.permission.SmartBGActivity",
+        // LeEco / Letv
+        "com.letv.android.letvsafe" to "com.letv.android.letvsafe.AutobootManageActivity",
+        // ZTE / nubia
+        "com.zte.heartyservice" to "com.zte.heartyservice.autorun.AppAutoRunManager",
+        // HMD / Nokia and several others ship Evenwell power saving
+        "com.evenwell.powersaving.g3" to "com.evenwell.powersaving.g3.exception.PowerSaverExceptionActivity"
+    )
+
+    /** Vendor screens exposed as an ACTION rather than a component. */
+    private fun actionCandidates(context: Context): List<Intent> = listOf(
+        // MIUI/HyperOS permission editor: holds "Display pop-up windows while running in the background"
+        // and "Show on lock screen" — the two toggles that actually let a ring screen appear. Verified on
+        // a Redmi device, and it is more useful than the autostart list, so it is tried first.
+        Intent("miui.intent.action.APP_PERM_EDITOR")
+            .putExtra("extra_pkgname", context.packageName)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+        Intent("com.meizu.safe.security.SHOW_APPSEC")
+            .putExtra("packageName", context.packageName)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    )
+
+    /** The first of [intents] this device can actually open, or null if none of them resolve. */
+    private fun firstResolvable(context: Context, intents: List<Intent>): Intent? {
+        val pm = context.packageManager
+        return intents.firstOrNull { pm.queryIntentActivities(it, 0).isNotEmpty() }
+    }
+
+    /**
+     * The vendor background/auto-start screen this device actually has, discovered by probing — brand
+     * name not consulted. Null on a phone with no such screen (a Pixel, an AOSP build), which is exactly
+     * the phone that needs no extra step.
+     */
+    fun autostartIntent(context: Context): Intent? = firstResolvable(
+        context,
+        actionCandidates(context) + AUTOSTART_CANDIDATES.map { (pkg, cls) -> component(pkg, cls) }
+    )
+
+    /**
+     * True when this device has a vendor screen that can silently stop alarms — i.e. when asking the user
+     * to go and allow auto-start is a real instruction rather than a wild goose chase.
+     *
+     * Onboarding uses this to decide whether to demand the acknowledgement at all, so a phone without
+     * such a screen doesn't make people tick a box about a setting that does not exist on it.
+     */
+    fun hasVendorRestrictions(context: Context): Boolean = autostartIntent(context) != null
+
+    /**
+     * Auto-start / background guidance for this device.
+     *
+     * The brand only picks the WORDING (it's worth naming the exact toggles when we know them); whether
+     * there is anywhere to send the user, and where, is answered by [autostartIntent]. Any device with a
+     * vendor restriction screen gets guidance even if its manufacturer isn't named here — the old code
+     * returned null for anything unlisted, which meant an unknown phone silently got no help at all.
      */
     fun oemGuidance(context: Context): Oem? {
-        val manufacturer = Build.MANUFACTURER.lowercase()
+        val manufacturer = (Build.MANUFACTURER + " " + Build.BRAND).lowercase()
+        val probed = autostartIntent(context)
+        fun oem(nameRes: Int, bodyRes: Int) = Oem(nameRes, bodyRes, probed ?: appDetailsIntent(context))
         return when {
             manufacturer.contains("xiaomi") || manufacturer.contains("redmi") ||
-                manufacturer.contains("poco") -> Oem(
-                R.string.oem_xiaomi_name,
-                R.string.oem_xiaomi_body,
-                // MIUI/HyperOS permission editor — holds "Display pop-up windows while running in
-                // the background" + "Show on lock screen", the toggles that actually let the ring
-                // screen appear (verified on a Redmi device). Autostart is a separate screen, called
-                // out in the guidance text.
-                Intent("miui.intent.action.APP_PERM_EDITOR")
-                    .putExtra("extra_pkgname", context.packageName)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
-            manufacturer.contains("huawei") || manufacturer.contains("honor") -> Oem(
-                R.string.oem_huawei_name,
-                R.string.oem_huawei_body,
-                component("com.huawei.systemmanager", "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity")
-            )
-            manufacturer.contains("oppo") || manufacturer.contains("realme") -> Oem(
-                R.string.oem_oppo_name,
-                R.string.oem_oppo_body,
-                component("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")
-            )
-            manufacturer.contains("vivo") || manufacturer.contains("iqoo") -> Oem(
-                R.string.oem_vivo_name,
-                R.string.oem_vivo_body,
-                component("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")
-            )
-            manufacturer.contains("oneplus") -> Oem(
-                R.string.oem_oneplus_name,
-                R.string.oem_oneplus_body,
-                component("com.oneplus.security", "com.oneplus.security.chainlaunch.view.ChainLaunchAppListActivity")
-            )
+                manufacturer.contains("poco") -> oem(R.string.oem_xiaomi_name, R.string.oem_xiaomi_body)
+
+            manufacturer.contains("huawei") || manufacturer.contains("honor") ->
+                oem(R.string.oem_huawei_name, R.string.oem_huawei_body)
+
+            manufacturer.contains("oppo") || manufacturer.contains("realme") ->
+                oem(R.string.oem_oppo_name, R.string.oem_oppo_body)
+
+            manufacturer.contains("vivo") || manufacturer.contains("iqoo") ->
+                oem(R.string.oem_vivo_name, R.string.oem_vivo_body)
+
+            manufacturer.contains("oneplus") -> oem(R.string.oem_oneplus_name, R.string.oem_oneplus_body)
+
             manufacturer.contains("samsung") -> Oem(
                 R.string.oem_samsung_name,
                 R.string.oem_samsung_body,
-                // Samsung has no stable auto-start intent; route to the battery-opt list.
-                Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                // Samsung has no auto-start screen; its battery restrictions are the equivalent.
+                probed ?: Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
             )
-            // Other aggressive skins (Transsion Tecno/Infinix/itel, Asus, Meizu, Lenovo) — no
-            // stable deep-link, so route to this app's details where auto-start / background /
-            // lock-screen toggles live, with generic guidance.
+
+            // Named because they are known-aggressive even where the probe finds nothing.
             manufacturer.contains("tecno") || manufacturer.contains("infinix") ||
                 manufacturer.contains("itel") || manufacturer.contains("transsion") ||
                 manufacturer.contains("asus") || manufacturer.contains("meizu") ||
-                manufacturer.contains("lenovo") -> Oem(
-                R.string.oem_generic_name,
-                R.string.oem_generic_body,
-                appDetailsIntent(context)
-            )
+                manufacturer.contains("lenovo") || manufacturer.contains("zte") ||
+                manufacturer.contains("nubia") || manufacturer.contains("letv") ||
+                manufacturer.contains("leeco") || manufacturer.contains("blackview") ||
+                manufacturer.contains("umidigi") || manufacturer.contains("doogee") ||
+                manufacturer.contains("cubot") || manufacturer.contains("tcl") ||
+                manufacturer.contains("alcatel") || manufacturer.contains("wiko") ||
+                manufacturer.contains("micromax") || manufacturer.contains("lava") ||
+                manufacturer.contains("gionee") || manufacturer.contains("coolpad") ->
+                oem(R.string.oem_generic_name, R.string.oem_generic_body)
+
+            // Unknown manufacturer: trust the probe. If the device ships a background-restriction
+            // screen it gets generic guidance; if it doesn't, it needs no extra step and we stay quiet.
+            probed != null -> oem(R.string.oem_generic_name, R.string.oem_generic_body)
+
             else -> null
         }
     }
