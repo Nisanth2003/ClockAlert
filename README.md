@@ -294,10 +294,15 @@ All taken on the phone this is developed against — a Redmi Note 11 Pro on Andr
 | <img src="docs/images/shot_diagnostics.png" width="280" alt="Notification tracking diagnostic"> | <img src="docs/images/shot_health.png" width="280" alt="Health check list"> |
 | Notification tracking is invisible until it fires, so it can be checked: access, whether Android actually started the listener, **how many notifications have reached the app**, and whether the watched app is installed. | Every condition that decides whether an alarm can ring, each row deep-linking to the switch that fixes it. |
 
-| People | Opening splash |
+| People | A timer that rings like an alarm |
 |---|---|
-| <img src="docs/images/shot_people.png" width="280" alt="People screen"> | <img src="docs/images/shot_splash.png" width="280" alt="Splash screen"> |
-| Pair with a friend you're meeting or someone you look after. Alerts travel through a relay that only ever sees ciphertext. | Nothing here is a stock template — the mark is a clock because that is what a user has to recognise in a drawer of sixty icons. |
+| <img src="docs/images/shot_people.png" width="280" alt="People screen"> | <img src="docs/images/shot_timer_ring.png" width="280" alt="Timer ring screen"> |
+| Pair with a friend you're meeting or someone you look after. Alerts travel through a relay that only ever sees ciphertext. | A finished timer takes the screen over the lock screen, and is dismissed the same way an alarm is: swipe up, or tap to snooze. |
+
+| When should this ring? | Which one did you mean? |
+|---|---|
+| <img src="docs/images/shot_track_condition.png" width="280" alt="Tracking condition dialog"> | <img src="docs/images/shot_place_results.png" width="280" alt="Place search results"> |
+| Choosing what a tracked app has to say. The words are pre-ticked from what the app knows about delivery apps, and the notification that app is showing *right now* is quoted above them, so it isn't guesswork. | Real output for "subhash chowk": the Gurugram junction first at "Closest to you", the same-named junctions in Rajasthan demoted and shown in red at ~195 km. |
 
 ---
 
@@ -419,6 +424,7 @@ After a phone update or a MIUI update, re-run steps 1 and 2 — updates routinel
 | Place search returns other cities | Search needs a reference point; with Location off there isn't one | Turn Location on. Results are ranked nearest-first and every row shows its distance |
 | Map is blank | No internet, or tiles still loading | The map now says "Offline" and offers to open the internet panel |
 | Notification alarm never fired | Access revoked, listener not started, or the watched app isn't installed | *Is this working?* in the editor will say which |
+| Notification access is on, but nothing is ever tracked | **Your phone has approved the listener and never started it.** Measured on MIUI: the app appears in the system's *enabled* listener list but not its *live* one. Xiaomi's own listener has the same problem there | Health check shows a **Notification tracking service** row when this happens. Enable **Autostart** for the app, then toggle notification access off and on. The app asks Android to rebind on every launch, but a skin can refuse |
 | Notification alarm never fired, everything else looks fine | The app's wording didn't match. Couriers vary wildly — "has reached", "at your gate", "handed over" | Re-open the row and pick **On its very next notification**, which needs no wording at all |
 | Tapping **Track** looked like it did nothing | Fixed. The confirmation used to be a line of text below the fold of the sheet | The row now reads **Tracking ✓**, and a toast confirms it |
 | People alerts arrive late | Discovery is a 15-minute poll when no session is live | Open the People screen to sync at once; alerts inside a live session arrive in about a minute |
@@ -512,8 +518,16 @@ Tested on a **Xiaomi Redmi Note 11 Pro, Android 13, MIUI/HyperOS**.
 
 **Verified working on the device:** install and launch with no crash, all database migrations up to v11,
 the full-screen ring over the lock screen (once the MIUI toggles are on), the tab bar and every tab
-layout, the map with tiles, the alert ring, place search relevance, the app icon in the drawer and the
-splash, dark and light themes.
+layout, the map with tiles, the alert ring, the app icon in the drawer and the splash, dark and light
+themes, and:
+
+- **a timer firing end to end** — scheduled, the receiver woke, the foreground service started, and the
+  full-screen ring took over the screen by itself with no app in the foreground;
+- **place search relevance with live providers**, from the author's real position: "subhash chowk"
+  returns the Gurugram junction first at ≈15 km and pushes the Rajasthan namesakes to the bottom at
+  ≈195 km, flagged in red;
+- **the tracked-notification condition picker** against a real delivery app's live notification;
+- **Health check** listing every condition, including the notification-listener row below.
 
 **Not yet verified on hardware — treat as unproven:** a geofence crossing actually firing an arrival
 alarm end to end, a live notification match firing (delivery, transit, task-done), a limit-reset

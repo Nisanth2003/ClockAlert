@@ -538,6 +538,7 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
         }
 
         baselineSignature = currentSignature()
+
     }
 
     /** Section header taps expand/collapse the rows beneath, swapping the chevron. */
