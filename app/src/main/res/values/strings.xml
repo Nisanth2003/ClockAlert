@@ -687,6 +687,9 @@
     <string name="diag_match_now_fmt">✓ Right now it can see: %1$s</string>
     <string name="event_pick_on_map">Pick on the map</string>
     <string name="notif_access_status_stuck">Access is on, but Android still hasn\'t started the listener. Turn notification access off and on again, and allow the app to autostart.</string>
+    <string name="health_listener_title">Notification tracking service</string>
+    <string name="health_listener_ok">AlarmTracker is listening for the notifications you track.</string>
+    <string name="health_listener_problem">Notification access is on, but your phone hasn\'t started the service — so alarms that wait for a notification can\'t fire. Turn notification access off and back on, and allow the app to autostart.</string>
     <string name="diag_listener_rebind">→ Just asked Android to start it. Close this and check again in a few seconds.</string>
     <string name="diag_battery_note">Battery: tracking costs nothing while it waits. Android pushes notifications to us; we never poll, never hold a wakelock and never use location for this. The only work is a text comparison per notification.</string>
     <string name="event_wait_caption_fmt">Rings the moment the notification appears — or after %1$s if it never does.</string>

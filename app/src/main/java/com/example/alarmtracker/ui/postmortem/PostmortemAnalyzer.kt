@@ -115,6 +115,10 @@ object PostmortemAnalyzer {
         Reliability.Id.ALARM_VOLUME -> R.string.postmortem_cause_volume
         Reliability.Id.BATTERY_OPT -> R.string.postmortem_cause_battery
         Reliability.Id.DND -> R.string.postmortem_cause_dnd
+        // Never reached: LISTENER_BOUND is not in any `relevant` list above, because an unbound listener
+        // explains an alarm that never fired at all rather than one that fired late or was missed. Kept
+        // exhaustive so adding a future Id is a compile error here rather than a silent gap.
+        Reliability.Id.LISTENER_BOUND -> R.string.health_listener_problem
     }
 
     private fun parseLateMs(detail: String?): Long? =

@@ -68,7 +68,7 @@ windows while running in the background" before it may put anything on screen at
 | **A first-run setup gate** | The permissions that decide whether an alarm can ring are collected up front, with the reason for each, instead of being buried in settings. |
 | **Health check** | A live checklist: exact alarms, notifications, full-screen permission, alarm volume, battery optimisation, Do Not Disturb, overlay. Each row deep-links straight to the switch that fixes it. |
 | **Missed-alarm postmortem** | When an alarm is missed or fires late it is logged with *why* — phone off, rang out unheard, permission revoked, battery restriction, DND, volume at zero, OEM kill. You get an explanation, not a mystery. |
-| **Manufacturer-specific guidance** | On Xiaomi the app deep-links to MIUI's own permission editor and names the three toggles that matter. Huawei, Oppo, Vivo, OnePlus, Samsung and Transsion each get their own wording. |
+| **Works on any phone, not just the ones we own** | The app *asks the device* which background-restriction screen it has rather than matching a brand name, so a rebadged ROM or an unheard-of manufacturer still gets sent to the right settings page — and a button is never offered that would open nothing. Known skins (MIUI/HyperOS, EMUI/MagicOS, ColorOS, Funtouch/OriginOS, OxygenOS, One UI, ZenUI, Transsion, Flyme…) additionally get wording that names their exact toggles. A phone with no such screen — a Pixel, an AOSP build — is asked for nothing extra. |
 | **Battery exemption you can see** | One row in Settings → Reliability shows the current state and asks Android directly for the exemption (an alarm clock is one of the few apps that legitimately qualifies). |
 | **Nightly pre-flight** | A background check runs once a day and tells you if something has changed under you *before* the alarm you're relying on. |
 
@@ -361,6 +361,7 @@ Stock Android needs nothing beyond step 3. Skinned Android does, and the app dee
 | **OnePlus (OxygenOS)** | Battery → Battery optimisation | Set AlarmTracker to **Don't optimise** |
 | **Huawei (EMUI)** | Battery → App launch | Switch AlarmTracker to **Manage manually**, all three toggles on |
 | **Android 14+, any brand** | Settings → Apps → AlarmTracker → **Full-screen notifications** | On — without it, an alarm can only post a notification, never take over the lock screen |
+| **Anything else** | The app finds it for you | Health check probes your device for a background-restriction screen and links straight to it. If your phone has none, there is nothing extra to do |
 
 ---
 

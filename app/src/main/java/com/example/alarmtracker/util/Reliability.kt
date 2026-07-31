@@ -24,7 +24,12 @@ import com.example.alarmtracker.R
  */
 object Reliability {
 
-    enum class Id { EXACT_ALARM, NOTIFICATIONS, FULL_SCREEN_INTENT, OVERLAY, ALARM_VOLUME, BATTERY_OPT, DND }
+    enum class Id {
+        EXACT_ALARM, NOTIFICATIONS, FULL_SCREEN_INTENT, OVERLAY, ALARM_VOLUME, BATTERY_OPT, DND,
+
+        /** Notification access granted but the listener never bound — see [checks]. */
+        LISTENER_BOUND
+    }
 
     data class Check(
         val id: Id,
@@ -129,6 +134,24 @@ object Reliability {
 
         // Do Not Disturb total silence (alarm channel bypasses everything except this).
         val dndOk = nm.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_NONE
+        // Notification access granted but the listener not bound. Only shown in that exact state,
+        // because it is invisible otherwise and it silently disables every notification-source and
+        // limit-reset alarm: the user has clearly opted in (they granted access), the OS just isn't
+        // running the service. MEASURED on a Redmi/MIUI device — approved, absent from the system's
+        // "Live notification listeners" list, and requestRebind() alone did not fix it there, so the
+        // user has to be told rather than left with alarms that quietly never fire.
+        if (com.example.alarmtracker.notif.NotificationAccess.grantedButNotConnected(context)) {
+            list += Check(
+                Id.LISTENER_BOUND,
+                R.string.health_listener_title,
+                R.string.health_listener_ok,
+                R.string.health_listener_problem,
+                R.string.warn_action_allow,
+                false,
+                com.example.alarmtracker.notif.NotificationAccess.settingsIntent()
+            )
+        }
+
         list += Check(
             Id.DND,
             R.string.health_dnd_title,
