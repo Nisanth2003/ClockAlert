@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The "you are facing this way" chevron. Points UP at 0°: osmdroid rotates it about its own centre by
+  the bearing, and the bearing we feed it is degrees clockwise from north.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="36dp"
+    android:height="36dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,5 L39,41 L24,33 L9,41 Z" />
+    <path
+        android:fillColor="#1A73E8"
+        android:pathData="M24,11 L34,36 L24,30 L14,36 Z" />
+</vector>

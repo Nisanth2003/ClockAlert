@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Section title/body styles for the in-app feature guide (activity_help.xml). -->
+    <style name="GuideSectionTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+    </style>
+    <!-- Small accent section header used to group the alarm editor's controls. -->
+    <style name="EditorSectionHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceLabelLarge</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.08</item>
+    </style>
+
+    <!-- Large collapsing-toolbar title: bold + explicit high-contrast colour so it never reads
+         faded in dark mode. -->
+
+    <style name="GuideSectionBody">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Fully round map controls: over a map, a circle reads as a control and a squircle doesn't. -->
+    <style name="ShapeAppearance.AlarmTracker.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- The picker's bottom card: rounded where it meets the map, square where it meets the edge. -->
+    <style name="ShapeAppearance.AlarmTracker.MapSheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">28dp</item>
+        <item name="cornerSizeTopRight">28dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+</resources>

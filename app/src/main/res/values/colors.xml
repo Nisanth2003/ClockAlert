@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Static Material 3 palette generated from the brand seed #5B4EE8 ("Midnight") — an indigo-violet
+  night with a sunrise-amber tertiary, which is the app's whole story: you sleep, it wakes you.
+
+  This file is the palette for API < 31 and for "dynamic colour off". On API 31+ the same seed is
+  expanded at runtime by Material (see AlarmTrackerApp.applyDynamicColours), so the two paths agree.
+  The old palette was seeded from a desaturated #445E91 and the runtime default was "match my
+  wallpaper", which is why the app looked washed out and different on every phone.
+-->
+<resources>
+
+    <color name="md_light_primary">#4F46C9</color>
+    <color name="md_light_onPrimary">#FFFFFF</color>
+    <color name="md_light_primaryContainer">#E3E0FF</color>
+    <color name="md_light_onPrimaryContainer">#150066</color>
+    <color name="md_light_secondary">#5D5C71</color>
+    <color name="md_light_onSecondary">#FFFFFF</color>
+    <color name="md_light_secondaryContainer">#E2E0F9</color>
+    <color name="md_light_onSecondaryContainer">#191A2C</color>
+    <color name="md_light_tertiary">#8A5100</color>
+    <color name="md_light_onTertiary">#FFFFFF</color>
+    <color name="md_light_tertiaryContainer">#FFDDB6</color>
+    <color name="md_light_onTertiaryContainer">#2C1600</color>
+    <color name="md_light_error">#BA1A1A</color>
+    <color name="md_light_onError">#FFFFFF</color>
+    <color name="md_light_errorContainer">#FFDAD6</color>
+    <color name="md_light_onErrorContainer">#410002</color>
+    <color name="md_light_background">#FCF8FF</color>
+    <color name="md_light_onBackground">#1B1B21</color>
+    <color name="md_light_surface">#FCF8FF</color>
+    <color name="md_light_onSurface">#1B1B21</color>
+    <color name="md_light_surfaceVariant">#E4E1EC</color>
+    <color name="md_light_onSurfaceVariant">#47464F</color>
+    <color name="md_light_outline">#78767F</color>
+    <color name="md_light_outlineVariant">#C9C5D0</color>
+    <color name="md_light_inverseSurface">#303036</color>
+    <color name="md_light_inverseOnSurface">#F3EFF7</color>
+    <color name="md_light_inversePrimary">#C4C0FF</color>
+    <color name="md_light_surfaceDim">#DCD9E0</color>
+    <color name="md_light_surfaceBright">#FCF8FF</color>
+    <color name="md_light_surfaceContainerLowest">#FFFFFF</color>
+    <color name="md_light_surfaceContainerLow">#F6F2FA</color>
+    <color name="md_light_surfaceContainer">#F0ECF4</color>
+    <color name="md_light_surfaceContainerHigh">#EAE7EF</color>
+    <color name="md_light_surfaceContainerHighest">#E5E1E9</color>
+
+    <color name="md_dark_primary">#C4C0FF</color>
+    <color name="md_dark_onPrimary">#1F1191</color>
+    <color name="md_dark_primaryContainer">#372DB0</color>
+    <color name="md_dark_onPrimaryContainer">#E3E0FF</color>
+    <color name="md_dark_secondary">#C6C4DD</color>
+    <color name="md_dark_onSecondary">#2F2F42</color>
+    <color name="md_dark_secondaryContainer">#454559</color>
+    <color name="md_dark_onSecondaryContainer">#E2E0F9</color>
+    <color name="md_dark_tertiary">#FFB868</color>
+    <color name="md_dark_onTertiary">#4A2800</color>
+    <color name="md_dark_tertiaryContainer">#693C00</color>
+    <color name="md_dark_onTertiaryContainer">#FFDDB6</color>
+    <color name="md_dark_error">#FFB4AB</color>
+    <color name="md_dark_onError">#690005</color>
+    <color name="md_dark_errorContainer">#93000A</color>
+    <color name="md_dark_onErrorContainer">#FFDAD6</color>
+    <color name="md_dark_background">#131318</color>
+    <color name="md_dark_onBackground">#E5E1E9</color>
+    <color name="md_dark_surface">#131318</color>
+    <color name="md_dark_onSurface">#E5E1E9</color>
+    <color name="md_dark_surfaceVariant">#47464F</color>
+    <color name="md_dark_onSurfaceVariant">#C9C5D0</color>
+    <color name="md_dark_outline">#938F99</color>
+    <color name="md_dark_outlineVariant">#47464F</color>
+    <color name="md_dark_inverseSurface">#E5E1E9</color>
+    <color name="md_dark_inverseOnSurface">#303036</color>
+    <color name="md_dark_inversePrimary">#4F46C9</color>
+    <color name="md_dark_surfaceDim">#131318</color>
+    <color name="md_dark_surfaceBright">#3A383E</color>
+    <color name="md_dark_surfaceContainerLowest">#0E0E13</color>
+    <color name="md_dark_surfaceContainerLow">#1B1B21</color>
+    <color name="md_dark_surfaceContainer">#1F1F25</color>
+    <color name="md_dark_surfaceContainerHigh">#2A292F</color>
+    <color name="md_dark_surfaceContainerHighest">#35343A</color>
+
+    <color name="splash_background">#FCF8FF</color>
+    <!-- Brand indigo on the light splash; the night variant swaps in the light tone. -->
+    <color name="splash_icon">#4F46C9</color>
+
+    <!-- Sunrise-glow overlay: intentionally the same in light & dark (a physical dawn). -->
+    <color name="glow_start">#0A0A0F</color>
+    <color name="glow_end">#FF9E5E</color>
+    <color name="glow_text">#FFF4E6</color>
+
+    <!--
+      Map overlay colours. These are deliberately NOT theme colours: they sit on basemap tiles, so they
+      are tuned to the basemap (Positron in light mode, Dark Matter at night) rather than to the app's
+      palette. A route has to read as a route.
+    -->
+    <color name="map_route">#3B6FF5</color>
+    <color name="map_route_casing">#CCFFFFFF</color>
+    <color name="map_ring_stroke">#E63B6FF5</color>
+    <color name="map_ring_fill">#1F3B6FF5</color>
+    <color name="map_tile_loading_background">#EDECF2</color>
+    <color name="map_tile_loading_line">#DFDDE6</color>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recycle_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:fitsSystemWindows="true"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="@string/recycle_title" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/recycle_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/screen_margin"
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:id="@+id/recycle_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/recycle_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="@dimen/empty_icon_size"
+            android:layout_height="@dimen/empty_icon_size"
+            android:alpha="0.38"
+            android:contentDescription="@string/recycle_title"
+            android:src="@drawable/ic_history"
+            app:tint="?attr/colorOnSurfaceVariant" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/recycle_empty_title"
+            android:textAppearance="?attr/textAppearanceTitleLarge" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/recycle_empty_body"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+</LinearLayout>

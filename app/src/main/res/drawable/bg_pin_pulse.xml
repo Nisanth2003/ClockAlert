@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sonar ring scaled up and faded out when a place is picked. Fixed colour: it sits on map tiles. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#331A73E8" />
+    <stroke
+        android:width="2dp"
+        android:color="#1A73E8" />
+</shape>

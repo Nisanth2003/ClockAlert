@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Compass needle. Rotated by the map's orientation so it always points to north on screen. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M12,2 L16.5,13 L12,10.8 L7.5,13 Z" />
+    <path
+        android:fillColor="@android:color/white"
+        android:fillAlpha="0.45"
+        android:pathData="M12,22 L7.5,11 L12,13.2 L16.5,11 Z" />
+</vector>

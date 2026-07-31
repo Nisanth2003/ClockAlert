@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_alarms"
+            android:icon="@drawable/ic_alarm"
+            android:title="@string/nav_alarms" />
+        <item
+            android:id="@+id/nav_world_clock"
+            android:icon="@drawable/ic_world_clock"
+            android:title="@string/nav_world_clock" />
+        <item
+            android:id="@+id/nav_friends"
+            android:icon="@drawable/ic_friends"
+            android:title="@string/nav_friends" />
+        <item
+            android:id="@+id/nav_stopwatch"
+            android:icon="@drawable/ic_stopwatch"
+            android:title="@string/nav_stopwatch" />
+        <item
+            android:id="@+id/nav_timer"
+            android:icon="@drawable/ic_timer"
+            android:title="@string/nav_timer" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/ic_stats"
+            android:title="@string/nav_stats" />
+    </group>
+
+    <item android:title="@string/nav_group_more">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/nav_settings" />
+            <item
+                android:id="@+id/nav_connections"
+                android:icon="@drawable/ic_link"
+                android:title="@string/title_connections" />
+            <item
+                android:id="@+id/nav_health"
+                android:icon="@drawable/ic_check"
+                android:title="@string/title_health" />
+            <item
+                android:id="@+id/nav_recycle"
+                android:icon="@drawable/ic_history"
+                android:title="@string/recycle_title" />
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@drawable/ic_help"
+                android:title="@string/title_help" />
+        </menu>
+    </item>
+</menu>

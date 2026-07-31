@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12+. Alarms and preferences restore; anything holding a credential does not.
+  See backup_rules.xml for the reasoning.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="sharedpref" path="secrets.xml" />
+        <exclude domain="sharedpref" path="friends_sync.xml" />
+        <exclude domain="sharedpref" path="friend_geofences.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <!-- A direct device-to-device transfer still can't carry the hardware Keystore key,
+             so the same exclusions apply. -->
+        <exclude domain="sharedpref" path="secrets.xml" />
+        <exclude domain="sharedpref" path="friends_sync.xml" />
+        <exclude domain="sharedpref" path="friend_geofences.xml" />
+    </device-transfer>
+</data-extraction-rules>

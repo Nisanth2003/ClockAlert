@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 11 and below (full-backup). Kept in step with data_extraction_rules.xml.
+
+  Alarms and settings are worth restoring. Secrets are NOT: every one of them is sealed with a key
+  held in this device's hardware Keystore, which is never backed up. Shipping the ciphertext
+  off-device therefore buys nothing and costs something — and on restore it produces a friend
+  pairing or a connector that silently can't decrypt itself. Better to come back clean and have the
+  user re-link.
+-->
+<full-backup-content>
+    <exclude domain="sharedpref" path="secrets.xml" />
+    <!-- Device-specific relay/geofence bookkeeping; meaningless on another phone. -->
+    <exclude domain="sharedpref" path="friends_sync.xml" />
+    <exclude domain="sharedpref" path="friend_geofences.xml" />
+</full-backup-content>

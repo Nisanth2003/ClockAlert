@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_share_stats"
+        android:icon="@drawable/ic_share"
+        android:title="@string/action_share_stats"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_log_bedtime"
+        android:title="@string/log_bedtime"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_postmortem"
+        android:title="@string/postmortem_open"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_health"
+        android:title="@string/title_health"
+        app:showAsAction="never" />
+</menu>

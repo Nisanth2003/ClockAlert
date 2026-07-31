@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Alarm-grade person alert. Same shape as the timer ring so the two read as one family, but the
+  hierarchy is different on purpose: the NAME is the headline, because the first thing you need to know
+  at 3pm (or 3am) is who this is about, and the two actions underneath are the reason you were woken —
+  reach them, or ask them.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurfaceContainerLowest"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/friend_ring_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceDisplaySmall"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintBottom_toTopOf="@id/friend_ring_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_max="@dimen/content_max_width"
+        tools:text="Ananya" />
+
+    <TextView
+        android:id="@+id/friend_ring_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="48dp"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceTitleLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:layout_constraintBottom_toTopOf="@id/friend_ring_call"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/friend_ring_name"
+        app:layout_constraintWidth_max="@dimen/content_max_width"
+        tools:text="Arrived at School" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/friend_ring_call"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:minWidth="220dp"
+        android:minHeight="@dimen/ring_target_min"
+        android:text="@string/friend_ring_call"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:visibility="gone"
+        app:icon="@drawable/ic_friends"
+        app:layout_constraintBottom_toTopOf="@id/friend_ring_nudge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/friend_ring_text"
+        tools:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/friend_ring_nudge"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:minWidth="220dp"
+        android:minHeight="@dimen/ring_target_min"
+        android:text="@string/friend_ring_nudge"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        app:icon="@drawable/ic_notifications"
+        app:layout_constraintBottom_toTopOf="@id/friend_ring_dismiss"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/friend_ring_call" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/friend_ring_dismiss"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:minHeight="72dp"
+        android:text="@string/friend_ring_dismiss"
+        android:textAppearance="?attr/textAppearanceTitleLarge"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="@dimen/content_max_width" />
+</androidx.constraintlayout.widget.ConstraintLayout>

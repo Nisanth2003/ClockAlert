@@ -1,0 +1,18 @@
+# Normalise line endings so a Windows checkout and a Linux CI runner agree on file contents.
+* text=auto eol=lf
+
+# The Gradle wrapper scripts are executed, not read — the shell one MUST stay LF or bash fails with
+# "bad interpreter", and the batch one must stay CRLF for cmd.exe.
+gradlew text eol=lf
+gradlew.bat text eol=crlf
+
+# Binaries git must never try to "fix".
+*.png binary
+*.jpg binary
+*.webp binary
+*.jar binary
+*.apk binary
+*.aab binary
+*.keystore binary
+*.jks binary
+*.zip binary

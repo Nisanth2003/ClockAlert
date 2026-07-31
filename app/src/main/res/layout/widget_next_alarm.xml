@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/widget_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/widget_label"
+        android:textColor="@color/widget_on_background_variant"
+        android:textSize="12sp"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/widget_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:fontFeatureSettings="tnum"
+        android:textColor="@color/widget_accent"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        tools:text="6:30 AM" />
+
+    <TextView
+        android:id="@+id/widget_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/widget_on_background"
+        android:textSize="14sp"
+        tools:text="Work · Weekdays" />
+
+    <TextView
+        android:id="@+id/widget_streak"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/widget_on_background_variant"
+        android:textSize="13sp"
+        tools:text="5-day streak" />
+</LinearLayout>

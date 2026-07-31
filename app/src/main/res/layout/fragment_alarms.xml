@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_max="@dimen/content_max_width">
+
+            <!-- Greeting block. Its background is a time-of-day gradient set at runtime
+                 (AlarmsFragment.updateGreeting): warm at dawn, bright by day, deep indigo at
+                 night — so the top of the screen actually carries some colour. -->
+            <LinearLayout
+                android:id="@+id/greeting_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="14dp">
+
+                <TextView
+                    android:id="@+id/greeting_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/screen_margin"
+                    android:paddingTop="6dp"
+                    android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                    android:textColor="?attr/colorOnSurface"
+                    tools:text="Good evening" />
+
+                <TextView
+                    android:id="@+id/next_alarm_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/screen_margin"
+                    android:paddingTop="2dp"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="Alarm in 7 h 32 min" />
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/permission_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_margin"
+                android:layout_marginBottom="@dimen/card_gap"
+                android:visibility="gone"
+                app:cardBackgroundColor="?attr/colorTertiaryContainer"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="0dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="@string/warn_icon"
+                            android:src="@drawable/ic_warning"
+                            app:tint="?attr/colorOnTertiaryContainer" />
+
+                        <TextView
+                            android:id="@+id/banner_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textColor="?attr/colorOnTertiaryContainer"
+                            tools:text="Exact alarms are off" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/banner_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnTertiaryContainer"
+                        tools:text="AlarmTracker needs permission to ring on time." />
+
+                    <Button
+                        android:id="@+id/banner_action"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:minHeight="@dimen/touch_target_min"
+                        android:textColor="?attr/colorOnTertiaryContainer"
+                        tools:text="Allow" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/alarm_list"
+                    android:layoutAnimation="@anim/layout_animation_rise_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/list_bottom_space"
+                    tools:listitem="@layout/item_alarm" />
+
+                <LinearLayout
+                    android:id="@+id/empty_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="@dimen/empty_icon_size"
+                        android:layout_height="@dimen/empty_icon_size"
+                        android:alpha="0.38"
+                        android:contentDescription="@string/empty_alarms_icon"
+                        android:src="@drawable/ic_alarm"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/empty_alarms_title"
+                        android:textAppearance="?attr/textAppearanceTitleLarge" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/empty_alarms_body"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        style="?attr/floatingActionButtonLargeStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/screen_margin"
+        android:contentDescription="@string/add_alarm"
+        android:src="@drawable/ic_add" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

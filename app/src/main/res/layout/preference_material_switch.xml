@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Widget layout for SwitchPreferenceCompat so it renders the M3 MaterialSwitch
+    instead of the legacy SwitchCompat. SwitchPreferenceCompat.onBindViewHolder
+    binds the view with androidx.preference's @id/switchWidget (verified against
+    preference 1.2.1 bytecode; @android:id/switch_widget is only used by the
+    framework-switch SwitchPreference class), and its instanceof SwitchCompat
+    checks still hold, since MaterialSwitch extends SwitchCompat.
+-->
+<com.google.android.material.materialswitch.MaterialSwitch xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/switchWidget"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:clickable="false"
+    android:focusable="false" />

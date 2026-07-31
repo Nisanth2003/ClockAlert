@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="splash_background">#131318</color>
+    <!-- The light indigo tone from the palette: readable on the near-black splash background. -->
+    <color name="splash_icon">#C4C0FF</color>
+
+    <!-- Sunrise-glow overlay matches the light values (a real dawn looks the same at night). -->
+    <color name="glow_start">#0A0A0F</color>
+    <color name="glow_end">#FF9E5E</color>
+    <color name="glow_text">#FFF4E6</color>
+
+    <!--
+      Night basemap is Carto Dark Matter, so the route and ring go brighter to glow against it, the
+      casing goes dark instead of white, and the tile placeholders match the dark tiles.
+    -->
+    <color name="map_route">#5B8CFF</color>
+    <color name="map_route_casing">#B3000000</color>
+    <color name="map_ring_stroke">#E67AA2FF</color>
+    <color name="map_ring_fill">#2E5B8CFF</color>
+    <color name="map_tile_loading_background">#16161B</color>
+    <color name="map_tile_loading_line">#232329</color>
+</resources>

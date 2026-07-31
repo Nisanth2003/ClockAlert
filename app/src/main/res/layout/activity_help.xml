@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/help_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?attr/collapsingToolbarLayoutMediumStyle"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:collapsedTitleTextColor="?attr/colorOnSurface"
+            app:expandedTitleTextColor="?attr/colorOnSurface"
+            app:title="@string/title_help">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/help_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/screen_margin">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="@dimen/content_max_width">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/guide_subtitle"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_s1_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_s1_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_s2_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_s2_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_s3_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_s3_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_s4_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_s4_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_s5_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_s5_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_s6_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_s6_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_s7_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_s7_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_s8_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_s8_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_appearance_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_appearance_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_friends_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_friends_body" />
+                <TextView style="@style/GuideSectionTitle" android:text="@string/guide_s9_title" />
+                <TextView style="@style/GuideSectionBody" android:text="@string/guide_s9_body" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

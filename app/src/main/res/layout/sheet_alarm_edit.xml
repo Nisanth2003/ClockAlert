@@ -1,0 +1,1280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+
+    <!-- Pinned action bar: Cancel · title · Delete (edit only) · Save. Stays visible
+         at the top no matter how far the options below are scrolled. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="4dp">
+
+        <ImageButton
+            android:id="@+id/cancel_button"
+            android:layout_width="@dimen/touch_target_min"
+            android:layout_height="@dimen/touch_target_min"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cancel"
+            android:src="@drawable/ic_close"
+            app:tint="?attr/colorOnSurfaceVariant" />
+
+        <TextView
+            android:id="@+id/editor_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/add_alarm"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textColor="?attr/colorOnSurface" />
+
+        <ImageButton
+            android:id="@+id/header_delete"
+            android:layout_width="@dimen/touch_target_min"
+            android:layout_height="@dimen/touch_target_min"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/delete_alarm"
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"
+            app:tint="?attr/colorError"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/save" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingBottom="24dp">
+
+        <!-- Inline scroll-wheel time picker (set the time right here, no pop-up).
+             Top offset is applied at runtime so it lands mid-screen on any device. -->
+        <LinearLayout
+            android:id="@+id/time_picker_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/edit_alarm_time_description"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <NumberPicker
+                android:id="@+id/edit_hour_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:text="@string/time_colon"
+                android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                android:textColor="?attr/colorOnSurface" />
+
+            <NumberPicker
+                android:id="@+id/edit_minute_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <NumberPicker
+                android:id="@+id/edit_ampm_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp" />
+        </LinearLayout>
+
+        <!-- Track an event: Off / Arrive at a place / When a notification appears -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tracking_layout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="@string/tracking_label">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/tracking_dropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:text="@string/tracking_off"
+                app:simpleItems="@array/tracking_modes"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Fallback caption: the alarm time doubles as the guaranteed fallback when tracking is on -->
+        <TextView
+            android:id="@+id/fallback_caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/event_fallback_caption"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <!-- How long to wait for a tracked notification before ringing anyway. Replaces the clock
+             wheels in notification mode: this kind of wait is minutes from now, not a time of day. -->
+        <LinearLayout
+            android:id="@+id/wait_window_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/event_wait_window_label"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textColor="?attr/colorOnSurface" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/wait_window_button"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="30 min" />
+        </LinearLayout>
+
+        <!-- ===================== TRACK: Arrive at a place (geofence) ===================== -->
+        <LinearLayout
+            android:id="@+id/destination_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/destination_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/event_destination_hint"
+                    app:startIconDrawable="@drawable/ic_place">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/destination_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionSearch"
+                        android:inputType="textPostalAddress"
+                        android:maxLines="2" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/find_button"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:text="@string/event_find" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pick_on_map_button"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="start|center_vertical"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/map_pick"
+                app:icon="@drawable/ic_place" />
+
+            <TextView
+                android:id="@+id/destination_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:visibility="gone"
+                tools:text="123 Market St, Springfield"
+                tools:visibility="visible" />
+
+            <!-- Rough "how far / how long" estimate for the chosen destination. -->
+            <TextView
+                android:id="@+id/destination_estimate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorPrimary"
+                android:visibility="gone"
+                tools:text="≈12.4 km away · about 19 min"
+                tools:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/use_estimate_button"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="@dimen/touch_target_min"
+                android:visibility="gone"
+                app:icon="@drawable/ic_alarm"
+                tools:text="Set the alarm to 7:35 am"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/arrival_radius_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/event_arrival_radius"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+            <TextView
+                android:id="@+id/arrival_radius_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Ring when within 200 m" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/arrival_radius_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/event_arrival_radius"
+                android:stepSize="50"
+                android:value="200"
+                android:valueFrom="150"
+                android:valueTo="5000"
+                app:tickVisible="false" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/event_location_permission_row"
+                        android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                    <TextView
+                        android:id="@+id/location_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:text="Off — the alarm will use the fallback time only." />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/location_grant"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:text="@string/event_location_grant" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ===================== TRACK: When a notification appears ===================== -->
+        <LinearLayout
+            android:id="@+id/notification_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/notif_access_row"
+                        android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                    <TextView
+                        android:id="@+id/notif_grant_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:text="Off — enable to see trackable apps." />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/notif_grant_button"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:text="@string/notif_access_grant" />
+            </LinearLayout>
+
+            <!-- "Trackable right now" discovery -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/notif_trackable_title"
+                android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+            <TextView
+                android:id="@+id/trackable_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/notif_trackable_empty"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/trackable_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical" />
+
+            <!-- Presets -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/claude_preset_button"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="start|center_vertical"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/notif_preset_claude"
+                app:icon="@drawable/ic_check" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delivery_preset_button"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="start|center_vertical"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/notif_preset_delivery"
+                app:icon="@drawable/ic_notifications" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/transit_preset_button"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="start|center_vertical"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/notif_preset_transit"
+                app:icon="@drawable/ic_notifications" />
+
+            <!-- Prominent "track anything" affordance (primary/filled) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/track_manual_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="start|center_vertical"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/notif_track_any"
+                app:icon="@drawable/ic_add" />
+
+            <TextView
+                android:id="@+id/notification_rule_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorSurfaceContainerHighest"
+                android:padding="12dp"
+                android:text="@string/notif_rule_none"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Tracking Claude — alarm when it finishes" />
+
+            <!-- Notification tracking is invisible until it fires, so there has to be a way to check
+                 it is alive without waiting for a real delivery to be missed. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/notif_diagnose_button"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/diag_check" />
+        </LinearLayout>
+
+        <!-- ===================== TRACK: When a limit resets (cooldown) ===================== -->
+        <LinearLayout
+            android:id="@+id/cooldown_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cooldown_service_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="start|center_vertical"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/cooldown_choose_service"
+                app:icon="@drawable/ic_add" />
+
+            <TextView
+                android:id="@+id/cooldown_service_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorSurfaceContainerHighest"
+                android:padding="12dp"
+                android:text="@string/cooldown_service_none"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Alarm when ChatGPT is back" />
+
+            <!-- Optional notification-access grant to read the exact reset time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cooldown_access_row"
+                        android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                    <TextView
+                        android:id="@+id/cooldown_grant_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:text="Optional — enable notification access to read the exact reset time." />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cooldown_grant_button"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:text="@string/notif_access_grant" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Schedule-type selector: Weekly / Once / Shift / Calendar -->
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/schedule_toggle_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/schedule_weekly"
+                style="@style/Widget.AlarmTracker.ScheduleToggle"
+                android:text="@string/schedule_weekly" />
+
+            <Button
+                android:id="@+id/schedule_once"
+                style="@style/Widget.AlarmTracker.ScheduleToggle"
+                android:text="@string/schedule_once" />
+
+            <Button
+                android:id="@+id/schedule_shift"
+                style="@style/Widget.AlarmTracker.ScheduleToggle"
+                android:text="@string/schedule_shift" />
+
+            <Button
+                android:id="@+id/schedule_calendar"
+                style="@style/Widget.AlarmTracker.ScheduleToggle"
+                android:text="@string/schedule_calendar" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TextView
+            android:id="@+id/calendar_floor_caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/calendar_floor_caption"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/day_toggle_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:selectionRequired="false"
+            app:singleSelection="false">
+
+            <Button
+                android:id="@+id/day_mon"
+                style="@style/Widget.AlarmTracker.DayToggle"
+                android:contentDescription="@string/day_mon_full"
+                android:text="@string/day_mon" />
+
+            <Button
+                android:id="@+id/day_tue"
+                style="@style/Widget.AlarmTracker.DayToggle"
+                android:contentDescription="@string/day_tue_full"
+                android:text="@string/day_tue" />
+
+            <Button
+                android:id="@+id/day_wed"
+                style="@style/Widget.AlarmTracker.DayToggle"
+                android:contentDescription="@string/day_wed_full"
+                android:text="@string/day_wed" />
+
+            <Button
+                android:id="@+id/day_thu"
+                style="@style/Widget.AlarmTracker.DayToggle"
+                android:contentDescription="@string/day_thu_full"
+                android:text="@string/day_thu" />
+
+            <Button
+                android:id="@+id/day_fri"
+                style="@style/Widget.AlarmTracker.DayToggle"
+                android:contentDescription="@string/day_fri_full"
+                android:text="@string/day_fri" />
+
+            <Button
+                android:id="@+id/day_sat"
+                style="@style/Widget.AlarmTracker.DayToggle"
+                android:contentDescription="@string/day_sat_full"
+                android:text="@string/day_sat" />
+
+            <Button
+                android:id="@+id/day_sun"
+                style="@style/Widget.AlarmTracker.DayToggle"
+                android:contentDescription="@string/day_sun_full"
+                android:text="@string/day_sun" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <!-- Shift-pattern options (visible when Shift is selected) -->
+        <LinearLayout
+            android:id="@+id/shift_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/shift_work_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/shift_work_days"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                <TextView
+                    android:id="@+id/shift_work_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="tnum"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="4" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/shift_rest_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/shift_rest_days"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                <TextView
+                    android:id="@+id/shift_rest_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="tnum"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="4" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/shift_anchor_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/shift_anchor"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                <TextView
+                    android:id="@+id/shift_anchor_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="Mon, Jul 21" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/shift_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFeatureSettings="tnum"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Next: Mon, Jul 21 · 6:00 AM" />
+        </LinearLayout>
+
+        <!-- Calendar-aware options (visible when Calendar is selected) -->
+        <LinearLayout
+            android:id="@+id/calendar_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/prep_buffer_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/prep_buffer"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                <TextView
+                    android:id="@+id/prep_buffer_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="30 minutes" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/calendar_skip_empty"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/calendar_skip_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/calendar_skip_empty"
+                    android:minWidth="@dimen/touch_target_min"
+                    android:minHeight="@dimen/touch_target_min" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/calendar_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Next: tomorrow 6:30 AM" />
+
+            <Button
+                android:id="@+id/calendar_recompute"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/calendar_recompute" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/label_layout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/label_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/label_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/section_sound_header"
+            style="@style/EditorSectionHeader"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_expand_less"
+            android:drawablePadding="8dp"
+            android:drawableTint="?attr/colorPrimary"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:text="@string/editor_section_sound" />
+
+        <LinearLayout
+            android:id="@+id/section_sound_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <!-- Sound row: tap the label/value to pick a ringtone; switch toggles sound on/off -->
+        <LinearLayout
+            android:id="@+id/sound_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:contentDescription="@string/sound_pick_description"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/row_sound"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+            <TextView
+                android:id="@+id/sound_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:text="@string/sound_default"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+        </LinearLayout>
+
+        <!-- Vibration mode. Also governs sound, because "with sound" / "only vibrate" only mean
+             anything relative to it — one control instead of two switches that could contradict. -->
+        <LinearLayout
+            android:id="@+id/vibration_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/row_vibrate"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+            <TextView
+                android:id="@+id/vibration_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="With sound" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/snooze_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/row_snooze"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+            <TextView
+                android:id="@+id/snooze_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="10 minutes" />
+        </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/section_wakeup_header"
+            style="@style/EditorSectionHeader"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_expand_more"
+            android:drawablePadding="8dp"
+            android:drawableTint="?attr/colorPrimary"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:text="@string/editor_section_wakeup" />
+
+        <LinearLayout
+            android:id="@+id/section_wakeup_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/mission_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/row_mission"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+            <TextView
+                android:id="@+id/mission_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Off" />
+        </LinearLayout>
+
+        <!-- Math mission options (visible when Math is selected) -->
+        <LinearLayout
+            android:id="@+id/mission_math_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/mission_difficulty_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mission_difficulty"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                <TextView
+                    android:id="@+id/mission_difficulty_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="Medium" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- QR/barcode mission options (visible when QR is selected) -->
+        <LinearLayout
+            android:id="@+id/mission_qr_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/mission_qr_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="No code registered" />
+
+            <Button
+                android:id="@+id/mission_qr_scan"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/mission_qr_scan" />
+        </LinearLayout>
+
+        <!-- Steps mission options (visible when Steps is selected) -->
+        <LinearLayout
+            android:id="@+id/mission_steps_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/mission_steps_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="56dp"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mission_steps_goal"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                <TextView
+                    android:id="@+id/mission_steps_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="tnum"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="30 steps" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Photo mission options (visible when Photo is selected) -->
+        <LinearLayout
+            android:id="@+id/mission_photo_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/mission_photo_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="No reference photo" />
+
+            <Button
+                android:id="@+id/mission_photo_capture"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/mission_photo_capture" />
+        </LinearLayout>
+
+        <!-- Sunrise glow (silent pre-alarm) -->
+        <LinearLayout
+            android:id="@+id/gentle_wake_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/row_gentle_wake"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+            <TextView
+                android:id="@+id/gentle_wake_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="15 minutes" />
+        </LinearLayout>
+
+        <!-- Snooze coaching (opt-in shrinking snooze) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/row_snooze_coaching"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/snooze_coaching_summary"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/snooze_coaching_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/row_snooze_coaching"
+                android:minWidth="@dimen/touch_target_min"
+                android:minHeight="@dimen/touch_target_min" />
+        </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/section_more_header"
+            style="@style/EditorSectionHeader"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_expand_more"
+            android:drawablePadding="8dp"
+            android:drawableTint="?attr/colorPrimary"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:text="@string/editor_section_more" />
+
+        <LinearLayout
+            android:id="@+id/section_more_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        <!-- "When it rings, open this app" — any installed app, for any alarm type. -->
+        <LinearLayout
+            android:id="@+id/ring_app_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/row_ring_app"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                <TextView
+                    android:id="@+id/ring_app_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="Open Duolingo" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/ring_app_clear"
+                android:layout_width="@dimen/touch_target_min"
+                android:layout_height="@dimen/touch_target_min"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/ring_app_clear_description"
+                android:src="@drawable/ic_close"
+                android:visibility="gone"
+                app:tint="?attr/colorOnSurfaceVariant"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <!-- Pause-for-date-range row -->
+        <LinearLayout
+            android:id="@+id/pause_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/row_pause"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+            <TextView
+                android:id="@+id/pause_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Until Jul 25" />
+
+            <ImageButton
+                android:id="@+id/pause_clear"
+                android:layout_width="@dimen/touch_target_min"
+                android:layout_height="@dimen/touch_target_min"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/pause_clear_description"
+                android:src="@drawable/ic_close"
+                android:visibility="gone"
+                app:tint="?attr/colorOnSurfaceVariant"
+                tools:visibility="visible" />
+        </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

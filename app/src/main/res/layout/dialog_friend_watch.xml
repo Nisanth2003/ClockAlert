@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/watch_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        tools:text="Cafe on 5th" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/watch_condition_layout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/friend_watch_condition">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/watch_condition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:inputType="none"
+            tools:ignore="Deprecated" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/friend_watch_radius"
+        android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+    <TextView
+        android:id="@+id/watch_radius_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        tools:text="Within 500 m" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/watch_radius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/friend_watch_radius"
+        android:stepSize="100"
+        android:value="500"
+        android:valueFrom="100"
+        android:valueTo="3000" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/friend_watch_radius_hint"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        android:textColor="?attr/colorOnSurfaceVariant" />
+
+    <!-- The difference between "meeting a friend" and "did my child get there": whether this is
+         allowed to wake you. Defaults on for a care contact. -->
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/watch_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:minHeight="@dimen/touch_target_min"
+        android:text="@string/friend_watch_alarm" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/friend_watch_alarm_hint"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        android:textColor="?attr/colorOnSurfaceVariant" />
+</LinearLayout>

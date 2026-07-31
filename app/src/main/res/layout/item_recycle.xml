@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="5dp"
+    app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingEnd="8dp"
+        android:paddingVertical="12dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/recycle_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="?attr/colorOnSurface"
+                tools:text="7:30 AM · Work" />
+
+            <TextView
+                android:id="@+id/recycle_item_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Removed permanently in 7 day(s)" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/recycle_item_purge"
+            android:layout_width="@dimen/touch_target_min"
+            android:layout_height="@dimen/touch_target_min"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/recycle_delete_forever"
+            android:src="@drawable/ic_delete"
+            app:tint="?attr/colorError" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/recycle_item_restore"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/recycle_restore" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

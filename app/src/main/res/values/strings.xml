@@ -1,0 +1,1032 @@
+<resources>
+    <string name="app_name">AlarmTracker</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_alarms">Alarms</string>
+    <string name="nav_stats">Stats</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_stopwatch">Stopwatch</string>
+
+    <!-- Stopwatch -->
+    <string name="title_stopwatch">Stopwatch</string>
+    <string name="sw_start">Start</string>
+    <string name="sw_pause">Pause</string>
+    <string name="sw_resume">Resume</string>
+    <string name="sw_lap">Lap</string>
+    <string name="sw_reset">Reset</string>
+    <string name="sw_export">Export laps</string>
+    <string name="sw_laps_title">Laps</string>
+    <string name="sw_laps_empty">No laps yet — tap Lap while running to record splits.</string>
+    <string name="sw_lap_row_fmt">Lap %1$d</string>
+    <string name="sw_export_empty">Record a lap first</string>
+    <string name="sw_export_subject">Stopwatch laps</string>
+    <string name="sw_col_lap">Lap</string>
+    <string name="sw_col_split">Split</string>
+    <string name="sw_col_total">Total</string>
+    <string name="sw_lap_split_fmt">+%1$s</string>
+
+    <!-- Timer -->
+    <string name="nav_timer">Timer</string>
+    <string name="title_timer">Timer</string>
+    <string name="timer_start">Start</string>
+    <string name="timer_add_min">+1 min</string>
+    <string name="timer_label_hint">Label (optional)</string>
+    <string name="timer_h">h</string>
+    <string name="timer_m">m</string>
+    <string name="timer_s">s</string>
+    <string name="timer_done_title">Time\'s up</string>
+    <string name="timer_done_text">Timer finished</string>
+    <string name="timer_stop">Stop</string>
+    <string name="timer_snooze_fmt">Snooze %1$d min</string>
+    <string name="timer_add_new">Add timer</string>
+    <string name="timer_new_title">New timer</string>
+    <string name="timer_edit_title">Edit timer</string>
+    <string name="timer_empty_title">No timers</string>
+    <string name="timer_empty_body">Tap + to start a countdown</string>
+    <string name="timer_default_label">Timer</string>
+    <string name="timer_deleted">Timer deleted</string>
+    <string name="timer_on_finish">When it ends</string>
+    <string name="timer_on_finish_none">Just alert me</string>
+    <string name="timer_on_finish_fmt">Open %1$s</string>
+    <string name="timer_pick_app">Open an app</string>
+    <string name="timer_finish_alert_only">Just alert</string>
+    <string name="timer_no_apps">No apps found</string>
+
+    <!-- Guided coach-mark walkthrough -->
+    <string name="coach_next">Next</string>
+    <string name="coach_got_it">Got it</string>
+    <string name="coach_skip">Skip</string>
+    <string name="coach_step_fmt">%1$d of %2$d</string>
+    <string name="coach_fab_title">Create an alarm</string>
+    <string name="coach_fab_body">Tap + to add an alarm. Inside you can set repeat days, a wake-up mission, or track an event like arriving at a place or a limit resetting.</string>
+    <string name="coach_edit_title">Everything lives in the editor</string>
+    <string name="coach_edit_body">Long-press an alarm to duplicate, skip the next occurrence, or delete it. Swipe a row to remove it.</string>
+    <string name="coach_nav_title">Alarms, Stopwatch, Timer &amp; more</string>
+    <string name="coach_nav_body">Switch tabs here — a reliable stopwatch with lap export, multiple countdown timers, your Wake Score in Stats, and everything else in Settings.</string>
+    <string name="pref_show_tips_title">Show tips again</string>
+    <string name="pref_show_tips_summary">Replay the guided walkthrough on the Alarms tab</string>
+    <string name="tips_reset_toast">Tips will show on the Alarms tab</string>
+
+    <!-- Recycle bin -->
+    <string name="recycle_title">Recently deleted</string>
+    <string name="recycle_empty_title">Nothing deleted</string>
+    <string name="recycle_empty_body">Deleted alarms and timers appear here for a while so you can restore them.</string>
+    <string name="recycle_restore">Restore</string>
+    <string name="recycle_section_alarms">Alarms</string>
+    <string name="recycle_section_timers">Timers</string>
+    <string name="recycle_removes_today">Removed permanently later today</string>
+    <string name="recycle_removes_in_days_fmt">Removed permanently in %1$d day(s)</string>
+    <string name="recycle_restored">Restored</string>
+    <string name="recycle_delete_forever">Delete forever</string>
+    <string name="recycle_timer_fmt">%1$s · %2$s</string>
+
+    <!-- Health Connect sleep -->
+    <string name="pref_health_sleep_title">Sleep from Health Connect</string>
+    <string name="pref_health_sleep_summary">Use sleep measured by your watch or another health app (falls back to the built-in estimate).</string>
+    <string name="health_unavailable">Health Connect isn\'t set up on this phone</string>
+    <string name="health_granted">Connected — reading last night\'s sleep</string>
+    <string name="health_denied">Permission denied — using the built-in estimate</string>
+    <string name="health_synced_fmt">Synced sleep: %1$s</string>
+    <string name="health_no_session">No sleep session found yet</string>
+
+    <!-- Google Calendar setup (uses the device's synced Google Calendar, no API key) -->
+    <string name="connector_calendar_setup">Set up</string>
+    <string name="connector_calendar_guide">How it works</string>
+    <string name="connector_calendar_not_set">Not set up — grant calendar access to wake for events</string>
+    <string name="connector_calendar_ready">Ready — create an alarm and choose Schedule → Calendar</string>
+    <string name="calendar_guide_title">Wake up for Google Calendar events</string>
+    <string name="calendar_guide_body">AlarmTracker reads the Google Calendar already synced to this phone — no extra login needed.\n\n1. Make sure your Google account\'s calendar is syncing in Android Settings → Accounts.\n2. Tap “Set up” to grant calendar access.\n3. Create an alarm, open Schedule and choose Calendar. Set a prep buffer (e.g. 30 min before the first event).\n\nThe alarm then follows your schedule automatically: if an event moves the alarm moves, and empty days can be skipped.</string>
+    <string name="calendar_open_alarms">Create a calendar alarm</string>
+
+    <!-- Map picker: current location + favorites -->
+    <string name="map_my_location">My location</string>
+    <string name="map_favorites">Saved places</string>
+    <string name="map_save_favorite">Save this place</string>
+    <string name="map_favorite_name_hint">Name (e.g. Home, Office)</string>
+    <string name="map_favorite_saved">Place saved</string>
+    <string name="map_no_favorites">No saved places yet</string>
+    <string name="map_favorite_delete">Delete</string>
+    <string name="map_location_denied">Location permission is needed to find you</string>
+    <string name="map_location_unavailable">Couldn\'t get your location — try again outdoors</string>
+    <string name="map_location_services_off_title">Location is off</string>
+    <string name="map_location_services_off">Location is switched off on this phone, so the map can\'t show where you are, which way you\'re facing, or the route to the pin.</string>
+    <string name="map_location_services_open">Turn on location</string>
+    <string name="map_favorite_go">Go here</string>
+    <string name="notification_channel_timer">Timer</string>
+    <string name="notification_channel_timer_description">Alerts when a countdown timer finishes.</string>
+
+    <!-- Alarm list -->
+    <string name="title_alarms">Alarms</string>
+    <string name="add_alarm">Add alarm</string>
+    <string name="editor_section_sound">Sound &amp; snooze</string>
+    <string name="editor_section_wakeup">Wake-up help</string>
+    <string name="editor_section_more">More options</string>
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_afternoon">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
+    <string name="greeting_night">Good night</string>
+    <string name="empty_alarms_title">No alarms</string>
+    <string name="empty_alarms_body">Tap + to add your first alarm</string>
+    <string name="empty_alarms_icon">Alarm clock</string>
+    <string name="alarm_switch_description">%1$s alarm</string>
+    <string name="next_alarm_in">Alarm in %1$s</string>
+    <string name="next_alarm_none">No upcoming alarms</string>
+    <string name="duration_h_min">%1$d h %2$d min</string>
+    <string name="duration_min">%1$d min</string>
+    <string name="duration_less_than_min">less than a minute</string>
+    <string name="alarm_deleted">Alarm deleted</string>
+    <string name="undo">Undo</string>
+    <string name="alarm_saved">Alarm saved</string>
+    <string name="repeat_every_day">Every day</string>
+    <string name="repeat_weekdays">Weekdays</string>
+    <string name="repeat_weekends">Weekends</string>
+    <string name="repeat_today">Today</string>
+    <string name="repeat_tomorrow">Tomorrow</string>
+
+    <!-- Permission banner -->
+    <string name="warn_exact_alarm_body">AlarmTracker needs the “Alarms &amp; reminders” permission to ring on time.</string>
+    <string name="warn_notifications_body">Turn on notifications so alarms can ring with a full-screen alert.</string>
+    <string name="warn_fsi_body">Allow full-screen notifications so the alarm can wake the screen.</string>
+    <string name="warn_volume_body">Your alarm volume is set to 0 — alarms will ring silently.</string>
+    <string name="warn_action_allow">Allow</string>
+    <string name="warn_action_sound_settings">Sound settings</string>
+    <string name="warn_icon">Warning</string>
+
+    <!-- Add/Edit sheet -->
+    <string name="edit_alarm_time_description">Alarm time, tap to change</string>
+    <string name="label_hint">Label</string>
+    <string name="row_sound">Sound</string>
+    <string name="sound_default">Default</string>
+    <string name="row_vibrate">Vibration</string>
+    <string name="row_snooze">Snooze</string>
+    <string name="row_mission">Mission</string>
+    <string name="mission_off">Off</string>
+    <string name="mission_math">Math</string>
+    <string name="snooze_minutes_fmt">%1$d minutes</string>
+    <string name="delete_alarm">Delete alarm</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_alarm">Edit alarm</string>
+    <string name="discard_changes_title">Discard changes?</string>
+    <string name="discard_changes_body">Your edits to this alarm won\'t be saved.</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
+    <string name="delete_alarm_confirm_title">Delete this alarm?</string>
+    <string name="duplicate_alarm">Duplicate</string>
+    <string name="alarm_duplicated">Alarm duplicated</string>
+    <string name="snooze_off">No snooze</string>
+    <string name="mission_solve_math">Solve math instead</string>
+    <string name="mission_puzzle">Puzzle</string>
+    <string name="mission_puzzle_fmt">Puzzle · %1$s</string>
+    <string name="ring_puzzle_order_title">Tap the tiles 1 to %1$d in order</string>
+    <string name="ring_puzzle_odd_title">Tap the odd one out</string>
+    <string name="ring_puzzle_progress">%1$d of %2$d</string>
+    <string name="notif_preset_transit">Alarm when my train/bus arrives</string>
+    <string name="notif_preset_transit_label">Transit</string>
+    <string name="map_pick">Pick on map</string>
+    <string name="map_pick_hint">Tap or drag the map to place the pin</string>
+    <string name="map_pick_use">Use this location</string>
+    <string name="map_pinned_fmt">Pinned · %1$.4f, %2$.4f</string>
+    <string name="ring_open_fmt">Open %1$s</string>
+    <string name="ring_gesture_hint_no_snooze">Swipe up to dismiss</string>
+    <string name="skip_next">Skip next occurrence</string>
+    <string name="skip_next_cancel">Cancel skip</string>
+    <string name="skip_next_indicator">Next skipped</string>
+    <string name="alarm_skipped">Next occurrence skipped</string>
+    <string name="alarm_skip_cleared">Skip cancelled</string>
+    <string name="pref_battery_title">Battery optimization</string>
+    <string name="pref_battery_on">On — the system may delay or kill alarms. Tap to let AlarmTracker run freely.</string>
+    <string name="pref_battery_off">Off — AlarmTracker is allowed to run freely. Tap to manage.</string>
+    <string name="battery_already_free">AlarmTracker already runs without battery limits</string>
+    <string name="select_time">Select alarm time</string>
+    <string name="time_colon">:</string>
+    <string name="am_label">AM</string>
+    <string name="pm_label">PM</string>
+    <string name="day_mon">M</string>
+    <string name="day_tue">T</string>
+    <string name="day_wed">W</string>
+    <string name="day_thu">T</string>
+    <string name="day_fri">F</string>
+    <string name="day_sat">S</string>
+    <string name="day_sun">S</string>
+    <string name="day_mon_full">Monday</string>
+    <string name="day_tue_full">Tuesday</string>
+    <string name="day_wed_full">Wednesday</string>
+    <string name="day_thu_full">Thursday</string>
+    <string name="day_fri_full">Friday</string>
+    <string name="day_sat_full">Saturday</string>
+    <string name="day_sun_full">Sunday</string>
+
+    <!-- Mission dialog options -->
+    <string name="mission_dialog_title">Dismiss mission</string>
+    <string name="snooze_dialog_title">Snooze duration</string>
+
+    <!-- Schedule type selector -->
+    <string name="schedule_weekly">Weekly</string>
+    <string name="schedule_once">Once</string>
+    <string name="schedule_shift">Shift</string>
+    <string name="schedule_calendar">Calendar</string>
+
+    <!-- Shift-pattern options -->
+    <string name="shift_work_days">Work days</string>
+    <string name="shift_rest_days">Rest days</string>
+    <string name="shift_anchor">Cycle starts</string>
+    <string name="shift_work_days_title">Work days in a row</string>
+    <string name="shift_rest_days_title">Rest days in a row</string>
+    <string name="shift_anchor_title">First work day of the cycle</string>
+    <string name="shift_preview_fmt">Next: %1$s</string>
+    <string name="shift_days_fmt">%1$d</string>
+
+    <!-- Calendar-aware options -->
+    <string name="calendar_floor_caption">The alarm time above is the earliest wake time. AlarmTracker wakes you a prep buffer before the day\'s first event, never earlier.</string>
+    <string name="prep_buffer">Prep buffer</string>
+    <string name="prep_buffer_title">Prep buffer before first event</string>
+    <string name="calendar_skip_empty">Skip days with no events</string>
+    <string name="calendar_recompute">Recompute from calendar</string>
+    <string name="calendar_recomputed">Recomputed from calendar</string>
+    <string name="calendar_status_next_fmt">Next: %1$s</string>
+    <string name="calendar_status_none">No upcoming day scheduled</string>
+    <string name="calendar_status_no_permission">Grant calendar access to wake before your first event.</string>
+    <string name="calendar_permission_title">Calendar access</string>
+    <string name="calendar_permission_body">AlarmTracker reads your calendar on this device to wake you before the day\'s first event and to skip holidays. It never leaves your phone.</string>
+    <string name="calendar_permission_grant">Continue</string>
+    <string name="calendar_permission_denied">Calendar access is off — the alarm will use the earliest time instead.</string>
+
+    <!-- Pause-for-date-range -->
+    <string name="row_pause">Pause</string>
+    <string name="pause_none">Off</string>
+    <string name="pause_range_fmt">%1$s – %2$s</string>
+    <string name="pause_clear_description">Clear pause</string>
+    <string name="pause_picker_title">Pause alarm for a date range</string>
+    <string name="paused_until_fmt">Paused until %1$s</string>
+    <string name="resume_alarm">Resume</string>
+    <string name="alarm_resumed">Alarm resumed</string>
+
+    <!-- Ringtone picker -->
+    <string name="sound_pick_description">Alarm sound, tap to choose a ringtone</string>
+    <string name="ringtone_picker_title">Alarm sound</string>
+
+    <!-- Ringing screen -->
+    <string name="ring_snooze">Snooze</string>
+    <string name="ring_dismiss">Dismiss</string>
+    <string name="ring_alarm_label_default">Alarm</string>
+    <string name="ring_mission_title">Solve to dismiss</string>
+    <string name="ring_mission_progress">%1$d of %2$d solved</string>
+    <string name="ring_mission_answer_hint">Answer</string>
+    <string name="ring_mission_submit">Check</string>
+    <string name="ring_mission_wrong">Try again</string>
+    <string name="notification_channel_ring">Alarms</string>
+    <string name="notification_channel_ring_description">Ringing alarms with full-screen alert</string>
+    <string name="notification_ring_title">Alarm</string>
+    <string name="notification_ring_text">%1$s — tap to open, or Snooze / Dismiss below</string>
+
+    <!-- Stats -->
+    <string name="title_stats">Stats</string>
+    <string name="range_week">Week</string>
+    <string name="range_month">Month</string>
+    <string name="range_3_months">3 months</string>
+    <string name="wake_score_title">Wake Score</string>
+    <string name="stat_avg_snoozes">Avg snoozes</string>
+    <string name="stat_on_time">On time</string>
+    <string name="stat_streak">No-snooze streak</string>
+    <string name="streak_days_fmt">%1$d</string>
+    <string name="chart_wake_trend_title">Wake-up time trend</string>
+    <string name="chart_snoozes_title">Snoozes per day</string>
+    <string name="most_snoozed_fmt">Most snoozed: %1$s</string>
+    <string name="most_snoozed_none">No snoozes in this period — nice.</string>
+    <string name="chart_no_data">No data</string>
+    <string name="empty_stats_title">No data yet</string>
+    <string name="empty_stats_body">Stats appear after your first alarm rings.</string>
+    <string name="score_explain_great">You wake up on schedule and rarely snooze. Keep it up.</string>
+    <string name="score_explain_good">Mostly on time — a few snoozes are costing you points.</string>
+    <string name="score_explain_ok">You often wake later than planned. Try moving the alarm or a math mission.</string>
+    <string name="score_explain_poor">Frequent snoozing and late wake-ups are dragging your score down.</string>
+    <string name="percent_fmt">%1$d%%</string>
+
+    <!-- Settings -->
+    <string name="title_settings">Settings</string>
+    <string name="pref_cat_general">General</string>
+    <string name="pref_cat_alarm">Alarm defaults</string>
+    <string name="pref_cat_appearance">Appearance</string>
+    <string name="pref_time_format_title">Time format</string>
+    <string name="pref_time_format_system">System default</string>
+    <string name="pref_time_format_12">12-hour</string>
+    <string name="pref_time_format_24">24-hour</string>
+    <string name="pref_default_snooze_title">Default snooze length</string>
+    <string name="pref_volume_ramp_title">Gradual volume increase</string>
+    <string name="pref_volume_ramp_summary">Start quiet and swell to full — also while you solve a dismiss mission</string>
+    <string name="pref_theme_title">Theme</string>
+    <string name="pref_theme_system">System default</string>
+    <string name="pref_theme_light">Light</string>
+    <string name="pref_theme_dark">Dark</string>
+    <string name="pref_dynamic_color_title">Dynamic color</string>
+    <string name="pref_dynamic_color_summary">Use colors from your wallpaper (Android 12+)</string>
+    <string name="minutes_5">5 minutes</string>
+    <string name="minutes_10">10 minutes</string>
+    <string name="minutes_15">15 minutes</string>
+    <string name="minutes_20">20 minutes</string>
+    <string name="minutes_30">30 minutes</string>
+
+    <!-- Phase B: missions -->
+    <string name="mission_qr">QR code</string>
+    <string name="mission_steps">Steps</string>
+    <string name="mission_photo">Photo</string>
+    <string name="mission_math_fmt">Math · %1$s</string>
+    <string name="mission_steps_fmt">Steps · %1$d</string>
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+    <string name="mission_difficulty">Difficulty</string>
+    <string name="mission_steps_goal">Step goal</string>
+    <string name="mission_qr_scan">Scan target code</string>
+    <string name="mission_qr_none">No code registered — tap Scan.</string>
+    <string name="mission_qr_registered">Target code registered.</string>
+    <string name="mission_photo_capture">Capture reference photo</string>
+    <string name="mission_photo_none">No reference photo — tap Capture.</string>
+    <string name="mission_photo_registered">Reference photo saved (image not stored).</string>
+    <string name="mission_fallback_camera">Camera unavailable — solve a math problem instead.</string>
+    <string name="mission_fallback_steps">Step sensor unavailable — solve a math problem instead.</string>
+
+    <!-- Phase B: capture (setup) -->
+    <string name="capture_barcode_instruction">Point the camera at the code you\'ll scan to dismiss the alarm.</string>
+    <string name="capture_photo_instruction">Frame a spot you can return to — you\'ll retake this photo to dismiss.</string>
+    <string name="capture_photo_action">Capture</string>
+    <string name="capture_cancel">Cancel</string>
+    <string name="capture_permission_denied">Camera access is needed to register this mission.</string>
+    <string name="capture_failed">Couldn\'t capture — try again.</string>
+
+    <!-- Phase B: ring missions -->
+    <string name="ring_qr_instruction">Scan the registered code to dismiss</string>
+    <string name="ring_photo_instruction">Retake your reference photo to dismiss</string>
+    <string name="ring_photo_action">Take photo</string>
+    <string name="ring_photo_no_match">Not a match — try again</string>
+    <string name="ring_steps_title">Walk to dismiss</string>
+    <string name="ring_steps_count">%1$d / %2$d</string>
+    <string name="ring_steps_hint">Get up and start walking</string>
+
+    <!-- Phase B: sunrise glow -->
+    <string name="row_gentle_wake">Sunrise glow</string>
+    <string name="gentle_wake_off">Off</string>
+    <string name="gentle_wake_title">Sunrise glow before alarm</string>
+    <string name="ring_glow_subtitle">Sunrise glow — gently brightening before your alarm</string>
+    <string name="ring_glow_skip">Turn off glow</string>
+    <string name="notification_glow_title">Sunrise glow</string>
+    <string name="notification_glow_text">Gently brightening before your alarm</string>
+    <string name="notification_channel_glow">Sunrise glow</string>
+    <string name="notification_channel_glow_description">Silent pre-alarm that brightens the screen</string>
+
+    <!-- Phase B: snooze coaching -->
+    <string name="row_snooze_coaching">Snooze coaching</string>
+    <string name="snooze_coaching_summary">Each snooze in a row gets shorter</string>
+    <string name="coaching_title">Snooze coaching</string>
+    <string name="coaching_budget_fmt">%1$d of %2$d weekly snoozes used</string>
+    <string name="coaching_budget_off_fmt">%1$d snoozes in the last 7 days</string>
+    <string name="coaching_no_reward">Dismiss without snoozing to build a streak.</string>
+    <string name="reward_streak_3">3 wake-ups without snoozing — nice start!</string>
+    <string name="reward_streak_7">7 in a row without snoozing — great work!</string>
+    <string name="reward_streak_14">14 snooze-free wake-ups — you\'re on a roll!</string>
+    <string name="reward_streak_30">30 snooze-free wake-ups — outstanding!</string>
+    <string name="pref_snooze_budget_title">Weekly snooze budget</string>
+    <string name="snooze_budget_off">No limit</string>
+    <string name="snooze_budget_7">7 per week</string>
+    <string name="snooze_budget_14">14 per week</string>
+    <string name="snooze_budget_21">21 per week</string>
+
+    <!-- ===== Phase C ===== -->
+
+    <!-- Reliability / health checklist (feature 5) -->
+    <string name="title_health">Health check</string>
+    <string name="health_subtitle">These conditions must be met for alarms to ring reliably.</string>
+    <string name="health_all_clear_title">Everything is armed</string>
+    <string name="health_all_clear_body">All reliability checks pass. Your alarms should ring on time.</string>
+    <string name="health_ok_icon">Passing</string>
+    <string name="health_problem_icon">Problem</string>
+    <string name="health_exact_ok">Exact alarms are allowed.</string>
+    <string name="health_notifications_ok">Notifications are on.</string>
+    <string name="health_fsi_ok">Full-screen alerts are allowed.</string>
+    <string name="health_volume_ok">Alarm volume is audible.</string>
+    <string name="health_exact_title">Exact alarms</string>
+    <string name="health_notifications_title">Notifications</string>
+    <string name="health_fsi_title">Full-screen alerts</string>
+    <string name="health_volume_title">Alarm volume</string>
+    <string name="health_battery_title">Battery optimization</string>
+    <string name="health_battery_ok">AlarmTracker is exempt from battery optimization.</string>
+    <string name="health_battery_problem">Battery optimization can delay or kill alarms. Set AlarmTracker to “Don’t optimize”.</string>
+    <string name="health_action_battery">Battery settings</string>
+    <string name="health_dnd_title">Do Not Disturb</string>
+    <string name="health_dnd_ok">Do Not Disturb won’t silence your alarm.</string>
+    <string name="health_dnd_problem">Total-silence Do Not Disturb is on and can mute alarms. Allow alarms in DND.</string>
+    <string name="health_action_dnd">DND settings</string>
+
+    <!-- OEM battery-killer guidance (feature 5) -->
+    <string name="oem_card_title">Extra step for your phone</string>
+    <string name="oem_open_settings">Open settings</string>
+    <string name="oem_xiaomi_name">Xiaomi / MIUI</string>
+    <string name="oem_xiaomi_body">On MIUI/HyperOS, turn ON for AlarmTracker: “Display pop-up windows while running in the background”, “Show on lock screen”, and Autostart. Also set battery saver to “No restrictions”. Without these the alarm can\'t show over the lock screen.</string>
+    <string name="oem_huawei_name">Huawei / Honor</string>
+    <string name="oem_huawei_body">Under App launch, turn off automatic management for AlarmTracker and allow auto-launch, secondary launch, and run in background. Also allow it to show on the lock screen.</string>
+    <string name="oem_oppo_name">Oppo / Realme</string>
+    <string name="oem_oppo_body">On ColorOS, allow auto-startup for AlarmTracker, set battery usage to “Allow background activity”, and enable “Display pop-up windows while running in the background” and lock-screen display.</string>
+    <string name="oem_vivo_name">Vivo / iQOO</string>
+    <string name="oem_vivo_body">On Funtouch/OriginOS, enable background start, high background power consumption, and lock-screen display for AlarmTracker.</string>
+    <string name="oem_oneplus_name">OnePlus</string>
+    <string name="oem_oneplus_body">Turn off “Intelligent control” / advanced optimization for AlarmTracker, allow auto-launch and lock-screen display, and lock it in recents.</string>
+    <string name="oem_samsung_name">Samsung</string>
+    <string name="oem_samsung_body">In Device care, remove AlarmTracker from “Sleeping apps” and “Deep sleeping apps”, set battery to Unrestricted, and allow it to show on the lock screen.</string>
+    <string name="oem_generic_name">Your phone brand</string>
+    <string name="oem_generic_body">Your phone may close background apps or block full-screen alarms. In this app\'s settings, allow it to auto-start, run in the background, and show on the lock screen / over other apps.</string>
+
+    <!-- Missed-alarm postmortem (feature 1) -->
+    <string name="title_postmortem">Missed alarm reports</string>
+    <string name="postmortem_subtitle">Why recent alarms were missed or late — and how to prevent it.</string>
+    <string name="postmortem_open">Missed alarm reports</string>
+    <string name="postmortem_empty_title">No problems found</string>
+    <string name="postmortem_empty_body">No missed or late alarms in the last 30 days. Nice.</string>
+    <string name="postmortem_fix_reliability">Open reliability check</string>
+    <string name="postmortem_incident_missed">Missed alarm</string>
+    <string name="postmortem_incident_late">Alarm rang late</string>
+    <string name="postmortem_when_fmt">%1$s · scheduled for %2$s</string>
+    <string name="postmortem_cause_phone_off">Your phone appears to have been powered off at alarm time. Alarms can’t ring while the phone is off.</string>
+    <string name="postmortem_cause_rang_out">The alarm rang but wasn’t dismissed, so it timed out. A dismiss mission can help you actually get up.</string>
+    <string name="postmortem_cause_late_fmt">The alarm fired about %1$s later than scheduled — often a sign of battery restrictions.</string>
+    <string name="postmortem_cause_exact">Exact-alarm permission is currently off, which can make alarms fire late or not at all.</string>
+    <string name="postmortem_cause_notifications">Notifications are currently off, so the alarm can’t show its full-screen alert.</string>
+    <string name="postmortem_cause_fsi">Full-screen alerts are currently off, so the alarm may not wake the screen.</string>
+    <string name="postmortem_cause_volume">Alarm volume is currently 0, so alarms ring silently.</string>
+    <string name="postmortem_cause_battery">AlarmTracker isn’t exempt from battery optimization, which can delay or kill alarms.</string>
+    <string name="postmortem_cause_dnd">Total-silence Do Not Disturb is currently on and can mute alarms.</string>
+    <string name="postmortem_cause_oem_fmt">Likely cause: %1$s may have closed AlarmTracker in the background. See the reliability check for the fix.</string>
+    <string name="postmortem_cause_unknown">No specific cause detected. Check the reliability settings to be safe.</string>
+    <string name="bullet_line">•  %1$s</string>
+
+    <!-- Morning report card (feature 2) -->
+    <string name="title_morning_report">Good morning</string>
+    <string name="report_wake_time_label">You woke at</string>
+    <string name="report_vs_average_earlier_fmt">%1$s earlier than your 30-day average</string>
+    <string name="report_vs_average_later_fmt">%1$s later than your 30-day average</string>
+    <string name="report_vs_average_same">Right on your 30-day average</string>
+    <string name="report_vs_average_none">Your first tracked wake-up — a baseline starts today.</string>
+    <string name="report_streak_fmt">%1$d-day no-snooze streak</string>
+    <string name="report_streak_zero">No active no-snooze streak</string>
+    <string name="report_trend_title">Recent wake times</string>
+    <string name="report_insight_streak">You’re building a strong wake-up habit — keep the streak alive.</string>
+    <string name="report_insight_early">You beat your average today. Consistent wake times pay off.</string>
+    <string name="report_insight_snoozed">You snoozed this morning. Try a dismiss mission to get up faster.</string>
+    <string name="report_insight_late">You woke later than usual today. An earlier bedtime can help.</string>
+    <string name="report_insight_neutral">Another day tracked. Small, consistent wake times build the habit.</string>
+    <string name="report_done">Done</string>
+    <string name="report_share">Share</string>
+    <string name="report_share_title">Share your morning</string>
+
+    <!-- Honest sleep estimate (feature 6) -->
+    <string name="sleep_estimate_fmt">Estimated %1$s sleep opportunity</string>
+    <string name="sleep_estimate_explainer">An estimate from your last evening app activity to wake time — not sleep stages.</string>
+    <string name="sleep_estimate_none">No bedtime signal last night — tap “I’m going to bed” in the evening for an estimate.</string>
+    <string name="log_bedtime">I’m going to bed</string>
+    <string name="bedtime_logged">Bedtime noted — sleep well.</string>
+
+    <!-- Widget (feature 3) -->
+    <string name="widget_label">Next alarm</string>
+    <string name="widget_no_alarm">No alarm set</string>
+    <string name="widget_streak_fmt">%1$d-day streak</string>
+    <string name="widget_description">Shows your next alarm and wake streak.</string>
+
+    <!-- Pre-flight worker (feature 4) -->
+    <string name="notification_channel_preflight">Nightly alarm check</string>
+    <string name="notification_channel_preflight_description">An evening check that your next alarm is armed</string>
+    <string name="preflight_ok_title">Your alarm is armed ✓</string>
+    <string name="preflight_ok_fmt">Your %1$s alarm is set and everything checks out.</string>
+    <string name="preflight_warn_title">Check your alarm setup</string>
+    <string name="preflight_warn_fmt">Before bed, fix: %1$s</string>
+    <string name="preflight_no_alarm_title">No alarm set for tomorrow</string>
+    <string name="preflight_no_alarm_body">You have no enabled alarm scheduled. Add one if you need to wake up.</string>
+
+    <!-- Data / privacy / export / wipe (feature 7) -->
+    <string name="pref_cat_reliability">Reliability</string>
+    <string name="pref_reliability_check_title">Health check</string>
+    <string name="pref_reliability_check_summary">See and fix what could stop alarms ringing</string>
+    <string name="pref_postmortem_title">Missed alarm reports</string>
+    <string name="pref_postmortem_summary">Diagnose why past alarms were missed or late</string>
+
+    <!-- v5 connectors / integrations -->
+    <string name="title_connections">Connections</string>
+    <string name="pref_cat_integrations">Integrations</string>
+    <string name="pref_connections_title">Connections</string>
+    <string name="pref_connections_summary">Link Jira and other services to set alarms automatically</string>
+    <string name="connections_subtitle">Connect a service and AlarmTracker will set alarms for what\'s due — checked quietly in the background, on your schedule.</string>
+    <string name="connector_jira">Jira</string>
+    <string name="connector_jira_desc">Alarms for issues assigned to you that are due soon.</string>
+    <string name="connector_calendar">Google Calendar</string>
+    <string name="connector_calendar_desc">Alarms for your upcoming events.</string>
+    <string name="connector_status_not_connected">Not connected</string>
+    <string name="connector_status_connected_fmt">Connected as %1$s</string>
+    <string name="connector_connect">Connect</string>
+    <string name="connector_disconnect">Disconnect</string>
+    <string name="connector_check_now">Check now</string>
+    <string name="connector_checking">Checking…</string>
+    <string name="connector_synced_fmt">Set %1$d alarm(s) from Jira</string>
+    <string name="connector_synced_none">No issues due soon — nothing to set</string>
+    <string name="connector_sync_failed">Couldn\'t reach Jira just now</string>
+    <string name="connector_no_browser">No browser available</string>
+    <string name="connector_interval_title">How often to check</string>
+    <string name="connector_interval_label_fmt">Check for updates: %1$s</string>
+    <string name="connector_interval_morning">Morning only</string>
+    <string name="connector_interval_twice">Twice a day</string>
+    <string name="connector_interval_6h">Every 6 hours</string>
+    <string name="connector_interval_1h">Every hour</string>
+    <string name="pro_badge">PRO</string>
+    <string name="pro_upsell_title">AlarmTracker Pro</string>
+    <string name="pro_upsell_body">Connecting services like Jira is a Pro feature. Real billing isn\'t set up yet — unlock Pro locally to try it out.</string>
+    <string name="pro_unlock_dev">Unlock Pro (dev)</string>
+    <string name="pro_unlocked_toast">Pro unlocked</string>
+    <string name="jira_connect_title">Connect Jira</string>
+    <string name="jira_url_hint">Site URL (https://you.atlassian.net)</string>
+    <string name="jira_email_hint">Atlassian account email</string>
+    <string name="jira_token_hint">API token</string>
+    <string name="jira_guide_title">How to get an API token</string>
+    <string name="jira_guide_steps">1. Open id.atlassian.com → Security → API tokens.\n2. Tap “Create API token”.\n3. Name it (e.g. AlarmTracker) and create it.\n4. Copy the token and paste it above.</string>
+    <string name="jira_open_tokens">Open Atlassian token page</string>
+    <string name="jira_missing_fields">Fill in the URL, email, and token.</string>
+    <string name="jira_connect_ok_fmt">Connected as %1$s</string>
+    <string name="jira_connect_failed">Couldn\'t connect. Check the URL, email, and token.</string>
+
+    <!-- Full-screen-intent prompt + volume-button snooze -->
+    <string name="fsi_prompt_title">Ring over the lock screen?</string>
+    <string name="fsi_prompt_body">To show a full dismiss screen over your lock screen like a normal alarm — not just a notification — allow AlarmTracker to use full-screen notifications.</string>
+    <string name="fsi_prompt_allow">Allow</string>
+    <string name="fsi_prompt_later">Later</string>
+    <string name="pref_volume_snooze_title">Snooze with volume buttons</string>
+    <string name="pref_volume_snooze_summary">Press a volume button while an alarm rings to snooze it</string>
+    <string name="pref_fullscreen_alarm_title">Full-screen alarm</string>
+    <string name="pref_fullscreen_alarm_summary">Show the alarm as a full screen, even when the phone is unlocked</string>
+    <string name="ring_gesture_hint">Swipe up to dismiss · tap to snooze</string>
+    <string name="health_overlay_title">Display over other apps</string>
+    <string name="health_overlay_ok">The alarm can take over the screen, even when unlocked</string>
+    <string name="health_overlay_problem">Allow this so the alarm shows full-screen, not just a notification</string>
+
+    <!-- First-run onboarding -->
+    <string name="onb_skip">Skip</string>
+    <string name="onb_step_fmt">Step %1$d of %2$d</string>
+    <string name="onb_welcome_title">The alarm that never fails</string>
+    <string name="onb_welcome_body">AlarmTracker makes sure you actually wake up — with rock-solid reliability and a Wake Score that proves you\'re getting better.</string>
+    <string name="onb_pillar_reliability_title">Verified reliability</string>
+    <string name="onb_pillar_reliability_body">It checks everything that could stop an alarm from ringing — and helps you fix it.</string>
+    <string name="onb_pillar_score_title">Wake Score</string>
+    <string name="onb_pillar_score_body">See how well you wake up and build a streak over time.</string>
+    <string name="onb_get_started">Get started</string>
+    <string name="onb_reliability_title">Make sure your alarms ring</string>
+    <string name="onb_reliability_body">Grant these so AlarmTracker can wake you reliably — even over the lock screen. You can skip any and change them later in Settings.</string>
+    <string name="onb_continue">Continue</string>
+    <string name="onb_ready_title">You\'re all set</string>
+    <string name="onb_ready_body">Add your first alarm with the + button. Open any alarm to add a dismiss mission (like solving math or scanning a QR code), turn on a gentle sunrise wake, or have it track an event. Your Wake Score appears after your first wake-up.</string>
+    <string name="onb_finish">Start using AlarmTracker</string>
+    <string name="onb_required_title">Required to continue</string>
+    <string name="onb_recommended_title">Recommended</string>
+    <string name="onb_overlay_enabled">Enabled</string>
+    <string name="onb_overlay_required">Required for full-screen alarms</string>
+    <string name="onb_autostart_ack">I\'ve enabled autostart for AlarmTracker</string>
+
+    <!-- In-app feature guide -->
+    <string name="title_help">How AlarmTracker works</string>
+    <string name="pref_cat_help">Help</string>
+    <string name="pref_guide_title">How AlarmTracker works</string>
+    <string name="pref_guide_summary">A quick guide to every feature</string>
+    <string name="guide_subtitle">A tour of what AlarmTracker can do.</string>
+    <string name="guide_s1_title">Reliable alarms</string>
+    <string name="guide_s1_body">AlarmTracker checks everything that can silently stop an alarm — exact-alarm permission, notifications, full-screen access (so it rings over the lock screen), alarm volume, battery optimization and Do Not Disturb. Open Settings → Health check anytime to see and fix your status, and the nightly check confirms tomorrow\'s alarm is armed.</string>
+    <string name="guide_s2_title">Dismiss missions</string>
+    <string name="guide_s2_body">To make sure you don\'t sleep through an alarm, it can require a task before it stops: solve math, scan a specific QR code, take a matching photo, or walk a number of steps. If a camera or sensor isn\'t available, the mission safely falls back to math so you\'re never trapped.</string>
+    <string name="guide_s3_title">Snooze &amp; coaching</string>
+    <string name="guide_s3_body">Set a default snooze length per alarm. Turn on snooze coaching to make each snooze shorter than the last, and set a weekly snooze budget to cap how often you snooze across all alarms. You can also snooze a ringing alarm with the volume buttons.</string>
+    <string name="guide_s4_title">Gentle sunrise wake</string>
+    <string name="guide_s4_body">Optionally start a silent on-screen sunrise a few minutes before the alarm — the screen gradually brightens from dark to warm to ease you awake before the sound begins.</string>
+    <string name="guide_s5_title">Event &amp; tracking alarms</string>
+    <string name="guide_s5_body">Instead of a fixed time, an alarm can trigger on a real event. Open an alarm and use “Track an event”: ring when you arrive at a place, when a chosen app posts a notification (like a delivery marked “arrived”), or when a usage limit resets. A guaranteed fallback time always rings even if the signal never comes.</string>
+    <string name="guide_s6_title">Connections (Jira &amp; more)</string>
+    <string name="guide_s6_body">Link outside services under Settings → Connections. Jira is available now — connect with an API token and AlarmTracker sets alarms for issues due soon, checked quietly in the background on your schedule. Google Calendar and more are coming.</string>
+    <string name="guide_s7_title">Wake Score &amp; stats</string>
+    <string name="guide_s7_body">The Stats tab scores how well you wake up over time, with charts for wake times and snoozes, an on-time percentage, and a streak. Log your bedtime to enrich the estimate.</string>
+    <string name="guide_s8_title">Reports &amp; widget</string>
+    <string name="guide_s8_body">After you dismiss an alarm you get a morning report card. If an alarm is ever missed or late, the “Missed alarm reports” screen explains why. A home-screen widget shows your next alarm at a glance.</string>
+    <string name="guide_s9_title">Your data stays private</string>
+    <string name="guide_s9_body">Everything stays on your device. Export your history to CSV, review what\'s stored, or wipe all data anytime from Settings → Data &amp; privacy.</string>
+    <string name="pref_preflight_title">Nightly alarm check</string>
+    <string name="pref_preflight_summary">Get an evening notification confirming tomorrow’s alarm is armed</string>
+    <string name="pref_morning_report_title">Morning report card</string>
+    <string name="pref_morning_report_summary">Show a wake-up summary after you dismiss an alarm</string>
+    <string name="pref_cat_data">Data &amp; privacy</string>
+    <string name="pref_export_title">Export data (CSV)</string>
+    <string name="pref_export_summary">Save your alarms and event history as a CSV file</string>
+    <string name="pref_privacy_title">Privacy</string>
+    <string name="pref_privacy_summary">How AlarmTracker handles your data</string>
+    <string name="pref_wipe_title">Wipe all data</string>
+    <string name="pref_wipe_summary">Delete all alarms, history and settings from this device</string>
+    <string name="export_success">Data exported</string>
+    <string name="export_failed">Couldn’t export data</string>
+    <string name="export_empty">Nothing to export yet</string>
+    <string name="wipe_dialog_title">Wipe all data?</string>
+    <string name="wipe_dialog_body">This permanently deletes all alarms, event history, bedtime signals and settings on this device. This can’t be undone.</string>
+    <string name="wipe_confirm">Wipe</string>
+    <string name="wipe_cancel">Cancel</string>
+    <string name="wipe_done">All data wiped</string>
+
+    <!-- Privacy explainer (feature 7) -->
+    <string name="title_privacy">Privacy</string>
+    <string name="privacy_heading">Your data stays on this device</string>
+    <string name="privacy_body_1">AlarmTracker has no account, no sign-in and no servers. Everything — your alarms, wake history and bedtime signals — is stored only in this app on this phone.</string>
+    <string name="privacy_body_2">Nothing is uploaded. The app makes no network requests to send your data anywhere. There is no analytics or advertising SDK collecting your activity.</string>
+    <string name="privacy_body_3">The sleep estimate is derived entirely from signals already on your device (your app activity and dismissal times). It never reads health data, usage stats or your location, and it is an estimate of sleep opportunity — not medical sleep tracking.</string>
+    <string name="privacy_body_4">Sharing is always manual. A report or streak leaves the app only when you tap Share and choose where it goes. You can export a copy of your data as CSV, or wipe everything, at any time from Settings.</string>
+
+    <!-- Share (feature 8) -->
+    <string name="share_report_fmt">%1$s\n\nWoke at %2$s.\n%3$s\n%4$s\n\nvia AlarmTracker</string>
+    <string name="share_stats_fmt">My AlarmTracker Wake Score is %1$d with a %2$d-day no-snooze streak.</string>
+    <string name="share_stats_no_score">Tracking my wake-ups with AlarmTracker — %1$d-day no-snooze streak.</string>
+    <string name="action_share_stats">Share Wake Score</string>
+
+    <!-- ===== v3: Event-triggered alarms ===== -->
+
+    <!-- Track-an-event dropdown (folded into the normal alarm editor) -->
+    <string name="tracking_label">Track an event</string>
+    <string name="tracking_off">Off</string>
+    <string name="tracking_place">Arrive at a place</string>
+    <string name="tracking_notification">When a notification appears</string>
+    <string name="tracking_cooldown">When a limit resets</string>
+    <string name="notif_track_any">Track any app\'s notification</string>
+
+    <!-- Event alarm editor -->
+    <string name="event_destination_hint">Type a place or address</string>
+    <string name="event_find">Find</string>
+    <string name="event_resolving">Finding place…</string>
+    <string name="event_not_found">Couldn\'t find that place. Try a more specific address.</string>
+    <string name="event_arrival_radius">Arrival ring</string>
+    <string name="event_arrival_radius_fmt">Ring when within %1$s</string>
+    <string name="event_arrival_radius_lead_fmt">Ring when within %1$s · about %2$d min before you arrive</string>
+    <string name="event_fallback_caption">Rings at this time — or sooner if you arrive early.</string>
+    <string name="event_fallback_caption_notification">Rings at this time — or sooner when the notification appears.</string>
+
+    <!-- Notification tracking: a wait measured from now, not a time of day. -->
+    <string name="event_wait_window_label">Ring anyway after</string>
+    <string name="event_wait_window_title">How long should I wait?</string>
+    <string name="event_wait_window_clock">Wait until a set time instead</string>
+    <string name="event_wait_at_clock">At the set time</string>
+
+    <!-- "Is notification tracking actually working?" — facts, not reassurance. -->
+    <string name="diag_check">Is this working?</string>
+    <string name="diag_title">Notification tracking check</string>
+    <string name="diag_access_on">✓ Notification access is on.</string>
+    <string name="diag_access_off">✗ Notification access is OFF — nothing can be tracked until you turn it on.</string>
+    <string name="diag_listener_on">✓ AlarmTracker is connected and listening.</string>
+    <string name="diag_listener_off">✗ Not connected. Android hasn\'t started the listener — usually fixed by turning access off and on again, or by allowing the app to autostart.</string>
+    <string name="diag_seen_fmt">✓ %1$d notifications have reached us since the app started. Last one: %2$s. So the tracking itself is alive.</string>
+    <string name="diag_seen_none">⚠ No notifications have reached us yet. Either nothing has arrived, or the listener isn\'t really running. Pull down your notification shade, make one arrive, and check again.</string>
+    <string name="diag_no_rule">⚠ No app is being tracked yet — pick a preset or \"Track any app\'s notification\" first.</string>
+    <string name="diag_rule_watching_fmt">✓ Watching %1$d of %2$d listed apps (the rest aren\'t installed, which is fine).</string>
+    <string name="diag_rule_not_installed_fmt">✗ None of the apps this alarm watches are installed: %1$s. It can never match, so the alarm will only ring at its fallback.</string>
+    <string name="diag_no_match_now">Nothing from those apps is on screen right now — that\'s normal, and not a problem.</string>
+    <string name="diag_match_now_fmt">✓ Right now it can see: %1$s</string>
+    <string name="diag_battery_note">Battery: tracking costs nothing while it waits. Android pushes notifications to us; we never poll, never hold a wakelock and never use location for this. The only work is a text comparison per notification.</string>
+    <string name="event_wait_caption_fmt">Rings the moment the notification appears — or after %1$s if it never does.</string>
+    <string name="event_wait_minutes_fmt">%1$d min</string>
+    <string name="event_wait_hours_fmt">%1$d h</string>
+    <string name="event_wait_hours_minutes_fmt">%1$d h %2$d min</string>
+    <string name="notif_access_status_connecting">Notification access is on — connecting…</string>
+    <string name="event_location_permission_row">Location access</string>
+    <string name="event_location_status_granted">Granted — arrival will refine the alarm.</string>
+    <string name="event_location_status_foreground">Allow all-the-time access so arrival works in the background.</string>
+    <string name="event_location_status_denied">Off — the alarm will use the fallback time only.</string>
+    <string name="event_location_status_services_off">Location is switched off on this phone — tap Grant to turn it on, or arrival can\'t be detected.</string>
+    <string name="event_location_grant">Grant</string>
+    <string name="event_location_rationale_title">Location for arrival alarms</string>
+    <string name="event_location_rationale_body">AlarmTracker uses your location only near your destination to ring you on arrival. It never tracks you continuously and nothing leaves your phone.</string>
+    <string name="event_location_background_title">Allow all the time</string>
+    <string name="event_location_background_body">For the alarm to ring when you arrive while the app is closed, set location access to “Allow all the time” on the next screen.</string>
+    <string name="event_continue">Continue</string>
+    <string name="event_needs_destination">Add a destination and a fallback time to save this event alarm.</string>
+    <string name="event_pick_match">Which one?</string>
+    <string name="event_pick_match_far">Nothing found near you</string>
+    <string name="event_pick_item_fmt">%1$s\n%2$s away</string>
+    <string name="event_pick_item_closest_fmt">%1$s\nClosest to you · %2$s away</string>
+    <string name="event_location_background_settings_body">Android only lets you choose “Allow all the time” on the app\'s own settings page. Open it, tap Permissions → Location, and pick “Allow all the time”.</string>
+    <string name="event_location_open_settings">Open settings</string>
+    <string name="event_location_missing_title">No location access</string>
+    <string name="event_location_missing_body">Without location this alarm can\'t tell when you arrive or correct its time — it will simply ring at the time you set.</string>
+    <string name="event_save_anyway">Save anyway</string>
+    <string name="event_estimate_measuring">Measuring the distance…</string>
+    <string name="event_estimate_fmt">≈%1$s away · about %2$d min</string>
+    <string name="event_estimate_road_fmt">%1$s by road · about %2$d min</string>
+    <string name="event_estimate_use_fmt">Set the alarm to %1$s</string>
+    <string name="event_estimate_applied">Alarm time set to the estimated arrival</string>
+    <string name="event_estimate_unavailable">Couldn\'t get a location fix to estimate the distance.</string>
+    <string name="event_estimate_services_off">Location is switched off on this phone — tap here to turn it on.</string>
+    <string name="event_estimate_needs_location">Grant location access to see how far away this is.</string>
+    <string name="event_live_progress_text">%1$s to go · rings around %2$s</string>
+    <string name="snoozed_until_fmt">Snoozed · rings %1$s</string>
+    <string name="pref_meeting_aware_title">Keep alarms private in meetings</string>
+    <string name="pref_meeting_aware_summary">During a call, ring through your headset — or vibrate silently — so nobody else hears your alarm</string>
+    <string name="ring_meeting_muted">Muted — you\'re in a call, so everyone would hear this. Vibrating instead.</string>
+    <string name="ring_play_sound">Play sound anyway</string>
+    <string name="pref_live_eta_title">Keep arrival alarms up to date</string>
+    <string name="pref_live_eta_summary">Re-check how far you are while an arrival alarm is armed, and pull it earlier as you get close</string>
+    <!-- ===================== Friends (arrival alerts) ===================== -->
+    <string name="nav_friends">People</string>
+    <string name="nav_open_drawer">Open menu</string>
+    <string name="nav_group_more">More</string>
+    <string name="nav_header_tagline">The alarm that never fails</string>
+    <string name="notification_channel_friends">People alerts</string>
+    <string name="notification_channel_friends_description">When someone you\'re watching reaches or leaves a place</string>
+    <string name="friends_intro">Get told when someone actually reaches — or leaves — a place. Use it for a friend you\'re meeting, or for someone you look after: the same thing underneath, except a care contact\'s alerts can ring like an alarm. Both sides have to agree, and only they can start sharing.</string>
+    <string name="friends_empty">No one paired yet.\nPair with a friend to stop waiting on “I\'m 2 minutes away”, or with someone you look after to know they got there.</string>
+    <string name="friends_add">Add someone</string>
+    <string name="friends_add_invite">Create an invite to send</string>
+    <string name="friends_add_accept">Paste an invite I was sent</string>
+    <string name="friends_invite_title">Invite a friend</string>
+    <string name="friends_name_hint">Their name</string>
+    <string name="friends_invite_ready">Invite for %1$s</string>
+    <string name="friends_invite_warning">This invite contains the key to your shared channel. Send it to that one person, over a chat you trust — anyone who gets it can pair with you.</string>
+    <string name="friends_invite_send">Send invite</string>
+    <string name="friends_invite_message">Pair with me on AlarmTracker so we can tell each other when we actually arrive: %1$s</string>
+    <string name="friends_invite_paste_hint">Paste the invite link</string>
+    <string name="friends_invite_invalid">That invite doesn\'t look right. Ask them to send it again.</string>
+    <string name="friends_paired">Paired. Neither of you is sharing anything yet.</string>
+    <string name="friends_default_name">Contact</string>
+    <string name="friends_invite_incoming_title">Pair with this friend?</string>
+    <string name="friends_invite_incoming_body">%1$s invited you to swap arrival alerts. Pairing on its own shares nothing — you each choose when, and for how long.</string>
+    <string name="friends_invite_accept">Pair</string>
+    <string name="friends_rename">Rename</string>
+    <string name="friends_resend_invite">Send the invite again</string>
+    <string name="friends_remove">Remove</string>
+    <string name="friends_remove_title">Remove %1$s?</string>
+    <string name="friends_remove_body">This deletes your shared key, so neither of you can send or read anything on that channel again.</string>
+    <string name="friends_key_unavailable">Couldn\'t read the shared key on this device. Pair again.</string>
+    <string name="friend_options">Options</string>
+    <string name="friend_add_watch">Watch a place</string>
+    <string name="friend_edit_watch">Edit this watch</string>
+    <string name="friend_share_mine">Share my location</string>
+    <string name="friend_sharing_until">Sharing until %1$s</string>
+    <string name="friend_share_title">Share your location with %1$s</string>
+    <string name="friend_share_body">They\'ll be told when you reach or leave the places they\'re watching. It stops on its own when the time is up, and you can end it any time.</string>
+    <string name="friend_share_stopped">Stopped sharing</string>
+    <string name="friend_share_needs_location">Sharing needs background location access, or your friend won\'t be told when you arrive.</string>
+    <string name="friend_stop_sharing">Stop sharing</string>
+    <string name="friend_status_idle">Not sharing</string>
+    <string name="friend_status_sharing">Sharing with you</string>
+    <string name="friend_status_arrived">Arrived at %1$s</string>
+    <string name="friend_status_left">Left %1$s</string>
+    <string name="friend_distance_away">%1$s away</string>
+    <string name="friend_heard_at">heard %1$s</string>
+    <string name="friend_alert_arrived">%1$s has reached %2$s</string>
+    <string name="friend_alert_left">%1$s has left %2$s</string>
+    <string name="friend_alert_nearby">%1$s is within %3$d m of %2$s</string>
+    <string name="friend_watch_within">Within %2$d m of %1$s</string>
+    <string name="friend_watch_approaches">Approaching %1$s (%2$d m)</string>
+    <string name="friend_watch_leaves">Leaving %1$s (%2$d m)</string>
+    <string name="friend_watch_condition">Tell me when they…</string>
+    <string name="friend_watch_radius">How close counts</string>
+    <string name="friend_watch_radius_fmt">Within %1$d m</string>
+    <string name="friend_watch_radius_hint">Small (100 m) means “practically here”. Large (2 km) gives you a heads-up to start getting ready.</string>
+    <string name="friend_session_title">AlarmTracker</string>
+    <string name="friend_session_both">Sharing with %1$d · watching %2$d</string>
+    <string name="friends_relay_title">Relay</string>
+    <string name="friends_relay_body">Alerts travel through a relay server. Everything is encrypted on your phone first, so the relay only ever sees scrambled data — it can\'t tell where anyone is.</string>
+    <string name="friends_relay_free">Free public server (ntfy.sh)</string>
+    <string name="friends_relay_free_account">ntfy.sh, with your account</string>
+    <string name="friends_relay_custom">%1$s</string>
+    <string name="friends_relay_configure">Change relay</string>
+    <string name="friends_relay_upgrade">Need it more reliable?</string>
+    <string name="friends_relay_upgrade_body">AlarmTracker is free and always will be — we don\'t charge for this and take no cut.\n\nThe free public relay has rate limits and no uptime guarantee. If you want more, you can buy ntfy Pro from ntfy directly, or self-host ntfy for nothing (it\'s open source). Either way, paste the details under “Change relay”.</string>
+    <string name="friends_relay_open_pricing">See ntfy\'s options</string>
+    <string name="friends_relay_reset">Use the free server</string>
+    <string name="friends_relay_dialog_body">Point this at ntfy Pro or your own ntfy server. Leave it as-is to keep using the free public one.</string>
+    <string name="friends_relay_url_hint">Server URL</string>
+    <string name="friends_relay_token_hint">Access token (optional)</string>
+    <string name="map_search_hint">Search for a place</string>
+    <string name="map_search_action">Search</string>
+    <string name="map_search_no_results">No places matched that search.</string>
+    <string name="map_result_distance_fmt">%1$s away</string>
+    <string name="map_result_closest_fmt">Closest to you · %1$s</string>
+
+    <string name="map_back">Back</string>
+    <string name="map_search_clear">Clear search</string>
+
+    <!-- Alert ring -->
+    <string name="map_radius_label">Alert ring</string>
+    <string name="map_radius_toggle_fmt">Alert ring · %1$s</string>
+    <string name="map_radius_min">150 m</string>
+    <string name="map_radius_max">5 km</string>
+    <string name="map_radius_lead_fmt">That is about %1$d min of warning before you arrive.</string>
+    <string name="map_radius_lead_none">You will be alerted just as you arrive.</string>
+    <string name="map_radius_chip_m_fmt">%1$d m</string>
+    <string name="map_radius_chip_km_fmt">%1$s km</string>
+    <string name="map_pick_selected_fmt">Selected %1$s — tap “Use this location” to keep it</string>
+    <string name="map_result_distance_far_fmt">%1$s away — probably not the one you meant</string>
+
+    <!-- Compass / rotation -->
+    <string name="map_compass">Compass</string>
+    <string name="map_compass_on">Compass on — the map turns with you. Pinch and twist to rotate it yourself.</string>
+    <string name="map_compass_off">North is up again</string>
+    <string name="map_compass_unavailable">This phone has no compass sensor</string>
+
+    <!-- Route line -->
+    <string name="map_route_loading">Finding the route…</string>
+    <string name="map_route_fmt">%1$s · about %2$d min by road</string>
+    <string name="map_route_straight_fmt">%1$s away in a straight line</string>
+
+    <!-- Location accuracy -->
+    <string name="map_accuracy_fmt">Your location is accurate to about %1$s</string>
+    <string name="map_accuracy_weak_fmt">Weak signal — your location could be off by %1$s. Go outdoors or wait a moment.</string>
+    <string name="map_locating_precise">Getting an accurate fix…</string>
+    <string name="map_located_rough">That is only a rough fix — the map may be off by a few hundred metres</string>
+
+    <!-- Event alarm source toggle (Destination vs Notification) -->
+    <string name="event_source_notification">Notification</string>
+
+    <!-- Notification source: grant flow -->
+    <string name="notif_listener_label">AlarmTracker event alarms</string>
+    <string name="notif_access_row">Notification access</string>
+    <string name="notif_access_grant">Enable</string>
+    <string name="notif_access_status_granted">On — AlarmTracker can watch the apps you pick.</string>
+    <string name="notif_access_status_denied">Off — enable notification access to track an app.</string>
+    <string name="notif_access_rationale_title">Notification access</string>
+    <string name="notif_access_rationale_body">AlarmTracker reads notifications only to spot the one app you choose finishing or arriving. It matches locally on your phone — nothing is uploaded, and it works with no account.</string>
+
+    <!-- Notification source: discovery -->
+    <string name="notif_trackable_title">Trackable right now</string>
+    <string name="notif_trackable_empty">No trackable notifications right now. Start a navigation, download, or task and it will show up here.</string>
+    <string name="notif_track_pick">Track</string>
+    <string name="notif_manual_pick_app">Pick an app to watch</string>
+    <string name="notif_manual_keywords_title">Words that mean \"done\"</string>
+    <string name="notif_manual_keywords_hint">done, complete, finished</string>
+    <string name="notif_preset_claude">Alarm when Claude finishes</string>
+    <string name="notif_preset_claude_label">Claude</string>
+
+    <!-- Notification source: suggested actions on a live notification -->
+    <string name="notif_suggest_arrival">Alarm on arrival</string>
+    <string name="notif_suggest_delivery">Alarm when it arrives</string>
+    <string name="notif_suggest_done">Alarm when it finishes</string>
+    <string name="notif_preset_delivery">Alarm when a delivery arrives</string>
+    <string name="notif_preset_delivery_label">Delivery</string>
+
+    <!-- Notification source: selected rule status -->
+    <string name="notif_rule_none">Pick an app above, or use a preset, to choose what rings the alarm.</string>
+    <string name="notif_rule_arrival_fmt">Tracking %1$s — alarm on arrival</string>
+    <string name="notif_rule_done_fmt">Tracking %1$s — alarm when it finishes</string>
+    <string name="notif_rule_keyword_fmt">Tracking %1$s — alarm on a matching notification</string>
+    <string name="notif_needs_rule">Pick an app to track and set a fallback time to save this event alarm.</string>
+
+    <!-- Notification-source list status -->
+    <string name="event_status_notif_waiting_fmt">Waiting for: %1$s</string>
+    <string name="event_status_notif_distance_fmt">%1$s · %2$s</string>
+    <string name="event_status_notif_eta_fmt">%1$s · ≈%2$d min</string>
+
+    <!-- Event alarm list status -->
+    <string name="event_status_arriving_fmt">Arriving · %1$s</string>
+    <string name="event_status_fallback_fmt">%1$s · else %2$s</string>
+    <string name="event_status_fallback_generic_fmt">Rings by %1$s</string>
+
+    <!-- ===== v4: Cooldown / limit-reset alarms ===== -->
+    <string name="cooldown_access_row">Detect resets automatically</string>
+    <string name="cooldown_access_status_on">On — a “resets at…” notification will fine-tune the timing.</string>
+    <string name="cooldown_access_status_off">Optional — enable notification access to read the exact reset time.</string>
+    <string name="cooldown_access_status_connecting">Notification access is on — connecting…</string>
+    <string name="cooldown_choose_service">Choose a service</string>
+    <string name="cooldown_service_none">Pick a service, then set the time it comes back.</string>
+    <string name="cooldown_service_selected_fmt">Alarm when %1$s is back</string>
+    <string name="cooldown_needs_service">Pick a service to track first.</string>
+    <string name="cooldown_pick_title">What comes back on a timer?</string>
+    <string name="cooldown_entry_fmt">%1$s · %2$s</string>
+    <string name="event_fallback_caption_cooldown">Rings at the expected reset time (auto-adjusts if detected).</string>
+
+    <!-- Cooldown list status -->
+    <string name="event_status_cooldown_waiting_fmt">%1$s back ~%2$s</string>
+
+    <!-- Cooldown pack headers -->
+    <string name="cooldown_pack_ai">AI assistants</string>
+    <string name="cooldown_pack_credits">AI credit tools</string>
+    <string name="cooldown_pack_games">Games</string>
+    <string name="cooldown_pack_daily">Daily reset</string>
+
+    <!-- Cooldown service names -->
+    <string name="cooldown_svc_claude">Claude</string>
+    <string name="cooldown_svc_chatgpt">ChatGPT</string>
+    <string name="cooldown_svc_gemini">Gemini</string>
+    <string name="cooldown_svc_perplexity">Perplexity</string>
+    <string name="cooldown_svc_copilot">Copilot</string>
+    <string name="cooldown_svc_grok">Grok</string>
+    <string name="cooldown_svc_midjourney">Midjourney</string>
+    <string name="cooldown_svc_suno">Suno</string>
+    <string name="cooldown_svc_leonardo">Leonardo</string>
+    <string name="cooldown_svc_genshin">Genshin resin</string>
+    <string name="cooldown_svc_hsr">Honkai: Star Rail</string>
+    <string name="cooldown_svc_candycrush">Candy Crush lives</string>
+    <string name="cooldown_svc_duolingo">Duolingo hearts</string>
+    <string name="cooldown_svc_clash">Clash of Clans</string>
+    <string name="cooldown_svc_wordle">Wordle / NYT Games</string>
+    <string name="cooldown_svc_daily_generic">Anything (daily)</string>
+    <string name="event_distance_km">≈%1$.0f km</string>
+    <string name="event_distance_m">≈%1$d m</string>
+
+    <!-- Event progress notification -->
+    <string name="notification_channel_event">Arrival progress</string>
+    <string name="notification_channel_event_description">Quiet distance updates as you near an event-alarm destination</string>
+    <string name="event_progress_title">Nearing your destination</string>
+    <string name="event_progress_text">%1$s to go</string>
+    <string name="event_progress_text_named">%1$s to %2$s</string>
+    <string name="friend_watch_remove">Remove this watch</string>
+    <string name="row_ring_app">When it rings</string>
+    <string name="ring_app_none">Just ring</string>
+    <string name="ring_app_pick_title">Open which app?</string>
+    <string name="ring_app_clear_description">Don\'t open an app</string>
+    <string name="sound_off">Off</string>
+    <string name="vibrate_unsupported">This phone has no vibration motor, so it can\'t vibrate.</string>
+    <string name="pref_accent_title">Accent colour</string>
+
+    <!-- World clock -->
+    <string name="nav_world_clock">World</string>
+    <string name="title_world_clock">World clock</string>
+    <string name="wc_add">Add a city</string>
+    <string name="wc_empty">No cities yet.\nTap + to add one and see its time next to yours.</string>
+    <string name="wc_col_city">City</string>
+    <string name="wc_col_time">Time</string>
+    <string name="wc_col_diff">Diff</string>
+    <string name="wc_here_fmt">Here · %1$s</string>
+    <string name="wc_row_sub_fmt">%1$s · %2$s</string>
+    <string name="wc_search_hint">Search cities</string>
+    <string name="wc_remove_title">Remove %1$s?</string>
+    <string name="wc_remove">Remove</string>
+    <string name="wc_swap">Swap direction</string>
+    <string name="wc_done">Done</string>
+    <string name="wc_conv_from_fmt">If it\'s this time in %1$s…</string>
+    <string name="wc_conv_to_fmt">…then in %1$s it\'s</string>
+    <string name="wc_conv_same_day">%1$s · same day</string>
+    <string name="wc_conv_next_day">%1$s · the next day</string>
+    <string name="wc_conv_prev_day">%1$s · the day before</string>
+    <string name="guide_appearance_title">Dark mode &amp; appearance</string>
+    <string name="guide_appearance_body">Settings → Appearance has three theme choices: <b>Light</b>, <b>Dark</b>, and <b>System default</b>, which follows your phone\'s own day/night setting. The switch applies instantly — no restart.\n\n<b>Dynamic colour</b> (Android 12+) recolours the app from your wallpaper. Turn it off to use AlarmTracker\'s own blue palette instead.\n\nThe ring screen always uses a dark, low-glare background whatever you pick, so a 6am alarm doesn\'t blind you.</string>
+    <string name="guide_friends_title">Friends &amp; arrival alerts</string>
+    <string name="guide_friends_body">Open the sidebar → Friends to pair with someone, then get told when they actually reach — or leave — a place you care about. No more “I\'m 2 minutes away”.\n\nPairing is mutual: you send an invite, they accept. Pairing on its own shares nothing. Each of you separately chooses when to share your location and for how long (30 minutes to 4 hours), it ends by itself, and a notification shows the whole time it\'s on.\n\nEverything is encrypted on your phone before it\'s sent, so the relay server can\'t tell where anyone is. Removing a friend deletes the shared key for good.</string>
+
+    <!-- ===================== No internet =====================
+         Everything network-shaped in this app is optional (search, routing, tiles, Jira, the friends
+         relay) — alarms themselves never need a connection. So these say what failed and offer the
+         switch, and never imply the app is broken. -->
+    <string name="net_offline_title">You\'re offline</string>
+    <string name="net_offline_body">Wi-Fi and mobile data are both off, or there\'s no signal here.</string>
+    <string name="net_airplane_title">Airplane mode is on</string>
+    <string name="net_airplane_body">Airplane mode is on, so nothing can reach the internet.</string>
+    <string name="net_unvalidated_body">You\'re connected, but that network has no working internet — a Wi-Fi that needs a sign-in page does this.</string>
+    <string name="net_prompt_fmt">%1$s\n\n%2$s</string>
+    <string name="net_turn_on">Turn it on</string>
+    <string name="net_not_now">Not now</string>
+
+    <!-- What needed the connection, named so the user knows which part of the screen failed. -->
+    <string name="net_feature_place_search">Searching for a place needs internet.</string>
+    <string name="net_feature_map">The map needs internet to load and to search for places.</string>
+    <string name="net_feature_jira">Connecting to Jira needs internet.</string>
+    <string name="net_feature_friends">Sharing and checking on friends needs internet.</string>
+    <string name="net_feature_route">Working out the distance and drive time needs internet.</string>
+
+    <!-- "Reached the internet, but not this particular service." -->
+    <string name="net_service_place_search">The place-search service didn\'t answer. It may be busy — try again in a moment.</string>
+    <string name="net_offline_short">No internet</string>
+    <string name="net_map_offline_note">Offline — showing cached map tiles only.</string>
+    <string name="net_route_offline">Can\'t check the roads offline — this is a straight-line estimate.</string>
+    <string name="friends_offline_note">No internet — nothing can be sent or received until you\'re back online.</string>
+
+    <!-- Meeting up vs looking after someone: one mechanism, two urgencies. -->
+    <string name="friend_menu_relationship">What is this for?</string>
+    <string name="friend_menu_phone">Phone number</string>
+    <string name="friend_menu_ask">Ask where they are</string>
+    <string name="friend_phone_hint">Number to call from an alert</string>
+    <string name="friend_relationship_meet">Meeting up</string>
+    <string name="friend_relationship_care">Someone I look after</string>
+    <string name="friend_relationship_body">Both work the same way — a place, and a boundary being crossed. “Someone I look after” only changes the defaults: their alerts ring like an alarm so they can actually wake you, and they can share for longer. Nothing is shared unless they start it, either way.</string>
+    <string name="friend_name_care_fmt">%1$s · looking after</string>
+    <string name="friend_watch_alarm">Ring like an alarm</string>
+    <string name="friend_watch_alarm_hint">Takes over the screen and makes a noise, even on silent — for the ones you can\'t afford to miss. Otherwise it\'s a notification.</string>
+    <string name="friend_watch_rings_fmt">%1$s · rings</string>
+    <string name="friend_sharing_no_end">Sharing until you stop</string>
+    <string name="friend_share_until_stopped">Until I turn it off</string>
+    <string name="friend_share_body_care">They\'ll be told when you reach or leave the places they\'re watching. A notification stays up the whole time, and you can end it in one tap whenever you want.</string>
+
+    <!-- Alarm-grade person alert -->
+    <string name="friend_ring_call">Call them</string>
+    <string name="friend_ring_nudge">Ask where they are</string>
+    <string name="friend_ring_dismiss">Dismiss</string>
+    <string name="friend_nudge_sent">Asked them where they are</string>
+    <string name="friend_nudge_failed">Couldn\'t send that just now</string>
+    <string name="friend_nudge_received">%1$s is asking where you are. Open AlarmTracker to share your location.</string>
+
+    <plurals name="friend_session_sharing">
+        <item quantity="one">Sharing your location with %1$d friend</item>
+        <item quantity="other">Sharing your location with %1$d friends</item>
+    </plurals>
+    <plurals name="friend_session_watching">
+        <item quantity="one">Watching %1$d friend</item>
+        <item quantity="other">Watching %1$d friends</item>
+    </plurals>
+    <plurals name="friend_share_minutes">
+        <item quantity="one">For %1$d minute</item>
+        <item quantity="other">For %1$d minutes</item>
+    </plurals>
+</resources>

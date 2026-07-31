@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurfaceContainerLowest">
+
+    <!-- Ring view -->
+    <ScrollView
+        android:id="@+id/ring_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/ring_gesture_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/ring_gesture_hint"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/ring_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFeatureSettings="tnum"
+                android:textAppearance="?attr/textAppearanceDisplayLarge"
+                android:textSize="96sp"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ring_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="07:30" />
+
+            <TextView
+                android:id="@+id/ring_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                app:layout_constraintTop_toBottomOf="@id/ring_clock"
+                app:layout_constraintBottom_toTopOf="@id/ring_meeting_notice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Wake up" />
+
+            <!-- Explains why the alarm is silent: the user is on a call and the room would hear it. -->
+            <TextView
+                android:id="@+id/ring_meeting_notice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center"
+                android:text="@string/ring_meeting_muted"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/ring_label"
+                app:layout_constraintBottom_toTopOf="@id/ring_play_sound"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ring_play_sound"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:minWidth="200dp"
+                android:minHeight="@dimen/ring_target_min"
+                android:text="@string/ring_play_sound"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/ring_meeting_notice"
+                app:layout_constraintBottom_toTopOf="@id/ring_action"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="visible" />
+
+            <!-- Optional "open the tracked app" action (e.g. limit-reset alarm → Open Claude). -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ring_action"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:minWidth="200dp"
+                android:minHeight="@dimen/ring_target_min"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/ring_play_sound"
+                app:layout_constraintBottom_toTopOf="@id/ring_snooze"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Open Claude"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/ring_snooze"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"
+                android:minHeight="@dimen/ring_target_min"
+                android:layout_marginBottom="48dp"
+                android:text="@string/ring_snooze"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                app:icon="@drawable/ic_snooze"
+                app:layout_constraintBottom_toTopOf="@id/ring_dismiss"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/ring_dismiss"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="72dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/ring_dismiss"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_max="@dimen/content_max_width" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Math mission view (swapped in for Dismiss when a mission is set) -->
+    <ScrollView
+        android:id="@+id/mission_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="@dimen/content_max_width">
+
+                <TextView
+                    android:id="@+id/mission_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/ring_mission_title"
+                    android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/mission_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:max="3"
+                    app:trackCornerRadius="4dp" />
+
+                <TextView
+                    android:id="@+id/mission_progress_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="?attr/textAppearanceLabelLarge"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="0 of 3 solved" />
+
+                <TextView
+                    android:id="@+id/mission_problem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:fontFeatureSettings="tnum"
+                    android:textAppearance="?attr/textAppearanceDisplayMedium"
+                    android:textColor="?attr/colorOnSurface"
+                    tools:text="17 + 25" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/mission_answer_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:hint="@string/ring_mission_answer_hint">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/mission_answer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberSigned"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/mission_submit"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/ring_target_min"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/ring_mission_submit"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                <Button
+                    android:id="@+id/mission_snooze"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/ring_snooze" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- QR / barcode mission (scan the registered code to dismiss) -->
+    <FrameLayout
+        android:id="@+id/qr_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/qr_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/qr_instruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="?attr/colorSurface"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/ring_qr_instruction"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textColor="?attr/colorOnSurface" />
+
+        <Button
+            android:id="@+id/qr_snooze"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="32dp"
+            android:minWidth="200dp"
+            android:minHeight="@dimen/ring_target_min"
+            android:text="@string/ring_snooze"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            app:icon="@drawable/ic_snooze" />
+
+        <Button
+            android:id="@+id/qr_math"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="96dp"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/mission_solve_math" />
+    </FrameLayout>
+
+    <!-- Photo mission (re-shoot the reference scene to dismiss) -->
+    <FrameLayout
+        android:id="@+id/photo_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/photo_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/photo_instruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="?attr/colorSurface"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/ring_photo_instruction"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textColor="?attr/colorOnSurface" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="32dp">
+
+            <Button
+                android:id="@+id/photo_capture"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="220dp"
+                android:minHeight="@dimen/ring_target_min"
+                android:text="@string/ring_photo_action"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                app:icon="@drawable/ic_alarm" />
+
+            <Button
+                android:id="@+id/photo_snooze"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/ring_snooze" />
+
+            <Button
+                android:id="@+id/photo_math"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/mission_solve_math" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Steps mission (walk N steps to dismiss) -->
+    <ScrollView
+        android:id="@+id/steps_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="@dimen/content_max_width">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/ring_steps_title"
+                    android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:id="@+id/steps_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:fontFeatureSettings="tnum"
+                    android:textAppearance="?attr/textAppearanceDisplayMedium"
+                    android:textColor="?attr/colorOnSurface"
+                    tools:text="0 / 20" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/steps_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:trackCornerRadius="4dp" />
+
+                <TextView
+                    android:id="@+id/steps_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/ring_steps_hint"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <Button
+                    android:id="@+id/steps_snooze"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:text="@string/ring_snooze" />
+
+                <Button
+                    android:id="@+id/steps_math"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:text="@string/mission_solve_math" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Puzzle mission (tap-order / odd-one-out) -->
+    <ScrollView
+        android:id="@+id/puzzle_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/puzzle_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="?attr/colorOnSurface"
+                tools:text="Tap the tiles 1 to 9 in order" />
+
+            <TextView
+                android:id="@+id/puzzle_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="1 of 3" />
+
+            <GridLayout
+                android:id="@+id/puzzle_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:useDefaultMargins="true" />
+
+            <Button
+                android:id="@+id/puzzle_snooze"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/ring_snooze" />
+
+            <Button
+                android:id="@+id/puzzle_math"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/mission_solve_math" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Sunrise glow overlay (silent pre-alarm; animates dark -> warm before the real ring) -->
+    <FrameLayout
+        android:id="@+id/glow_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/glow_start"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <TextView
+            android:id="@+id/glow_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFeatureSettings="tnum"
+            android:shadowColor="#73000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="8"
+            android:textAppearance="?attr/textAppearanceDisplayLarge"
+            android:textSize="96sp"
+            android:textColor="@color/glow_text"
+            tools:text="06:30" />
+
+        <TextView
+            android:id="@+id/glow_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="120dp"
+            android:alpha="0.85"
+            android:gravity="center"
+            android:shadowColor="#73000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="8"
+            android:text="@string/ring_glow_subtitle"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="@color/glow_text" />
+
+        <Button
+            android:id="@+id/glow_skip"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:minHeight="@dimen/touch_target_min"
+            android:shadowColor="#73000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="8"
+            android:text="@string/ring_glow_skip"
+            android:textColor="@color/glow_text" />
+    </FrameLayout>
+</FrameLayout>

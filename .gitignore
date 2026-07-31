@@ -1,0 +1,46 @@
+# ---- Build output ----
+.gradle/
+build/
+app/build/
+captures/
+.externalNativeBuild
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# ---- Machine-specific ----
+# local.properties holds the absolute path to YOUR Android SDK. Not a secret, but committing it breaks
+# the build for everyone else and leaks your username.
+local.properties
+
+# ---- IDE ----
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+Thumbs.db
+
+# ---- Signing: never commit these ----
+# A release keystore is the one file that genuinely cannot be replaced. If it leaks, anyone can publish
+# an update that Android accepts as yours. Keep it off the repo entirely and feed it to CI through
+# encrypted secrets instead (see .github/workflows/android.yml).
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+key.properties
+google-services.json
+service-account*.json
+
+# ---- Local restore points ----
+# Zipped source snapshots and their built APKs: ~100 MB, and two of the APKs are individually over
+# GitHub's 100 MB per-file limit. Git is the replacement for this folder, so it stays local.
+snapshots/
+
+# ---- Misc ----
+*.log
+*.hprof
+.kotlin/

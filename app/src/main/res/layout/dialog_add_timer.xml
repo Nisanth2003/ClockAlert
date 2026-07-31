@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="8dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/add_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:text="@string/timer_h"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <NumberPicker
+            android:id="@+id/add_minutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:text="@string/timer_m"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <NumberPicker
+            android:id="@+id/add_seconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:text="@string/timer_s"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_label_layout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="@string/timer_label_hint">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_label_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="textCapSentences"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/add_presets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="true" />
+    </HorizontalScrollView>
+
+    <!-- Optional finish action: open an app when the countdown ends -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/timer_on_finish"
+        android:textAppearance="?attr/textAppearanceLabelLarge"
+        android:textColor="?attr/colorPrimary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_finish_action"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="start|center_vertical"
+        android:minHeight="@dimen/touch_target_min"
+        android:text="@string/timer_on_finish_none"
+        app:icon="@drawable/ic_add" />
+</LinearLayout>

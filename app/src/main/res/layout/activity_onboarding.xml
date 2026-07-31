@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical">
+
+    <!-- Top bar: step indicator + Skip -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingHorizontal="@dimen/screen_margin">
+
+        <TextView
+            android:id="@+id/step_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            tools:text="Step 1 of 3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/skip_btn"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/onb_skip" />
+    </FrameLayout>
+
+    <ViewFlipper
+        android:id="@+id/onboarding_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- Page 0: Welcome -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/screen_margin"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="24dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_alarm"
+                    app:tint="?attr/colorPrimary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/onb_welcome_title"
+                    android:textAppearance="?attr/textAppearanceHeadlineMedium" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/onb_welcome_body"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/onb_pillar_reliability_title"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/onb_pillar_reliability_body"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/onb_pillar_score_title"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/onb_pillar_score_body"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_get_started"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:text="@string/onb_get_started" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Page 1: Reliability setup -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/screen_margin"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/onb_reliability_title"
+                    android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/onb_reliability_body"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <!-- ===== Required to continue ===== -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/onb_required_title"
+                    android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+                <!-- Display over other apps (hard requirement — detectable) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:minHeight="56dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/health_overlay_title"
+                            android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                        <TextView
+                            android:id="@+id/onb_overlay_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            tools:text="Required for full-screen alarms" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/onb_overlay_grant"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:minHeight="@dimen/touch_target_min"
+                        android:text="@string/warn_action_allow" />
+                </LinearLayout>
+
+                <!-- Autostart (shown only on OEMs that need it; unverifiable → acknowledge) -->
+                <LinearLayout
+                    android:id="@+id/onb_autostart_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/onb_autostart_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        tools:text="Xiaomi / MIUI" />
+
+                    <TextView
+                        android:id="@+id/onb_autostart_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:text="Enable Autostart for AlarmTracker." />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/onb_autostart_open"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:minHeight="@dimen/touch_target_min"
+                        android:text="@string/oem_open_settings" />
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/onb_autostart_ack"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/onb_autostart_ack" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/onb_recommended_title"
+                    android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+                <LinearLayout
+                    android:id="@+id/onb_checks_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:text="@string/onb_continue" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Page 2: Ready -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/screen_margin"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="24dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_shield"
+                    app:tint="?attr/colorPrimary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/onb_ready_title"
+                    android:textAppearance="?attr/textAppearanceHeadlineMedium" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/onb_ready_body"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_finish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:minHeight="@dimen/touch_target_min"
+                    android:text="@string/onb_finish" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </ViewFlipper>
+</LinearLayout>

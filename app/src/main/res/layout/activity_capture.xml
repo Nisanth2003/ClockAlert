@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurfaceContainerLowest">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/capture_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/capture_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="?attr/colorSurface"
+        android:gravity="center"
+        android:padding="20dp"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textColor="?attr/colorOnSurface"
+        tools:text="Point the camera at the code you will scan to dismiss the alarm." />
+
+    <LinearLayout
+        android:id="@+id/capture_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?attr/colorSurface"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/capture_cancel"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/capture_cancel" />
+
+        <Button
+            android:id="@+id/capture_shutter"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:minHeight="@dimen/ring_target_min"
+            android:minWidth="200dp"
+            android:text="@string/capture_photo_action"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/capture_denied"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/capture_permission_denied"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?attr/colorOnSurface" />
+
+        <Button
+            android:id="@+id/capture_denied_close"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/capture_cancel" />
+    </LinearLayout>
+</FrameLayout>

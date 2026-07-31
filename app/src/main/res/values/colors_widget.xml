@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Concrete widget colors (RemoteViews can't use ?attr). Night variants in
+     values-night keep the widget legible in both themes. -->
+<resources>
+    <color name="widget_background">#EDEDF4</color>
+    <color name="widget_on_background">#1A1B20</color>
+    <color name="widget_on_background_variant">#44464F</color>
+    <color name="widget_accent">#445E91</color>
+</resources>

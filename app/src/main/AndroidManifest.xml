@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission
+        android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Calendar-aware smart alarm: requested at runtime when the mode is enabled. -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <!-- QR/barcode and photo dismiss missions: requested at runtime; missions fall back to math if denied. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Steps dismiss mission (API 29+; implicitly granted below): requested at runtime, falls back to math. -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+    <!-- v3 event alarms (geofencing). Foreground first, then background via a two-step rationale
+         flow; all geofence work is gated behind grants and degrades to the pure ETA fallback. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- v5 connectors: poll external services (Jira, etc.) over the network. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Alarm-clock apps qualify to request a battery-optimization exemption directly (the app
+         surfaces it as a visible, user-controlled toggle in Settings). -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SYSTEM_EXEMPTED" />
+    <!-- Friend arrival alerts: a visible, user-started, time-boxed sharing session. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- Show the ring screen full-screen even when the phone is unlocked (background activity
+         launch). Requested at runtime; the alarm degrades to the full-screen-intent notification
+         if not granted. -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- Optional: read sleep sessions other health/watch apps write to Health Connect. Granted by
+         the user in Health Connect; the feature is fully guarded and skipped if unavailable. -->
+    <uses-permission android:name="android.permission.health.READ_SLEEP" />
+
+    <queries>
+        <!-- Health Connect discovery (getSdkStatus / launch) needs to see the provider package. -->
+        <package android:name="com.google.android.apps.healthdata" />
+        <intent>
+            <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+        </intent>
+        <!-- Android 11+ hides other packages by default. Without this, queryIntentActivities()
+             returns an empty list and getLaunchIntentForPackage() returns null, which would
+             silently break EVERY app picker in the app: the alarm's and timer's "open this app
+             when it goes off", "track any app's notification", and the installed-app checks in
+             TrackablePresets / CooldownPresets. Scoped to launchable apps only — the same set the
+             user already sees on their home screen — rather than QUERY_ALL_PACKAGES. -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".AlarmTrackerApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AlarmTracker">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AlarmTracker.Starting"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Health Connect asks apps to explain why they read health data. -->
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+        </activity>
+
+        <!-- Android 14+ delivers the rationale as an activity action alias. -->
+        <activity-alias
+            android:name="ViewPermissionUsageActivity"
+            android:exported="true"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name=".ring.AlarmActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:showWhenLocked="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.AlarmTracker.Ring"
+            android:turnScreenOn="true"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ring.CaptureActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AlarmTracker"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.health.HealthCheckActivity"
+            android:exported="false"
+            android:label="@string/title_health"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.postmortem.PostmortemActivity"
+            android:exported="false"
+            android:label="@string/title_postmortem"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.privacy.PrivacyActivity"
+            android:exported="false"
+            android:label="@string/title_privacy"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.connections.ConnectionsActivity"
+            android:exported="false"
+            android:label="@string/title_connections"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.onboarding.OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AlarmTracker" />
+
+        <activity
+            android:name=".ui.map.MapPickerActivity"
+            android:exported="false"
+            android:label="@string/map_pick"
+            android:theme="@style/Theme.AlarmTracker" />
+
+        <activity
+            android:name=".ui.timer.TimerRingActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:showWhenLocked="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.AlarmTracker.Ring"
+            android:turnScreenOn="true" />
+
+        <!-- Friend arrival alerts. The pairing deep link is the only exported surface: it carries
+             an invite the user was sent, and accepting it always requires an explicit confirm. -->
+        <activity
+            android:name=".ui.friends.FriendsActivity"
+            android:exported="true"
+            android:label="@string/nav_friends"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity">
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="alarmtracker" android:host="pair" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_settings"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.recycle.RecycleBinActivity"
+            android:exported="false"
+            android:label="@string/recycle_title"
+            android:theme="@style/Theme.AlarmTracker" />
+
+        <activity
+            android:name=".ui.help.HelpActivity"
+            android:exported="false"
+            android:label="@string/title_help"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.report.MorningReportActivity"
+            android:exported="false"
+            android:label="@string/title_morning_report" />
+
+        <service
+            android:name=".ring.AlarmRingService"
+            android:exported="false"
+            android:foregroundServiceType="systemExempted" />
+
+        <service
+            android:name=".ui.timer.TimerRingService"
+            android:exported="false"
+            android:foregroundServiceType="systemExempted" />
+
+        <!-- v3 event alarms (notification source). MUST be exported=true with the
+             BIND_NOTIFICATION_LISTENER_SERVICE permission + the SERVICE_INTERFACE intent-filter —
+             that is how the OS binds a NotificationListenerService. Reading notifications is gated
+             behind the user enabling "Notification access"; if not granted the service is simply
+             never bound and event alarms degrade to the pure ETA fallback. -->
+        <service
+            android:name=".notif.AlarmNotificationListener"
+            android:exported="true"
+            android:label="@string/notif_listener_label"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <receiver
+            android:name=".ring.AlarmReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".ui.timer.TimerReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".ui.widget.NextAlarmWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_next_alarm_info" />
+        </receiver>
+
+        <receiver
+            android:name=".scheduling.GeofenceBroadcastReceiver"
+            android:exported="false" />
+
+        <!-- Sparse in-transit ETA re-check for "arrive at a place" alarms; self-re-arming. -->
+        <receiver
+            android:name=".scheduling.LiveEtaReceiver"
+            android:exported="false" />
+
+        <!-- OS-woken when this phone crosses a place a friend asked to be told about. -->
+        <receiver
+            android:name=".friends.FriendGeofenceReceiver"
+            android:exported="false" />
+
+        <!-- Runs only while a share session is open, and keeps a visible notification while it is. -->
+        <service
+            android:name=".friends.FriendsSessionService"
+            android:exported="false"
+            android:foregroundServiceType="location|dataSync" />
+
+        <!-- Alarm-grade person alert (a watch marked "ring like an alarm"). Same systemExempted
+             foreground type and lock-screen treatment as the alarm and timer rings. -->
+        <service
+            android:name=".friends.FriendRingService"
+            android:exported="false"
+            android:foregroundServiceType="systemExempted" />
+
+        <activity
+            android:name=".friends.FriendRingActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:showOnLockScreen="true"
+            android:showWhenLocked="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.AlarmTracker.Ring"
+            android:turnScreenOn="true" />
+
+        <receiver
+            android:name=".scheduling.RescheduleReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

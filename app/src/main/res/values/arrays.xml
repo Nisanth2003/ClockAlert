@@ -1,0 +1,105 @@
+<resources>
+    <string-array name="time_format_entries">
+        <item>@string/pref_time_format_system</item>
+        <item>@string/pref_time_format_12</item>
+        <item>@string/pref_time_format_24</item>
+    </string-array>
+    <string-array name="time_format_values">
+        <item>system</item>
+        <item>12</item>
+        <item>24</item>
+    </string-array>
+
+    <string-array name="snooze_entries">
+        <item>@string/snooze_off</item>
+        <item>@string/minutes_5</item>
+        <item>@string/minutes_10</item>
+        <item>@string/minutes_15</item>
+        <item>@string/minutes_20</item>
+        <item>@string/minutes_30</item>
+    </string-array>
+    <string-array name="snooze_values">
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+
+    <string-array name="snooze_budget_entries">
+        <item>@string/snooze_budget_off</item>
+        <item>@string/snooze_budget_7</item>
+        <item>@string/snooze_budget_14</item>
+        <item>@string/snooze_budget_21</item>
+    </string-array>
+    <string-array name="snooze_budget_values">
+        <item>0</item>
+        <item>7</item>
+        <item>14</item>
+        <item>21</item>
+    </string-array>
+
+    <string-array name="tracking_modes">
+        <item>@string/tracking_off</item>
+        <item>@string/tracking_place</item>
+        <item>@string/tracking_notification</item>
+        <item>@string/tracking_cooldown</item>
+    </string-array>
+
+    <string-array name="connector_interval_entries">
+        <item>@string/connector_interval_morning</item>
+        <item>@string/connector_interval_twice</item>
+        <item>@string/connector_interval_6h</item>
+        <item>@string/connector_interval_1h</item>
+    </string-array>
+
+    <string-array name="theme_entries">
+        <item>@string/pref_theme_system</item>
+        <item>@string/pref_theme_light</item>
+        <item>@string/pref_theme_dark</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>system</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
+    <!-- Order matters: index 0 = ENTERS, index 1 = LEAVES (see FriendsActivity.showWatchDialog). -->
+    <string-array name="friend_watch_conditions">
+        <item>Get here</item>
+        <item>Leave here</item>
+    </string-array>
+
+    <!-- Order MUST match Alarm.VIBRATE_OFF / VIBRATE_WITH_SOUND / VIBRATE_ONLY. -->
+    <string-array name="vibration_modes">
+        <item>Off</item>
+        <item>With sound</item>
+        <item>Only vibrate</item>
+    </string-array>
+
+    <!-- Accent seeds. Material expands each into a full light/dark scheme at runtime, so these
+         are just starting colours, not the exact shades that end up on screen. -->
+    <string-array name="accent_entries">
+        <item>Midnight (default)</item>
+        <item>Match my wallpaper</item>
+        <item>Indigo</item>
+        <item>Violet</item>
+        <item>Teal</item>
+        <item>Forest</item>
+        <item>Amber</item>
+        <item>Coral</item>
+        <item>Rose</item>
+    </string-array>
+    <string-array name="accent_values">
+        <item>#5B4EE8</item>
+        <item>wallpaper</item>
+        <item>#3F51B5</item>
+        <item>#7C4DFF</item>
+        <item>#00897B</item>
+        <item>#2E7D32</item>
+        <item>#F9A825</item>
+        <item>#FF7043</item>
+        <item>#E91E63</item>
+    </string-array>
+</resources>

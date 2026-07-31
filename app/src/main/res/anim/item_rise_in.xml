@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One list row arriving: lifts a little, fades and settles. Kept short so a long list never drags. -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+
+    <translate
+        android:duration="260"
+        android:fromYDelta="12%"
+        android:interpolator="@android:interpolator/fast_out_slow_in"
+        android:toYDelta="0" />
+
+    <alpha
+        android:duration="240"
+        android:fromAlpha="0.0"
+        android:interpolator="@android:interpolator/decelerate_quad"
+        android:toAlpha="1.0" />
+
+    <scale
+        android:duration="260"
+        android:fromXScale="0.97"
+        android:fromYScale="0.97"
+        android:interpolator="@android:interpolator/fast_out_slow_in"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1.0"
+        android:toYScale="1.0" />
+</set>

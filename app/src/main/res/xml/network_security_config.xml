@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Belt and braces on top of the platform default. Everything this app talks to is https by
+  construction — the ntfy relay, Photon place search, Carto map tiles, Jira Cloud — and the relay
+  URL is the one the user can edit, so it's the one worth pinning the policy down for.
+
+  cleartextTrafficPermitted="false" makes a plaintext request fail loudly at the network layer
+  instead of quietly succeeding if some future code path forgets to force https.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

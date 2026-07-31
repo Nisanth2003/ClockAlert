@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Splash-screen icon: a SINGLE-COLOUR silhouette of the AlarmTracker mark — ring, hands, pivot.
+
+  Deliberately WITHOUT the horizon and sun that the full-colour launcher icon carries. Flattened to one
+  tone they lose their meaning: the amber sun stops being a sun and merges with the horizon bar into an
+  indistinct lump under the hands (checked by rendering both). A ring plus hands survives flattening and
+  still says "clock", which is the whole job of this layer.
+
+  Kept separate from ic_launcher_foreground on purpose - that one is white because it sits on the indigo
+  adaptive-icon background, whereas the splash draws straight onto @color/splash_background, which is
+  near-white in light mode; hardcoding white here is what made the opening image look washed out and
+  grey. Every path therefore fills with @color/splash_icon, which flips per theme (see values/colors.xml
+  and values-night/colors.xml). If a runtime tint is ever applied on top it simply overrides this, so the
+  reference is safe either way.
+
+  Do not add a second colour or a gradient here. Geometry matches ic_launcher_foreground exactly.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Clock ring: r = 21 .. 27. Hole cut by reversed winding order. -->
+    <path
+        android:fillColor="@color/splash_icon"
+        android:pathData="M54,27 A27,27 0 1 1 54,81 A27,27 0 1 1 54,27 Z M54,33 A21,21 0 1 0 54,75 A21,21 0 1 0 54,33 Z" />
+
+    <!-- Minute hand (to 11). -->
+    <path
+        android:fillColor="@color/splash_icon"
+        android:pathData="M56.222,54.449 L48.222,40.593 L45.278,42.293 L53.278,56.149 Z" />
+
+    <!-- Hour hand (to 2). -->
+    <path
+        android:fillColor="@color/splash_icon"
+        android:pathData="M53.651,56.395 L63.610,50.645 L61.710,47.355 L51.751,53.105 Z" />
+
+    <!-- Pivot cap. -->
+    <path
+        android:fillColor="@color/splash_icon"
+        android:pathData="M54,51.8 A2.2,2.2 0 1 1 54,56.2 A2.2,2.2 0 1 1 54,51.8 Z" />
+</vector>

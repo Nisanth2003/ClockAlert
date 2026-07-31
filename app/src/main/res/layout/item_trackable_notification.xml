@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:minHeight="@dimen/touch_target_min"
+    app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+    app:cardElevation="0dp"
+    app:strokeColor="?attr/colorOutlineVariant"
+    app:strokeWidth="1dp"
+    style="@style/Widget.Material3.CardView.Outlined">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/trackable_app"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                tools:text="Google Maps" />
+
+            <TextView
+                android:id="@+id/trackable_snippet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="12 km · 14 min to Springfield" />
+
+            <TextView
+                android:id="@+id/trackable_suggestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="?attr/textAppearanceLabelMedium"
+                android:textColor="?attr/colorPrimary"
+                tools:text="Alarm on arrival" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/trackable_pick"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/notif_track_pick"
+            android:contentDescription="@string/notif_track_pick" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

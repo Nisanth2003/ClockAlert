@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/pref_cat_general"
+        app:iconSpaceReserved="false">
+        <ListPreference
+            android:key="pref_time_format"
+            android:title="@string/pref_time_format_title"
+            android:entries="@array/time_format_entries"
+            android:entryValues="@array/time_format_values"
+            android:defaultValue="system"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_cat_alarm"
+        app:iconSpaceReserved="false">
+        <ListPreference
+            android:key="pref_default_snooze"
+            android:title="@string/pref_default_snooze_title"
+            android:entries="@array/snooze_entries"
+            android:entryValues="@array/snooze_values"
+            android:defaultValue="10"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:key="pref_volume_ramp"
+            android:title="@string/pref_volume_ramp_title"
+            android:summary="@string/pref_volume_ramp_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:widgetLayout="@layout/preference_material_switch" />
+        <SwitchPreferenceCompat
+            android:key="pref_volume_snooze"
+            android:title="@string/pref_volume_snooze_title"
+            android:summary="@string/pref_volume_snooze_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:widgetLayout="@layout/preference_material_switch" />
+        <SwitchPreferenceCompat
+            android:key="pref_meeting_aware"
+            android:title="@string/pref_meeting_aware_title"
+            android:summary="@string/pref_meeting_aware_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:widgetLayout="@layout/preference_material_switch" />
+        <SwitchPreferenceCompat
+            android:key="pref_live_eta"
+            android:title="@string/pref_live_eta_title"
+            android:summary="@string/pref_live_eta_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:widgetLayout="@layout/preference_material_switch" />
+        <SwitchPreferenceCompat
+            android:key="pref_fullscreen_alarm"
+            android:title="@string/pref_fullscreen_alarm_title"
+            android:summary="@string/pref_fullscreen_alarm_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:widgetLayout="@layout/preference_material_switch" />
+        <ListPreference
+            android:key="pref_snooze_budget"
+            android:title="@string/pref_snooze_budget_title"
+            android:entries="@array/snooze_budget_entries"
+            android:entryValues="@array/snooze_budget_values"
+            android:defaultValue="0"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_cat_reliability"
+        app:iconSpaceReserved="false">
+        <Preference
+            android:key="pref_reliability_check"
+            android:title="@string/pref_reliability_check_title"
+            android:summary="@string/pref_reliability_check_summary"
+            app:iconSpaceReserved="false" />
+        <Preference
+            android:key="pref_postmortem"
+            android:title="@string/pref_postmortem_title"
+            android:summary="@string/pref_postmortem_summary"
+            app:iconSpaceReserved="false" />
+        <Preference
+            android:key="pref_battery_opt"
+            android:title="@string/pref_battery_title"
+            app:iconSpaceReserved="false" />
+        <Preference
+            android:key="pref_health_sleep"
+            android:title="@string/pref_health_sleep_title"
+            android:summary="@string/pref_health_sleep_summary"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:key="pref_preflight"
+            android:title="@string/pref_preflight_title"
+            android:summary="@string/pref_preflight_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:widgetLayout="@layout/preference_material_switch" />
+        <SwitchPreferenceCompat
+            android:key="pref_morning_report"
+            android:title="@string/pref_morning_report_title"
+            android:summary="@string/pref_morning_report_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:widgetLayout="@layout/preference_material_switch" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_cat_integrations"
+        app:iconSpaceReserved="false">
+        <Preference
+            android:key="pref_connections"
+            android:title="@string/pref_connections_title"
+            android:summary="@string/pref_connections_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_cat_data"
+        app:iconSpaceReserved="false">
+        <Preference
+            android:key="pref_export"
+            android:title="@string/pref_export_title"
+            android:summary="@string/pref_export_summary"
+            app:iconSpaceReserved="false" />
+        <Preference
+            android:key="pref_privacy"
+            android:title="@string/pref_privacy_title"
+            android:summary="@string/pref_privacy_summary"
+            app:iconSpaceReserved="false" />
+        <Preference
+            android:key="pref_wipe"
+            android:title="@string/pref_wipe_title"
+            android:summary="@string/pref_wipe_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_cat_appearance"
+        app:iconSpaceReserved="false">
+        <ListPreference
+            android:key="pref_theme"
+            android:title="@string/pref_theme_title"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values"
+            android:defaultValue="system"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            android:key="pref_accent"
+            android:title="@string/pref_accent_title"
+            android:entries="@array/accent_entries"
+            android:entryValues="@array/accent_values"
+            android:defaultValue="#5B4EE8"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:key="pref_dynamic_color"
+            android:title="@string/pref_dynamic_color_title"
+            android:summary="@string/pref_dynamic_color_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:widgetLayout="@layout/preference_material_switch" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_cat_help"
+        app:iconSpaceReserved="false">
+        <Preference
+            android:key="pref_guide"
+            android:title="@string/pref_guide_title"
+            android:summary="@string/pref_guide_summary"
+            app:iconSpaceReserved="false" />
+        <Preference
+            android:key="pref_show_tips"
+            android:title="@string/pref_show_tips_title"
+            android:summary="@string/pref_show_tips_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+</PreferenceScreen>

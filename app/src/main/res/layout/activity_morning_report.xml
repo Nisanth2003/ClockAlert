@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/morning_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/report_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/screen_margin"
+            android:paddingTop="24dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintWidth_max="@dimen/content_max_width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_morning_report"
+                    android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <!-- Shareable card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/report_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:cardBackgroundColor="?attr/colorPrimaryContainer"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/report_wake_time_label"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textColor="?attr/colorOnPrimaryContainer" />
+
+                        <TextView
+                            android:id="@+id/report_wake_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFeatureSettings="tnum"
+                            android:textAppearance="?attr/textAppearanceDisplayMedium"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            tools:text="6:32 AM" />
+
+                        <TextView
+                            android:id="@+id/report_vs_average"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            tools:text="8 min earlier than your 30-day average" />
+
+                        <TextView
+                            android:id="@+id/report_streak"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:drawablePadding="8dp"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            tools:text="5-day no-snooze streak" />
+
+                        <TextView
+                            android:id="@+id/report_sleep"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            tools:text="Estimated 7 h 15 min sleep opportunity" />
+
+                        <TextView
+                            android:id="@+id/report_sleep_explainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/sleep_estimate_explainer"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            android:alpha="0.85" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Sparkline -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/card_gap"
+                    app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/report_trend_title"
+                            android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                        <com.example.alarmtracker.ui.stats.WakeChartView
+                            android:id="@+id/report_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="140dp"
+                            android:layout_marginTop="12dp"
+                            android:contentDescription="@string/report_trend_title" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/report_insight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="?attr/colorOnSurface"
+                    tools:text="You’re building a strong wake-up habit — keep the streak alive." />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/report_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:padding="@dimen/screen_margin">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/report_share"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/report_share"
+            app:icon="@drawable/ic_share" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/report_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_target_min"
+            android:text="@string/report_done" />
+    </LinearLayout>
+</LinearLayout>

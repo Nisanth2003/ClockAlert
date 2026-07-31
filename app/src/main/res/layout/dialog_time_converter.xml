@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="8dp">
+
+    <!-- Editable side: scroll to the time you have in mind. -->
+    <TextView
+        android:id="@+id/conv_from_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceLabelLarge"
+        android:textColor="?attr/colorPrimary"
+        tools:text="If it's this time here (Kolkata)" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/conv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:text="@string/time_colon"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textColor="?attr/colorOnSurface" />
+
+        <NumberPicker
+            android:id="@+id/conv_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <NumberPicker
+            android:id="@+id/conv_ampm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/conv_swap"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:minHeight="@dimen/touch_target_min"
+        android:text="@string/wc_swap"
+        app:icon="@drawable/ic_swap" />
+
+    <!-- Result side. -->
+    <TextView
+        android:id="@+id/conv_to_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="?attr/textAppearanceLabelLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        tools:text="…then it's this time in New York" />
+
+    <TextView
+        android:id="@+id/conv_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFeatureSettings="tnum"
+        android:textAppearance="?attr/textAppearanceDisplaySmall"
+        android:textColor="?attr/colorOnSurface"
+        tools:text="6:42 am" />
+
+    <TextView
+        android:id="@+id/conv_result_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        tools:text="Wednesday · next day" />
+</LinearLayout>

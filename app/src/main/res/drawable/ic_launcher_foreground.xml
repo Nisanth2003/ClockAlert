@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  AlarmTracker mark: a clock — ring, face, and two HANDS — whose night-sky face has a small amber sun
+  cresting a horizon low inside it. Night into morning, which is the product, but subordinate to the
+  thing a user has to recognise in a drawer of 60 icons: a clock.
+
+  WHY IT CHANGED (do not undo this): the previous mark had two large angular bells set wide on the
+  52-degree axes, a full-width horizon bar that deliberately ran into the ring, a big 12.2-radius amber
+  half-disc as the only thing inside the face — and no hands at all. Rendered at drawer size those four
+  facts add up to a creature: the bells read as ears, the bar as a mouth, the amber disc as an eye. The
+  user's words were "looks more like a pokemon than a clock". Hands are what make a circle read as a
+  clock, and they were the one element missing.
+
+  Geometry (viewport 108x108, centre 54,54, everything inside the guaranteed-visible r=33 safe circle):
+    face disc     r = 21.4 (drawn first; the ring covers the 0.4 overlap so there is no hairline seam)
+    clock ring    r = 21 .. 27
+    horizon       y = 63.5 .. 65.2, x = 38 .. 70 — deliberately clear of the ring on both sides, so it
+                  can never read as a mouth spanning the whole face
+    sun           upper half-disc, centre (54, 63.5), r = 5.5
+    minute hand   length 14.5, half-width 1.7, pointing to 11 (-30 degrees from 12)
+    hour hand     length 10.0, half-width 1.9, pointing to 2 (+60 degrees)
+    pivot cap     r = 2.2
+  Ring hole is cut with reversed winding order under the default nonZero fill, not fillType.
+  Draw order matters: face, ring, horizon, sun, hands, pivot.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Night-sky face: darkest overhead, lifting toward the horizon. The amber lives in the sun, not
+         in the gradient — a gradient that ended in orange muddied the sun into the background. -->
+    <path android:pathData="M54,32.6 A21.4,21.4 0 1 1 54,75.4 A21.4,21.4 0 1 1 54,32.6 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="54"
+                android:startY="32.6"
+                android:endX="54"
+                android:endY="75.4">
+                <item android:offset="0" android:color="#FF141046" />
+                <item android:offset="0.55" android:color="#FF2C216C" />
+                <item android:offset="1" android:color="#FF563892" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Clock ring, 6dp band. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,27 A27,27 0 1 1 54,81 A27,27 0 1 1 54,27 Z M54,33 A21,21 0 1 0 54,75 A21,21 0 1 0 54,33 Z" />
+
+    <!-- Horizon. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M38,63.5 L70,63.5 L70,65.2 L38,65.2 Z" />
+
+    <!-- Rising sun, resting on the horizon. -->
+    <path
+        android:fillColor="#FFFFB067"
+        android:pathData="M48.5,63.5 A5.5,5.5 0 0 1 59.5,63.5 Z" />
+
+    <!-- Minute hand (to 11). -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M56.222,54.449 L48.222,40.593 L45.278,42.293 L53.278,56.149 Z" />
+
+    <!-- Hour hand (to 2). -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M53.651,56.395 L63.610,50.645 L61.710,47.355 L51.751,53.105 Z" />
+
+    <!-- Pivot cap, drawn last so both hands meet cleanly. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,51.8 A2.2,2.2 0 1 1 54,56.2 A2.2,2.2 0 1 1 54,51.8 Z" />
+</vector>

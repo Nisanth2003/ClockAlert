@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Monochrome (themed-icon) layer: ring, hands, pivot — the same single-tone silhouette as
+  ic_splash_icon, and for the same reason. The themed-icon pipeline only reads this layer's alpha, so
+  the horizon and the sun would flatten into one indistinct lump; the ring and hands are what still say
+  "clock" after the launcher has recoloured everything.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Clock ring: r = 21 .. 27. Hole cut by reversed winding order. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,27 A27,27 0 1 1 54,81 A27,27 0 1 1 54,27 Z M54,33 A21,21 0 1 0 54,75 A21,21 0 1 0 54,33 Z" />
+
+    <!-- Minute hand (to 11). -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M56.222,54.449 L48.222,40.593 L45.278,42.293 L53.278,56.149 Z" />
+
+    <!-- Hour hand (to 2). -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M53.651,56.395 L63.610,50.645 L61.710,47.355 L51.751,53.105 Z" />
+
+    <!-- Pivot cap. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,51.8 A2.2,2.2 0 1 1 54,56.2 A2.2,2.2 0 1 1 54,51.8 Z" />
+</vector>
