@@ -18,10 +18,12 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.NumberPicker
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.widget.NestedScrollView
 import androidx.core.content.IntentCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
@@ -34,6 +36,7 @@ import com.example.alarmtracker.data.AlarmRepository
 import com.example.alarmtracker.data.EventTrigger
 import com.example.alarmtracker.data.NotificationMatchRule
 import com.example.alarmtracker.databinding.DialogTrackConditionBinding
+import com.example.alarmtracker.databinding.ItemPlaceChoiceBinding
 import com.example.alarmtracker.databinding.ItemTrackableNotificationBinding
 import com.example.alarmtracker.databinding.SheetAlarmEditBinding
 import com.example.alarmtracker.notif.AlarmNotificationListener
@@ -73,6 +76,7 @@ import java.util.Calendar
 import java.util.Locale
 import kotlin.coroutines.resume
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -1498,23 +1502,74 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
         fun metres(place: GeoResolver.Place): Double? = bias?.let {
             GeoResolver.distanceMeters(it.first, it.second, place.lat, place.lng)
         }
-        val labels = results.mapIndexed { index, place ->
-            val distance = metres(place)?.let { EventAlarmCoordinator.formatKm(ctx, it.toInt()) }
-            when {
-                distance == null -> place.label
-                index == 0 -> getString(R.string.event_pick_item_closest_fmt, place.label, distance)
-                else -> getString(R.string.event_pick_item_fmt, place.label, distance)
-            }
-        }.toTypedArray()
+        // A scrolling list of two-line rows rather than a `setItems` dialog: these labels are long
+        // addresses, and single-line truncation hid both the part that identifies the place and the
+        // distance that reveals a wrong-country match.
+        val container = LinearLayout(ctx).apply { orientation = LinearLayout.VERTICAL }
+        val scroll = NestedScrollView(ctx).apply {
+            isFillViewport = true
+            addView(container)
+            // Cap the height so a six-result list scrolls instead of pushing the buttons off-screen.
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                (resources.displayMetrics.heightPixels * PLACE_LIST_MAX_HEIGHT_FRACTION).toInt()
+            )
+        }
         // If everything on offer is far away, say so rather than letting them assume it's local.
         val allFar = results.all { (metres(it) ?: 0.0) > FAR_MATCH_M }
-        MaterialAlertDialogBuilder(ctx)
+        val dialog = MaterialAlertDialogBuilder(ctx)
             .setTitle(if (allFar) R.string.event_pick_match_far else R.string.event_pick_match)
-            .setItems(labels) { _, which -> applyResolvedPlace(results[which]) }
+            .setView(scroll)
             .setNegativeButton(android.R.string.cancel) { _, _ ->
                 _binding?.destinationStatus?.setText(R.string.event_not_found)
             }
-            .show()
+            // A search that offered nothing useful should not be a dead end.
+            .setNeutralButton(R.string.event_pick_on_map) { _, _ -> openMapPicker() }
+            .create()
+        val inflater = LayoutInflater.from(ctx)
+        results.forEachIndexed { index, place ->
+            val row = ItemPlaceChoiceBinding.inflate(inflater, container, false)
+            // Name on the first line, the rest of the address underneath — the label is one long string,
+            // so split it at the first comma.
+            row.choiceName.text = place.name ?: place.label.substringBefore(',')
+            val rest = place.label.substringAfter(',', "").trim()
+            row.choiceAddress.visibility = if (rest.isEmpty()) View.GONE else View.VISIBLE
+            row.choiceAddress.text = rest
+            val distance = metres(place)?.let { EventAlarmCoordinator.formatKm(ctx, it.toInt()) }
+            val far = (metres(place) ?: 0.0) > FAR_MATCH_M
+            row.choiceDistance.visibility = if (distance == null) View.GONE else View.VISIBLE
+            if (distance != null) {
+                row.choiceDistance.text = if (index == 0 && !far) {
+                    getString(R.string.map_result_closest_fmt, distance)
+                } else {
+                    getString(R.string.map_result_distance_fmt, distance)
+                }
+                // Far matches are coloured as a warning: "230 km away" in plain grey reads as fine.
+                row.choiceDistance.setTextColor(
+                    MaterialColors.getColor(
+                        row.choiceDistance,
+                        if (far) {
+                            androidx.appcompat.R.attr.colorError
+                        } else {
+                            androidx.appcompat.R.attr.colorPrimary
+                        }
+                    )
+                )
+            }
+            row.root.setOnClickListener {
+                applyResolvedPlace(place)
+                dialog.dismiss()
+            }
+            container.addView(row.root)
+        }
+        dialog.show()
+    }
+
+    /** Opens the map on the best guess we have, so "none of these" leads somewhere. */
+    private fun openMapPicker() {
+        mapPicker.launch(
+            MapPickerActivity.intent(requireContext(), destLat, destLng, arrivalRadiusM)
+        )
     }
 
     private fun applyResolvedPlace(place: GeoResolver.Place) {
@@ -1820,6 +1875,7 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
             }
         )
         b.notifGrantButton.visibility = if (granted) View.GONE else View.VISIBLE
+        if (connecting) startListenerWatch()
 
         b.trackableContainer.removeAllViews()
         val actives = if (granted) AlarmNotificationListener.activeNotifications(requireContext()) else emptyList()
@@ -1878,9 +1934,16 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
         lines += getString(
             if (granted) R.string.diag_access_on else R.string.diag_access_off
         )
-        lines += getString(
-            if (connected) R.string.diag_listener_on else R.string.diag_listener_off
-        )
+        if (connected) {
+            lines += getString(R.string.diag_listener_on)
+        } else {
+            lines += getString(R.string.diag_listener_off)
+            // Don't just report it — ask the OS to fix it while the user is looking at the dialog.
+            if (granted) {
+                NotificationAccess.requestRebind(ctx)
+                lines += getString(R.string.diag_listener_rebind)
+            }
+        }
         // The count is the real proof: if notifications are arriving, the pipe works, and any failure
         // is in the rule rather than in the plumbing.
         lines += if (seen > 0) {
@@ -2169,6 +2232,44 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
             }
         )
         b.cooldownGrantButton.visibility = if (granted) View.GONE else View.VISIBLE
+        if (connecting) startListenerWatch()
+    }
+
+    /** Set while a rebind watch is running, so the two sections can't start competing loops. */
+    private var listenerWatch: kotlinx.coroutines.Job? = null
+
+    /**
+     * "Notification access is on — connecting" used to be a dead end: it was rendered once and never
+     * re-checked, so it sat there even after the listener bound, and if the listener never bound (MIUI
+     * unbinds ours whenever it reaps the process) nothing ever asked it to.
+     *
+     * So: ask the OS to bind, then keep re-rendering until it does or we give up. Ten seconds is plenty —
+     * a bind that hasn't happened by then needs the user to toggle access off and on, which is what the
+     * status text then tells them.
+     */
+    private fun startListenerWatch() {
+        if (listenerWatch?.isActive == true) return
+        NotificationAccess.requestRebind(requireContext())
+        listenerWatch = viewLifecycleOwner.lifecycleScope.launch {
+            repeat(LISTENER_WATCH_TRIES) {
+                delay(1_000)
+                if (_binding == null) return@launch
+                if (AlarmNotificationListener.isConnected()) {
+                    // Re-render both sections: either one may be the visible reason we're watching.
+                    if (trackingMode == TRACK_COOLDOWN) refreshCooldownSection()
+                    if (trackingMode == TRACK_NOTIF) refreshNotificationSection()
+                    return@launch
+                }
+            }
+            // Still nothing. Say what actually fixes it instead of "connecting" forever.
+            _binding?.let { b ->
+                if (trackingMode == TRACK_COOLDOWN) {
+                    b.cooldownGrantStatus.setText(R.string.notif_access_status_stuck)
+                } else if (trackingMode == TRACK_NOTIF) {
+                    b.notifGrantStatus.setText(R.string.notif_access_status_stuck)
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -2204,6 +2305,12 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
 
         /** Enough chips to cover the wordings that matter without turning the dialog into a wall. */
         private const val MAX_KEYWORD_CHIPS = 12
+
+        /** Result list height cap, as a fraction of the screen, so the dialog's buttons stay reachable. */
+        private const val PLACE_LIST_MAX_HEIGHT_FRACTION = 0.55f
+
+        /** One-second re-checks while waiting for the OS to bind the notification listener. */
+        private const val LISTENER_WATCH_TRIES = 10
 
         // Track-an-event dropdown positions (must match R.array.tracking_modes order).
         private const val TRACK_OFF = 0

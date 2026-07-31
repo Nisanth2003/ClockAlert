@@ -45,6 +45,11 @@ class AlarmTrackerApp : Application() {
         PreflightScheduler.apply(this)
         // Keep the connector background poll in sync (enqueues only if a connector is linked).
         com.example.alarmtracker.connector.ConnectorScheduler.apply(this)
+        // Notification access granted but the listener not bound is a silent dead state — every
+        // notification-source and limit-reset alarm stops working with no sign of it. An OEM that reaps
+        // our process leaves us exactly there, so ask for a rebind on every launch. No-op when already
+        // connected or not granted.
+        com.example.alarmtracker.notif.NotificationAccess.requestRebind(this)
         // Recycle bin housekeeping: drop soft-deleted alarms/timers past their retention window.
         applicationScope.launch {
             com.example.alarmtracker.data.AlarmRepository.get(this@AlarmTrackerApp).purgeExpiredDeleted()

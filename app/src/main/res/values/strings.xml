@@ -685,6 +685,9 @@
     <string name="diag_rule_not_installed_fmt">✗ None of the apps this alarm watches are installed: %1$s. It can never match, so the alarm will only ring at its fallback.</string>
     <string name="diag_no_match_now">Nothing from those apps is on screen right now — that\'s normal, and not a problem.</string>
     <string name="diag_match_now_fmt">✓ Right now it can see: %1$s</string>
+    <string name="event_pick_on_map">Pick on the map</string>
+    <string name="notif_access_status_stuck">Access is on, but Android still hasn\'t started the listener. Turn notification access off and on again, and allow the app to autostart.</string>
+    <string name="diag_listener_rebind">→ Just asked Android to start it. Close this and check again in a few seconds.</string>
     <string name="diag_battery_note">Battery: tracking costs nothing while it waits. Android pushes notifications to us; we never poll, never hold a wakelock and never use location for this. The only work is a text comparison per notification.</string>
     <string name="event_wait_caption_fmt">Rings the moment the notification appears — or after %1$s if it never does.</string>
     <string name="event_wait_minutes_fmt">%1$d min</string>

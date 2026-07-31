@@ -1,8 +1,10 @@
 package com.example.alarmtracker.notif
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
+import android.service.notification.NotificationListenerService
 import androidx.core.app.NotificationManagerCompat
 
 /**
@@ -22,4 +24,30 @@ object NotificationAccess {
 
     /** Deep-link to the system "Notification access" screen where the user flips the toggle. */
     fun settingsIntent(): Intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+
+    private fun component(context: Context) =
+        ComponentName(context.applicationContext, AlarmNotificationListener::class.java)
+
+    /**
+     * Ask the OS to bind our listener now.
+     *
+     * Access being granted does NOT mean the service is running: Android binds notification listeners
+     * lazily, and an aggressive OEM (MIUI in particular) will unbind ours whenever it cleans up the
+     * process — after which it may stay unbound indefinitely. The symptom is the UI sitting on
+     * "connecting" forever and no notification ever reaching us, which reads exactly like a broken
+     * feature. [requestRebind] is the documented remedy and is cheap to call; the OS ignores it when the
+     * listener is already connected or access isn't granted.
+     */
+    fun requestRebind(context: Context) {
+        if (!isGranted(context)) return
+        try {
+            NotificationListenerService.requestRebind(component(context))
+        } catch (_: Exception) {
+            // Nothing to do — the status UI already tells the user it isn't connected.
+        }
+    }
+
+    /** Granted, but the OS hasn't bound the service — the state worth acting on rather than showing. */
+    fun grantedButNotConnected(context: Context): Boolean =
+        isGranted(context) && !AlarmNotificationListener.isConnected()
 }
