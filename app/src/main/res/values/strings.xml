@@ -983,6 +983,16 @@
          Everything network-shaped in this app is optional (search, routing, tiles, Jira, the friends
          relay) — alarms themselves never need a connection. So these say what failed and offer the
          switch, and never imply the app is broken. -->
+    <!-- VPN / faked-location notices. Deliberately different messages: one is informational, the other
+         is a real problem with the fix itself. -->
+    <string name="pref_auto_open_app_title">Open the app automatically</string>
+    <string name="pref_auto_open_app_off">Off — a ringing alarm or timer shows an \"Open …\" button and you decide. Safest.</string>
+    <string name="pref_auto_open_app_on">On — a finished timer opens its app straight away, and an alarm opens its app the moment you dismiss it. Never while an alarm is still ringing, or you couldn\'t reach the dismiss button.</string>
+    <string name="loc_vpn_note">A VPN is on. It doesn\'t change where your phone thinks it is, so arrival alarms still work — but place search can return results from the VPN\'s country. Turn it off if the results look foreign.</string>
+    <string name="loc_vpn_short">VPN on · search may look foreign</string>
+    <string name="loc_mock_title">Your location is being faked</string>
+    <string name="loc_mock_body">Another app is supplying a made-up location to this phone, so this is not where you actually are. Arrival alarms will fire in the wrong place until you turn that app off (Developer options → Select mock location app).</string>
+    <string name="loc_mock_short">Faked location — arrival alarms will be wrong</string>
     <string name="net_offline_title">You\'re offline</string>
     <string name="net_offline_body">Wi-Fi and mobile data are both off, or there\'s no signal here.</string>
     <string name="net_airplane_title">Airplane mode is on</string>

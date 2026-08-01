@@ -941,6 +941,22 @@ class MapPickerActivity : AppCompatActivity() {
     }
 
     private fun updateAccuracyText(location: Location) {
+        // A faked fix outranks everything else this line could say: the pin, the route and any alarm
+        // built on it are all wrong by however far the fake is from reality, and no amount of accuracy
+        // in metres means anything. Warned once per screen, loudly, because nothing else can detect it.
+        if (LocationState.isMock(location)) {
+            binding.locationAccuracy.visibility = View.VISIBLE
+            binding.locationAccuracy.setText(R.string.loc_mock_short)
+            if (!mockWarned) {
+                mockWarned = true
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.loc_mock_title)
+                    .setMessage(R.string.loc_mock_body)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
+            }
+            return
+        }
         if (!location.hasAccuracy()) {
             binding.locationAccuracy.visibility = View.GONE
             return
@@ -948,12 +964,22 @@ class MapPickerActivity : AppCompatActivity() {
         val metres = location.accuracy.toInt()
         val pretty = EventAlarmCoordinator.formatKm(this, metres)
         binding.locationAccuracy.visibility = View.VISIBLE
-        binding.locationAccuracy.text = if (location.accuracy > WEAK_ACCURACY_M) {
+        val accuracy = if (location.accuracy > WEAK_ACCURACY_M) {
             getString(R.string.map_accuracy_weak_fmt, pretty)
         } else {
             getString(R.string.map_accuracy_fmt, pretty)
         }
+        // A VPN does not move this fix, so it is a footnote here rather than a warning — it only explains
+        // search results that look like they came from another country.
+        binding.locationAccuracy.text = if (NetworkState.vpnActive(this)) {
+            "$accuracy · ${getString(R.string.loc_vpn_short)}"
+        } else {
+            accuracy
+        }
     }
+
+    /** One mock-location warning per visit; repeating it on every fix would be unusable. */
+    private var mockWarned = false
 
     /**
      * Recentres on the user. The old version centred on `lastLocation`, which is whatever fix any app

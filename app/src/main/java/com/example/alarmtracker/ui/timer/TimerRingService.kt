@@ -69,6 +69,15 @@ class TimerRingService : Service() {
         active.value = true
 
         startInForeground(buildNotification(label, actionPackage, actionLabel))
+        // "Open the app automatically" on + a chosen app = do exactly that, immediately. A timer is short
+        // and expected ("three minutes, then open the camera"), so unlike an alarm there is no risk of
+        // burying a dismiss control the user still needs: opening the app stops the ring outright.
+        if (actionPackage != null && Prefs.autoOpenAppEnabled(this) &&
+            packageManager.getLaunchIntentForPackage(actionPackage) != null
+        ) {
+            handleOpen(actionPackage)
+            return
+        }
         startSound()
         maybeLaunchFullScreen(label, actionPackage, actionLabel)
 

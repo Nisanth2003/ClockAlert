@@ -19,6 +19,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.NumberPicker
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -1518,6 +1519,26 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
         }
         // If everything on offer is far away, say so rather than letting them assume it's local.
         val allFar = results.all { (metres(it) ?: 0.0) > FAR_MATCH_M }
+        // Exactly the case the VPN note is for: every match is in another region AND traffic is leaving
+        // through a VPN, which is the likeliest explanation. Shown only here, because a VPN is irrelevant
+        // when the results are sensible.
+        if (allFar && NetworkState.vpnActive(ctx)) {
+            container.addView(
+                TextView(ctx).apply {
+                    setText(R.string.loc_vpn_note)
+                    setPadding(
+                        (24 * resources.displayMetrics.density).toInt(),
+                        0,
+                        (24 * resources.displayMetrics.density).toInt(),
+                        (12 * resources.displayMetrics.density).toInt()
+                    )
+                    setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodySmall)
+                    setTextColor(
+                        MaterialColors.getColor(this, com.google.android.material.R.attr.colorOnSurfaceVariant)
+                    )
+                }
+            )
+        }
         val dialog = MaterialAlertDialogBuilder(ctx)
             .setTitle(if (allFar) R.string.event_pick_match_far else R.string.event_pick_match)
             .setView(scroll)

@@ -66,6 +66,26 @@ object NetworkState {
         return if (airplaneModeOn(context)) Status.AIRPLANE else Status.OFFLINE
     }
 
+
+    /**
+     * True when traffic is going through a VPN.
+     *
+     * Worth surfacing, but NOT for the reason people expect: a VPN does **not** move your location. An
+     * Android fix comes from GPS satellites, nearby Wi-Fi and cell towers — none of which a VPN touches —
+     * so `getCurrentLocation()` returns where the phone physically is whether a VPN is on or off, and
+     * arrival alarms are unaffected. Telling users to disable their VPN to "fix" their location would be
+     * wrong advice, and it would cost them their privacy for nothing.
+     *
+     * What a VPN genuinely does affect is anything a SERVER decides from the IP address it sees: place
+     * search can come back weighted to the exit country, so a query can look like it landed abroad. That
+     * is the specific, honest thing to warn about.
+     */
+    fun vpnActive(context: Context): Boolean {
+        val cm = context.getSystemService(ConnectivityManager::class.java) ?: return false
+        val caps = cm.activeNetwork?.let { cm.getNetworkCapabilities(it) } ?: return false
+        return caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
+    }
+
     /**
      * True when a network request cannot possibly succeed, so the caller should explain instead of
      * trying. [Status.UNVALIDATED] deliberately does NOT count: never block a request that might

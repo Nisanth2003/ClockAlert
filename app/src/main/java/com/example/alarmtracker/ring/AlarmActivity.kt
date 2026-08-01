@@ -480,6 +480,7 @@ class AlarmActivity : AppCompatActivity() {
                     if (state == null) {
                         // In glow mode we wait for the real ring; otherwise the ring ended.
                         if (!glowMode || ringActive) {
+                            maybeAutoOpenApp()
                             maybeLaunchMorningReport()
                             finish()
                         }
@@ -547,6 +548,23 @@ class AlarmActivity : AppCompatActivity() {
      * the alarm (not on snooze or ring-timeout) and the setting is enabled. Non-blocking:
      * the dismiss has already completed and this activity finishes right after.
      */
+    /**
+     * With "open the app automatically" on, launch the alarm's chosen app once the alarm has actually been
+     * dismissed — not before. Deliberately after: opening it while the alarm rings would cover the ring
+     * screen and leave no way to stop the noise.
+     */
+    private fun maybeAutoOpenApp() {
+        if (!userDismissing || glowMode) return
+        if (!Prefs.autoOpenAppEnabled(this)) return
+        val pkg = actionPackage ?: return
+        val intent = packageManager.getLaunchIntentForPackage(pkg) ?: return
+        try {
+            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        } catch (_: Exception) {
+            // Best-effort; the button is still there if this fails.
+        }
+    }
+
     private fun maybeLaunchMorningReport() {
         if (!userDismissing || glowMode) return
         if (!Prefs.morningReportEnabled(this)) return

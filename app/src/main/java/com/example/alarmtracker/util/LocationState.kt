@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.provider.Settings
 import androidx.core.location.LocationManagerCompat
 
@@ -33,6 +34,24 @@ object LocationState {
 
     /** The Location settings page, so the app can offer to fix it rather than just complain. */
     fun settingsIntent(): Intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+
+    /**
+     * True when this fix was invented by another app rather than measured.
+     *
+     * THIS is what actually makes "the app can't find me" happen — a fake-GPS / developer mock-location
+     * app. It is worth calling out loudly, because an arrival alarm built on a mock fix will be wrong by
+     * however far the mock is from reality, and nothing else in the app can detect that.
+     *
+     * A VPN, by contrast, does NOT move an Android location fix at all (see [NetworkState.vpnActive]) —
+     * it changes which IP address servers see, and Android's location comes from satellites, Wi-Fi and
+     * cell towers. Conflating the two would send users to turn off the wrong thing.
+     */
+    fun isMock(location: Location): Boolean = if (Build.VERSION.SDK_INT >= 31) {
+        location.isMock
+    } else {
+        @Suppress("DEPRECATION")
+        location.isFromMockProvider
+    }
 
     /**
      * Remembers roughly where the user was. Deliberately coarse and low-stakes: it exists so a place

@@ -19,6 +19,7 @@ object Prefs {
     const val KEY_VOLUME_SNOOZE = "pref_volume_snooze"   // boolean; volume buttons snooze a ringing alarm
     const val KEY_ONBOARDING_DONE = "pref_onboarding_done" // boolean; first-run guided setup completed
     const val KEY_FULLSCREEN_ALARM = "pref_fullscreen_alarm" // boolean; launch full-screen ring even when unlocked
+    const val KEY_AUTO_OPEN_APP = "pref_auto_open_app" // boolean; open an alarm/timer's chosen app itself
     const val KEY_CONNECTOR_INTERVAL = "conn_poll_interval_h" // background poll period, hours as string
     const val KEY_COACH_DONE = "pref_coach_done"         // boolean; guided walkthrough shown once
     const val KEY_LIVE_ETA = "pref_live_eta"             // boolean; re-check distance to refine arrival alarms
@@ -141,6 +142,18 @@ object Prefs {
     /** Pressing a volume button while an alarm rings snoozes it. On by default. */
     fun volumeSnoozeEnabled(context: Context): Boolean =
         get(context).getBoolean(KEY_VOLUME_SNOOZE, true)
+
+    /**
+     * Open an alarm's or timer's chosen app automatically instead of offering a button.
+     *
+     * OFF by default, and the difference is deliberate rather than arbitrary. For a TIMER, "on" means the
+     * app opens the moment it finishes — that is the whole point of "three minutes, then open the camera".
+     * For an ALARM, "on" means the app opens once you have DISMISSED it, never while it is ringing:
+     * launching an app over a ringing alarm buries the dismiss button underneath it, which is how you end
+     * up unable to stop your own alarm, and an alarm you can silence by opening an app is not an alarm.
+     */
+    fun autoOpenAppEnabled(context: Context): Boolean =
+        get(context).getBoolean(KEY_AUTO_OPEN_APP, false)
 
     /** Launch the full-screen ring screen directly, so it appears even when unlocked. On by default. */
     fun fullScreenAlarmEnabled(context: Context): Boolean =
