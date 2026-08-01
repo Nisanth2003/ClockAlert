@@ -108,8 +108,11 @@ is a lot of lost sleep.
   same-named junction 200 km away can't quietly become your destination.
 - It draws the **real road route** and its drive time, then offers **"Set the alarm to 7:35"** so the
   fallback time stops being a guess.
-- An **alert ring** you can see on the map (200 m – 5 km) with what it means in minutes:
-  *"Alert me within 800 m · about 2 min before I arrive."*
+- An **alert ring** you can see on the map (**150 m – 10 km**, one-tap presets at 200 m / 500 m / 1 km /
+  2 km / 5 km / 10 km) with what it means in minutes: *"Alert me within 800 m · about 2 min before I
+  arrive."* Wide rings are for trains and coaches — at 90 km/h a 2 km ring gives you 80 seconds, and a
+  small ring can be crossed between the OS's location samples and never trigger at all.
+- If the ring you chose **already contains you**, saving says so instead of ringing immediately.
 - Arrival is detected by an **OS geofence**, not by polling. Your phone is not tracking you; the system
   wakes the app when the boundary is crossed. A sparse ETA check only runs when a destination alarm is
   armed and due within six hours.

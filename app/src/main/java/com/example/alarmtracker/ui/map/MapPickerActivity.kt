@@ -1229,7 +1229,13 @@ class MapPickerActivity : AppCompatActivity() {
         const val EXTRA_RADIUS = "extra_radius"
 
         const val MIN_RADIUS_M = 150
-        const val MAX_RADIUS_M = 5_000
+        /**
+         * 10 km, not 5. A train or a long-distance bus needs the warning much earlier than a car does:
+         * at 90 km/h a 2 km ring gives you 80 seconds, which is not enough to gather your bag and stand
+         * up. A wide ring is also MORE reliable at speed, since a vehicle can cross a small one between
+         * the OS's location samples and never trigger it.
+         */
+        const val MAX_RADIUS_M = 10_000
         const val DEFAULT_RADIUS_M = 200
 
         private const val DEFAULT_LAT = 20.0
@@ -1270,7 +1276,8 @@ class MapPickerActivity : AppCompatActivity() {
         private const val METRES_PER_DEGREE_LAT = 111_320.0
 
         /** One-tap ring sizes, in metres. */
-        private val RADIUS_PRESETS_M = intArrayOf(200, 500, 1000, 2000)
+        /** One tap for the distances people actually pick: walking, driving, then train-scale warnings. */
+        private val RADIUS_PRESETS_M = intArrayOf(200, 500, 1000, 2000, 5000, 10_000)
 
         private const val PIN_DROP_MS = 380L
         private const val PULSE_MS = 620L

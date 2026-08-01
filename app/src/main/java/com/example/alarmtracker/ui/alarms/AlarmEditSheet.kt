@@ -144,6 +144,9 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
     /** Set once the user has chosen to save a place alarm without location anyway. */
     private var locationWarningAcknowledged = false
 
+    /** Set once the user has been told the ring already contains them and chose to save anyway. */
+    private var insideRingAcknowledged = false
+
     // "When it rings, open this app" — an installed package + its label, or null for just ringing.
     private var actionPackage: String? = null
     private var actionLabel: String? = null
@@ -1346,6 +1349,37 @@ class AlarmEditSheet : BottomSheetDialogFragment() {
                 .setPositiveButton(R.string.event_location_grant) { _, _ -> startLocationPermissionFlow() }
                 .show()
             return false
+        }
+        // A big ring can already contain you. Geofences are registered with INITIAL_TRIGGER_ENTER (so a
+        // re-register after a reboot near the destination still fires), which means saving an alarm you
+        // are ALREADY inside rings it instantly. Harmless at 200 m; with the 5-10 km rings a train
+        // journey wants, a ring around a station six kilometres away contains your house. Catch it here
+        // rather than let the alarm go off in the user's hand.
+        if (place && !insideRingAcknowledged) {
+            val here = LocationState.lastKnown(requireContext())
+            val lat = destLat
+            val lng = destLng
+            if (here != null && lat != null && lng != null) {
+                val metres = GeoResolver.distanceMeters(here.first, here.second, lat, lng)
+                if (metres <= arrivalRadiusM) {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(R.string.event_inside_ring_title)
+                        .setMessage(
+                            getString(
+                                R.string.event_inside_ring_body,
+                                EventAlarmCoordinator.formatKm(requireContext(), arrivalRadiusM),
+                                EventAlarmCoordinator.formatKm(requireContext(), metres.toInt())
+                            )
+                        )
+                        .setNegativeButton(R.string.event_save_anyway) { _, _ ->
+                            insideRingAcknowledged = true
+                            if (commitSave()) dismiss()
+                        }
+                        .setPositiveButton(R.string.event_inside_ring_fix, null)
+                        .show()
+                    return false
+                }
+            }
         }
         if (cooldown && cooldownServiceName.isNullOrBlank()) {
             Toast.makeText(requireContext(), R.string.cooldown_needs_service, Toast.LENGTH_LONG).show()

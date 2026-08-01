@@ -285,7 +285,7 @@
                 android:stepSize="50"
                 android:value="200"
                 android:valueFrom="150"
-                android:valueTo="5000"
+                android:valueTo="10000"
                 app:tickVisible="false" />
 
             <LinearLayout

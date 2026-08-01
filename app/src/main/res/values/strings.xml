@@ -661,6 +661,9 @@
     <string name="event_not_found">Couldn\'t find that place. Try a more specific address.</string>
     <string name="event_arrival_radius">Arrival ring</string>
     <string name="event_arrival_radius_fmt">Ring when within %1$s</string>
+    <string name="event_inside_ring_title">You\'re already inside this ring</string>
+    <string name="event_inside_ring_body">The alert ring is %1$s wide and you\'re only %2$s from the place, so this alarm would ring straight away instead of when you arrive.\n\nUse a smaller ring, or pick somewhere you have to travel to.</string>
+    <string name="event_inside_ring_fix">Change the ring</string>
     <string name="event_arrival_radius_lead_fmt">Ring when within %1$s · about %2$d min before you arrive</string>
     <string name="event_fallback_caption">Rings at this time — or sooner if you arrive early.</string>
     <string name="event_fallback_caption_notification">Rings at this time — or sooner when the notification appears.</string>
@@ -819,7 +822,7 @@
     <string name="map_radius_label">Alert ring</string>
     <string name="map_radius_toggle_fmt">Alert ring · %1$s</string>
     <string name="map_radius_min">150 m</string>
-    <string name="map_radius_max">5 km</string>
+    <string name="map_radius_max">10 km</string>
     <string name="map_radius_lead_fmt">That is about %1$d min of warning before you arrive.</string>
     <string name="map_radius_lead_none">You will be alerted just as you arrive.</string>
     <string name="map_radius_chip_m_fmt">%1$d m</string>
