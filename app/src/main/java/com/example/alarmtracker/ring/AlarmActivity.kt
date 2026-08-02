@@ -336,6 +336,19 @@ class AlarmActivity : AppCompatActivity() {
         binding.ringPlaySound.visibility = vis
     }
 
+    /**
+     * "This should have made a noise and didn't." Shown when there was no playable tone or the alarm
+     * stream is at zero — a different problem from being muted for a call, and one the user can only fix
+     * if we say it out loud. Vibration is already running by this point.
+     */
+    private fun applySoundUnavailableNotice(unavailable: Boolean) {
+        if (!unavailable) return
+        binding.ringMeetingNotice.visibility = View.VISIBLE
+        binding.ringMeetingNotice.setText(R.string.ring_sound_unavailable)
+        // No "play sound anyway" here: there is nothing to play, or nothing would be heard.
+        binding.ringPlaySound.visibility = View.GONE
+    }
+
     /** Manual escape from a sensor/camera mission → the always-available math mission. */
     private fun switchToMath() {
         stepListener?.let { sensorManager?.unregisterListener(it) }
@@ -501,6 +514,7 @@ class AlarmActivity : AppCompatActivity() {
                         applySnoozeVisibility()
                         applyActionButton()
                         applyMeetingNotice(state.soundSuppressed)
+                        applySoundUnavailableNotice(state.soundUnavailable)
                     }
                 }
             }

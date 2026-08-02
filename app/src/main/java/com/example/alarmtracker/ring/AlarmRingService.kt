@@ -19,6 +19,7 @@ import android.os.SystemClock
 import android.os.VibrationAttributes
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import com.example.alarmtracker.AlarmTrackerApp
@@ -61,7 +62,13 @@ class AlarmRingService : Service() {
         val actionPackage: String? = null,
         val actionLabel: String? = null,
         /** True while the ring is muted because the user is on a call (vibration still runs). */
-        val soundSuppressed: Boolean = false
+        val soundSuppressed: Boolean = false,
+        /**
+         * True when the ring should be audible and simply isn't: no playable tone, or the alarm stream
+         * is at zero. Deliberately separate from [soundSuppressed] — "muted for your call" and "this
+         * phone cannot play your alarm" need different words and different fixes.
+         */
+        val soundUnavailable: Boolean = false
     )
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
@@ -233,11 +240,28 @@ class AlarmRingService : Service() {
 
     private fun startRinging(alarm: Alarm?) {
         stopSound()
-        if (alarm?.soundEnabled != false) startSoundRespectingCalls(alarm)
-        // Vibrate whenever the alarm asks for it — and always when we've had to mute the sound,
-        // so a silenced alarm is still impossible to sleep through.
-        if (alarm?.vibrate != false || soundSuppressed) startVibration()
+        val wantsSound = alarm?.soundEnabled != false
+        val soundRunning = if (wantsSound) startSoundRespectingCalls(alarm) else false
+        // An alarm that makes no sound AND no vibration is the worst bug this app can have — it looks
+        // like it worked. So vibration is forced whenever anything went wrong with the audio, not only
+        // when a call muted it: no usable tone, or the alarm stream turned down to zero (which is
+        // separate from media volume, so "my volume was full" does not rule it out).
+        val silentStream = wantsSound && alarmStreamMuted()
+        if (alarm?.vibrate != false || soundSuppressed || (wantsSound && !soundRunning) || silentStream) {
+            startVibration()
+        }
+        if (silentStream) {
+            Log.w(TAG, "alarm stream volume is 0 — ring is inaudible, vibrating instead")
+            setSoundUnavailable(true)
+        }
     }
+
+    /** The ALARM stream specifically — it is turned down independently of media and ring volume. */
+    private fun alarmStreamMuted(): Boolean =
+        runCatching {
+            getSystemService(android.media.AudioManager::class.java)
+                ?.getStreamVolume(android.media.AudioManager.STREAM_ALARM) == 0
+        }.getOrDefault(false)
 
     /**
      * Plays the ring, unless doing so would broadcast it into a call the user is in.
@@ -249,22 +273,25 @@ class AlarmRingService : Service() {
      * fire, and the ring screen offers a one-tap "Play sound" override. [watchForMeetingEnd] then
      * brings the sound back by itself the moment the call ends.
      */
-    private fun startSoundRespectingCalls(alarm: Alarm?) {
+    private fun startSoundRespectingCalls(alarm: Alarm?): Boolean {
         val meetingAware = Prefs.meetingAwareEnabled(this) && !userForcedSound
         if (!meetingAware || !MeetingDetector.inMeeting(this)) {
-            startSound(alarm, preferredDevice = null)
+            val started = startSound(alarm, preferredDevice = null)
             setSoundSuppressed(false)
-            return
+            // Distinct from the muted-for-a-call state: nothing is playing and no call explains it.
+            setSoundUnavailable(!started)
+            return started
         }
         val privateDevice = MeetingDetector.privateOutputDevice(this)
         if (privateDevice != null && startSound(alarm, privateDevice)) {
             // Routed to a headset: audible to the user, inaudible to the call.
             setSoundSuppressed(false)
-            return
+            return true
         }
         stopSound()
         setSoundSuppressed(true)
         watchForMeetingEnd()
+        return false
     }
 
     /**
@@ -274,12 +301,30 @@ class AlarmRingService : Service() {
      * silent fall back to the loudspeaker is exactly the leak we are trying to avoid.
      */
     private fun startSound(alarm: Alarm?, preferredDevice: AudioDeviceInfo?): Boolean {
+        // Every tone worth trying, best first. The chosen one can fail long after it was picked — the
+        // file gets deleted, the SD card is unmounted, or the URI permission doesn't survive a reboot —
+        // and the old code treated that as "no sound", with no fallback and nothing on screen to say so.
+        // A silent alarm is the one failure this app exists to prevent, so exhaust the alternatives.
+        val candidates = listOfNotNull(
+            alarm?.soundUri?.takeIf { it.isNotBlank() }?.let { runCatching { android.net.Uri.parse(it) }.getOrNull() },
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM),
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE),
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        ).distinct()
+        for ((index, uri) in candidates.withIndex()) {
+            if (startSoundWithUri(uri, preferredDevice)) {
+                if (index > 0) {
+                    Log.w(TAG, "alarm tone unusable, fell back to candidate #$index")
+                }
+                return true
+            }
+        }
+        Log.e(TAG, "no usable alarm tone at all — vibration only")
+        return false
+    }
+
+    private fun startSoundWithUri(uri: android.net.Uri, preferredDevice: AudioDeviceInfo?): Boolean {
         try {
-            // Honor a chosen ringtone; fall back to the default alarm tone when null/blank.
-            val uri = alarm?.soundUri?.takeIf { it.isNotBlank() }?.let { android.net.Uri.parse(it) }
-                ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-                ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-                ?: return false
             val mp = MediaPlayer().apply {
                 setDataSource(this@AlarmRingService, uri)
                 setAudioAttributes(
@@ -340,6 +385,11 @@ class AlarmRingService : Service() {
                 )
             }
         }
+    }
+
+    /** Publishes "this should have been audible and wasn't", so the ring screen can say so. */
+    private fun setSoundUnavailable(unavailable: Boolean) {
+        ringing.value = ringing.value?.copy(soundUnavailable = unavailable)
     }
 
     /** Publishes the muted-for-a-call state so the ring screen can explain itself. */
@@ -536,6 +586,7 @@ class AlarmRingService : Service() {
     }
 
     companion object {
+        private const val TAG = "AlarmRingService"
         const val ACTION_START = "com.example.alarmtracker.ring.START"
         const val ACTION_SNOOZE = "com.example.alarmtracker.ring.SNOOZE"
         const val ACTION_DISMISS = "com.example.alarmtracker.ring.DISMISS"

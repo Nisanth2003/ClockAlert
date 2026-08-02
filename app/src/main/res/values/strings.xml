@@ -733,6 +733,7 @@
     <string name="snoozed_until_fmt">Snoozed · rings %1$s</string>
     <string name="pref_meeting_aware_title">Keep alarms private in meetings</string>
     <string name="pref_meeting_aware_summary">During a call, ring through your headset — or vibrate silently — so nobody else hears your alarm</string>
+    <string name="ring_sound_unavailable">This alarm couldn\'t make a sound — either the chosen tone can no longer be played, or your <b>alarm volume</b> is turned down to zero (that\'s separate from media volume). It\'s vibrating instead. Check Settings → Sound → Alarm volume.</string>
     <string name="ring_meeting_muted">Muted — you\'re in a call, so everyone would hear this. Vibrating instead.</string>
     <string name="ring_play_sound">Play sound anyway</string>
     <string name="pref_live_eta_title">Keep arrival alarms up to date</string>
